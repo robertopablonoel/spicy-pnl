@@ -77,28 +77,28 @@ export function ExcludedSection() {
   };
 
   return (
-    <div className="mt-8 pt-6 border-t-2 border-slate-300">
+    <div className="mt-10 pt-8 border-t border-slate-200">
       {/* Main Header - Collapsible */}
       <div
-        className="flex items-center gap-3 mb-4 cursor-pointer hover:opacity-80"
+        className="flex items-center gap-3 mb-4 cursor-pointer group"
         onClick={() => setIsMainExpanded(!isMainExpanded)}
       >
-        <ChevronIcon expanded={isMainExpanded} className="text-slate-400" />
-        <div className="w-1 h-6 rounded bg-amber-500" />
-        <h2 className="text-lg font-semibold text-slate-900">Exclusions</h2>
-        <span className="text-sm text-slate-500">
-          ({state.exclusions.length} items excluded from P&L)
+        <ChevronIcon expanded={isMainExpanded} className="text-slate-400 group-hover:text-slate-600 transition-colors" />
+        <div className="w-1.5 h-6 rounded-full bg-slate-400" />
+        <h2 className="text-lg font-semibold text-slate-700 group-hover:text-slate-900 transition-colors">Exclusions</h2>
+        <span className="text-sm text-slate-400">
+          {state.exclusions.length} items
         </span>
-        <span className="ml-auto font-mono font-semibold text-slate-700">
+        <span className="ml-auto font-mono font-semibold text-slate-500">
           {formatCurrency(totalExcluded)}
         </span>
       </div>
 
       {isMainExpanded && (
-        <div className="space-y-3 pl-6">
+        <div className="space-y-2 pl-6">
           {/* Summary by category */}
-          <p className="text-sm text-slate-600 mb-4">
-            The following expenses have been excluded as non-recurring or owner-related items that would not transfer to a buyer.
+          <p className="text-sm text-slate-500 mb-4">
+            Non-recurring or owner-related items that would not transfer to a buyer.
           </p>
 
           {categories.map(category => {
@@ -106,22 +106,22 @@ export function ExcludedSection() {
             const isExpanded = expandedCategories.has(category);
 
             return (
-              <div key={category} className="border border-slate-200 rounded-lg overflow-hidden">
+              <div key={category} className="border border-slate-200 rounded-lg overflow-hidden bg-white">
                 {/* Category Header */}
                 <div
-                  className="flex items-center gap-3 px-4 py-3 bg-slate-50 cursor-pointer hover:bg-slate-100"
+                  className="flex items-center gap-3 px-4 py-2.5 bg-slate-50/80 cursor-pointer hover:bg-slate-100 transition-colors"
                   onClick={() => toggleCategory(category)}
                 >
                   <ChevronIcon expanded={isExpanded} className="text-slate-400" />
                   <div className={`w-2 h-2 rounded-full ${getCategoryColor(category)}`} />
-                  <span className="font-semibold text-slate-900">{category}</span>
-                  <span className="text-sm text-slate-500">
-                    ({data.exclusions.length} items)
+                  <span className="font-medium text-slate-800">{category}</span>
+                  <span className="text-sm text-slate-400">
+                    {data.exclusions.length}
                   </span>
-                  <span className="ml-auto text-xs text-slate-500 max-w-md truncate">
+                  <span className="ml-auto text-xs text-slate-400 max-w-sm truncate hidden md:block">
                     {data.justification}
                   </span>
-                  <span className="font-mono font-semibold text-slate-700 ml-4">
+                  <span className="font-mono text-sm text-slate-600 ml-4">
                     {formatCurrency(data.total)}
                   </span>
                 </div>
@@ -132,13 +132,13 @@ export function ExcludedSection() {
                     {data.exclusions.map((exc, idx) => (
                       <div
                         key={`${exc.date}-${exc.amount}-${idx}`}
-                        className="flex items-center gap-4 px-6 py-2 bg-white text-sm hover:bg-slate-50"
+                        className="flex items-center gap-4 px-6 py-2 bg-white text-sm hover:bg-slate-50/50 transition-colors"
                       >
-                        <span className="text-slate-400 w-24">{exc.date}</span>
+                        <span className="text-slate-400 font-mono text-xs w-20">{exc.date}</span>
                         <span className="text-slate-700 flex-1 truncate">
                           {exc.vendor || exc.memo?.substring(0, 40) || 'Unknown'}
                         </span>
-                        <span className="text-slate-500 text-xs w-32 truncate">
+                        <span className="text-slate-400 text-xs w-28 truncate hidden lg:block">
                           {exc.account.replace(/^\d{4}\s+/, '')}
                         </span>
                         <span className="font-mono text-slate-600 w-24 text-right">

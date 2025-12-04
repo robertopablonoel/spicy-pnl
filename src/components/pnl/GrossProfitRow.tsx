@@ -67,7 +67,7 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
     : 0;
 
   return (
-    <div className={`mb-6 overflow-x-auto border ${borderColor} rounded-lg`}>
+    <div className={`mb-8 overflow-x-auto border ${borderColor} rounded-xl shadow-sm`}>
       <table className="w-full min-w-max">
         <thead>
           <tr className={`${bgColor} border-b ${borderColor}`}>

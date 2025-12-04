@@ -290,13 +290,13 @@ export function KHBrokersView() {
   if (transactions.length === 0) return null;
 
   const renderSection = (title: string, items: LineItem[], colorClass: string, totalColorClass: string) => (
-    <div className="mb-6">
-      <div className="flex items-center gap-3 mb-2">
-        <div className={`w-1 h-6 rounded ${colorClass}`} />
-        <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
+    <div className="mb-8">
+      <div className="flex items-center gap-3 mb-3">
+        <div className={`w-1.5 h-6 rounded-full ${colorClass}`} />
+        <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
       </div>
 
-      <div className="overflow-x-auto border border-slate-200 rounded-lg">
+      <div className="overflow-x-auto border border-slate-200 rounded-xl shadow-sm bg-white">
         <table className="w-full min-w-max">
           <thead>
             <tr className="bg-slate-50 border-b border-slate-200">
@@ -341,7 +341,7 @@ export function KHBrokersView() {
       : 0;
 
     return (
-      <div className={`mb-6 overflow-x-auto border ${borderColor} rounded-lg`}>
+      <div className={`mb-8 overflow-x-auto border ${borderColor} rounded-xl shadow-sm`}>
         <table className="w-full min-w-max">
           <thead>
             <tr className={`${bgColor} border-b ${borderColor}`}>

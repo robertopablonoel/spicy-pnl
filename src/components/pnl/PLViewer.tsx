@@ -41,14 +41,14 @@ export function PLViewer() {
   return (
     <div>
       {/* View Toggle */}
-      <div className="flex items-center justify-end mb-4">
-        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1">
+      <div className="flex items-center justify-end mb-6">
+        <div className="inline-flex rounded-lg border border-slate-200 bg-white p-1 shadow-sm">
           <button
             onClick={() => state.khBrokersView || toggleView()}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               state.khBrokersView
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
             }`}
           >
             Summary
@@ -57,8 +57,8 @@ export function PLViewer() {
             onClick={() => !state.khBrokersView || toggleView()}
             className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
               !state.khBrokersView
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
             }`}
           >
             Detailed

@@ -39,15 +39,15 @@ export function PLSection({ section, title, colorClass, totalColorClass }: PLSec
   if (rows.length === 0) return null;
 
   return (
-    <div className="mb-6">
+    <div className="mb-8">
       {/* Section Header */}
-      <div className={`flex items-center gap-3 mb-2`}>
-        <div className={`w-1 h-6 rounded ${colorClass}`} />
-        <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
+      <div className={`flex items-center gap-3 mb-3`}>
+        <div className={`w-1.5 h-6 rounded-full ${colorClass}`} />
+        <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto border border-slate-200 rounded-lg">
+      <div className="overflow-x-auto border border-slate-200 rounded-xl shadow-sm bg-white">
         <table className="w-full min-w-max">
           <thead>
             <tr className="bg-slate-50 border-b border-slate-200">

@@ -205,14 +205,6 @@ function SummaryCards() {
         {
             label: 'Net Revenue',
             value: summary.netRevenue,
-            color: 'bg-emerald-50 border-emerald-200',
-            textColor: 'text-emerald-700',
-            valueColor: 'text-emerald-900'
-        },
-        {
-            label: 'Gross Profit',
-            value: summary.grossProfit,
-            subLabel: `${summary.grossMargin.toFixed(1)}% margin`,
             color: 'bg-blue-50 border-blue-200',
             textColor: 'text-blue-700',
             valueColor: 'text-blue-900'
@@ -224,54 +216,46 @@ function SummaryCards() {
             color: summary.netIncome >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200',
             textColor: summary.netIncome >= 0 ? 'text-green-700' : 'text-red-700',
             valueColor: summary.netIncome >= 0 ? 'text-green-900' : 'text-red-900'
-        },
-        {
-            label: 'Tagged Items',
-            value: summary.taggedAmount,
-            subLabel: `${summary.taggedItemsCount} transactions`,
-            color: 'bg-amber-50 border-amber-200',
-            textColor: 'text-amber-700',
-            valueColor: 'text-amber-900'
         }
     ];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6",
+        className: "grid grid-cols-1 md:grid-cols-2 gap-4 mb-8",
         children: cards.map((card)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: `${card.color} border rounded-lg p-4 shadow-sm`,
+                className: `${card.color} border rounded-xl p-5 shadow-sm transition-shadow hover:shadow-md`,
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: `text-sm font-medium ${card.textColor}`,
+                        className: `text-sm font-medium ${card.textColor} uppercase tracking-wide`,
                         children: card.label
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                        lineNumber: 59,
+                        lineNumber: 43,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: `text-2xl font-bold ${card.valueColor} mt-1`,
+                        className: `text-3xl font-bold ${card.valueColor} mt-2 font-mono`,
                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(card.value)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                        lineNumber: 62,
+                        lineNumber: 46,
                         columnNumber: 11
                     }, this),
                     card.subLabel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: `text-xs ${card.textColor} mt-1 opacity-75`,
+                        className: `text-sm ${card.textColor} mt-2 opacity-80`,
                         children: card.subLabel
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                        lineNumber: 66,
+                        lineNumber: 50,
                         columnNumber: 13
                     }, this)
                 ]
             }, card.label, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                lineNumber: 55,
+                lineNumber: 39,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-        lineNumber: 53,
+        lineNumber: 37,
         columnNumber: 5
     }, this);
 }
@@ -985,20 +969,20 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
     ]);
     if (rows.length === 0) return null;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "mb-6",
+        className: "mb-8",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: `flex items-center gap-3 mb-2`,
+                className: `flex items-center gap-3 mb-3`,
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: `w-1 h-6 rounded ${colorClass}`
+                        className: `w-1.5 h-6 rounded-full ${colorClass}`
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
                         lineNumber: 45,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                        className: "text-lg font-semibold text-slate-900",
+                        className: "text-lg font-semibold text-slate-800",
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
@@ -1012,7 +996,7 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "overflow-x-auto border border-slate-200 rounded-lg",
+                className: "overflow-x-auto border border-slate-200 rounded-xl shadow-sm bg-white",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
                     className: "w-full min-w-max",
                     children: [
@@ -1207,7 +1191,7 @@ function GrossProfitRow({ type }) {
     // Calculate margin
     const margin = calculations.revenue.ytd !== 0 ? data.ytd / calculations.revenue.ytd * 100 : 0;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: `mb-6 overflow-x-auto border ${borderColor} rounded-lg`,
+        className: `mb-8 overflow-x-auto border ${borderColor} rounded-xl shadow-sm`,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
             className: "w-full min-w-max",
             children: [
@@ -1811,20 +1795,20 @@ function KHBrokersView() {
     ]);
     if (transactions.length === 0) return null;
     const renderSection = (title, items, colorClass, totalColorClass)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "mb-6",
+            className: "mb-8",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "flex items-center gap-3 mb-2",
+                    className: "flex items-center gap-3 mb-3",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: `w-1 h-6 rounded ${colorClass}`
+                            className: `w-1.5 h-6 rounded-full ${colorClass}`
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
                             lineNumber: 295,
                             columnNumber: 9
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "text-lg font-semibold text-slate-900",
+                            className: "text-lg font-semibold text-slate-800",
                             children: title
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
@@ -1838,7 +1822,7 @@ function KHBrokersView() {
                     columnNumber: 7
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "overflow-x-auto border border-slate-200 rounded-lg",
+                    className: "overflow-x-auto border border-slate-200 rounded-xl shadow-sm bg-white",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
                         className: "w-full min-w-max",
                         children: [
@@ -1922,7 +1906,7 @@ function KHBrokersView() {
         if (!item) return null;
         const margin = income[income.length - 1]?.ytd !== 0 ? item.ytd / income[income.length - 1].ytd * 100 : 0;
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: `mb-6 overflow-x-auto border ${borderColor} rounded-lg`,
+            className: `mb-8 overflow-x-auto border ${borderColor} rounded-xl shadow-sm`,
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
                 className: "w-full min-w-max",
                 children: [
@@ -2125,29 +2109,29 @@ function ExcludedSection() {
         return colors[category] || 'bg-slate-400';
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "mt-8 pt-6 border-t-2 border-slate-300",
+        className: "mt-10 pt-8 border-t border-slate-200",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex items-center gap-3 mb-4 cursor-pointer hover:opacity-80",
+                className: "flex items-center gap-3 mb-4 cursor-pointer group",
                 onClick: ()=>setIsMainExpanded(!isMainExpanded),
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$ui$2f$ChevronIcon$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ChevronIcon"], {
                         expanded: isMainExpanded,
-                        className: "text-slate-400"
+                        className: "text-slate-400 group-hover:text-slate-600 transition-colors"
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
                         lineNumber: 86,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "w-1 h-6 rounded bg-amber-500"
+                        className: "w-1.5 h-6 rounded-full bg-slate-400"
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
                         lineNumber: 87,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                        className: "text-lg font-semibold text-slate-900",
+                        className: "text-lg font-semibold text-slate-700 group-hover:text-slate-900 transition-colors",
                         children: "Exclusions"
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2155,11 +2139,10 @@ function ExcludedSection() {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: "text-sm text-slate-500",
+                        className: "text-sm text-slate-400",
                         children: [
-                            "(",
                             state.exclusions.length,
-                            " items excluded from P&L)"
+                            " items"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2167,7 +2150,7 @@ function ExcludedSection() {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: "ml-auto font-mono font-semibold text-slate-700",
+                        className: "ml-auto font-mono font-semibold text-slate-500",
                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(totalExcluded)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2181,11 +2164,11 @@ function ExcludedSection() {
                 columnNumber: 7
             }, this),
             isMainExpanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "space-y-3 pl-6",
+                className: "space-y-2 pl-6",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm text-slate-600 mb-4",
-                        children: "The following expenses have been excluded as non-recurring or owner-related items that would not transfer to a buyer."
+                        className: "text-sm text-slate-500 mb-4",
+                        children: "Non-recurring or owner-related items that would not transfer to a buyer."
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
                         lineNumber: 100,
@@ -2195,10 +2178,10 @@ function ExcludedSection() {
                         const data = grouped[category];
                         const isExpanded = expandedCategories.has(category);
                         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "border border-slate-200 rounded-lg overflow-hidden",
+                            className: "border border-slate-200 rounded-lg overflow-hidden bg-white",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "flex items-center gap-3 px-4 py-3 bg-slate-50 cursor-pointer hover:bg-slate-100",
+                                    className: "flex items-center gap-3 px-4 py-2.5 bg-slate-50/80 cursor-pointer hover:bg-slate-100 transition-colors",
                                     onClick: ()=>toggleCategory(category),
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$ui$2f$ChevronIcon$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ChevronIcon"], {
@@ -2217,7 +2200,7 @@ function ExcludedSection() {
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "font-semibold text-slate-900",
+                                            className: "font-medium text-slate-800",
                                             children: category
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2225,19 +2208,15 @@ function ExcludedSection() {
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "text-sm text-slate-500",
-                                            children: [
-                                                "(",
-                                                data.exclusions.length,
-                                                " items)"
-                                            ]
-                                        }, void 0, true, {
+                                            className: "text-sm text-slate-400",
+                                            children: data.exclusions.length
+                                        }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
                                             lineNumber: 118,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "ml-auto text-xs text-slate-500 max-w-md truncate",
+                                            className: "ml-auto text-xs text-slate-400 max-w-sm truncate hidden md:block",
                                             children: data.justification
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2245,7 +2224,7 @@ function ExcludedSection() {
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "font-mono font-semibold text-slate-700 ml-4",
+                                            className: "font-mono text-sm text-slate-600 ml-4",
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(data.total)
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2261,10 +2240,10 @@ function ExcludedSection() {
                                 isExpanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "divide-y divide-slate-100",
                                     children: data.exclusions.map((exc, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex items-center gap-4 px-6 py-2 bg-white text-sm hover:bg-slate-50",
+                                            className: "flex items-center gap-4 px-6 py-2 bg-white text-sm hover:bg-slate-50/50 transition-colors",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                    className: "text-slate-400 w-24",
+                                                    className: "text-slate-400 font-mono text-xs w-20",
                                                     children: exc.date
                                                 }, void 0, false, {
                                                     fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2280,7 +2259,7 @@ function ExcludedSection() {
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                    className: "text-slate-500 text-xs w-32 truncate",
+                                                    className: "text-slate-400 text-xs w-28 truncate hidden lg:block",
                                                     children: exc.account.replace(/^\d{4}\s+/, '')
                                                 }, void 0, false, {
                                                     fileName: "[project]/spicy-pnl/src/components/tagging/ExcludedSection.tsx",
@@ -2444,13 +2423,13 @@ function PLViewer() {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex items-center justify-end mb-4",
+                className: "flex items-center justify-end mb-6",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1",
+                    className: "inline-flex rounded-lg border border-slate-200 bg-white p-1 shadow-sm",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: ()=>state.khBrokersView || toggleView(),
-                            className: `px-4 py-2 text-sm font-medium rounded-md transition-all ${state.khBrokersView ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`,
+                            className: `px-4 py-2 text-sm font-medium rounded-md transition-all ${state.khBrokersView ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`,
                             children: "Summary"
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
@@ -2459,7 +2438,7 @@ function PLViewer() {
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: ()=>!state.khBrokersView || toggleView(),
-                            className: `px-4 py-2 text-sm font-medium rounded-md transition-all ${!state.khBrokersView ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`,
+                            className: `px-4 py-2 text-sm font-medium rounded-md transition-all ${!state.khBrokersView ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'}`,
                             children: "Detailed"
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",

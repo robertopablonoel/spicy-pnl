@@ -19,14 +19,6 @@ export function SummaryCards() {
     {
       label: 'Net Revenue',
       value: summary.netRevenue,
-      color: 'bg-emerald-50 border-emerald-200',
-      textColor: 'text-emerald-700',
-      valueColor: 'text-emerald-900'
-    },
-    {
-      label: 'Gross Profit',
-      value: summary.grossProfit,
-      subLabel: `${summary.grossMargin.toFixed(1)}% margin`,
       color: 'bg-blue-50 border-blue-200',
       textColor: 'text-blue-700',
       valueColor: 'text-blue-900'
@@ -38,32 +30,24 @@ export function SummaryCards() {
       color: summary.netIncome >= 0 ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200',
       textColor: summary.netIncome >= 0 ? 'text-green-700' : 'text-red-700',
       valueColor: summary.netIncome >= 0 ? 'text-green-900' : 'text-red-900'
-    },
-    {
-      label: 'Tagged Items',
-      value: summary.taggedAmount,
-      subLabel: `${summary.taggedItemsCount} transactions`,
-      color: 'bg-amber-50 border-amber-200',
-      textColor: 'text-amber-700',
-      valueColor: 'text-amber-900'
     }
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
       {cards.map((card) => (
         <div
           key={card.label}
-          className={`${card.color} border rounded-lg p-4 shadow-sm`}
+          className={`${card.color} border rounded-xl p-5 shadow-sm transition-shadow hover:shadow-md`}
         >
-          <div className={`text-sm font-medium ${card.textColor}`}>
+          <div className={`text-sm font-medium ${card.textColor} uppercase tracking-wide`}>
             {card.label}
           </div>
-          <div className={`text-2xl font-bold ${card.valueColor} mt-1`}>
+          <div className={`text-3xl font-bold ${card.valueColor} mt-2 font-mono`}>
             {formatCurrency(card.value)}
           </div>
           {card.subLabel && (
-            <div className={`text-xs ${card.textColor} mt-1 opacity-75`}>
+            <div className={`text-sm ${card.textColor} mt-2 opacity-80`}>
               {card.subLabel}
             </div>
           )}
