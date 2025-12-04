@@ -6,28 +6,28 @@ export default function PLPage() {
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-slate-200/80 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
-        <div className="max-w-[1800px] mx-auto px-6 py-4">
+        <div className="max-w-[1800px] mx-auto px-4 md:px-6 py-3 md:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               <Link
                 href="/"
-                className="flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors"
+                className="flex items-center gap-1 md:gap-2 text-slate-500 hover:text-slate-900 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                <span className="text-sm font-medium">Back</span>
+                <span className="text-sm font-medium hidden sm:inline">Back</span>
               </Link>
-              <div className="h-6 w-px bg-slate-200" />
-              <h1 className="text-xl font-bold text-slate-900">
-                Profit & Loss Statement
+              <div className="h-6 w-px bg-slate-200 hidden sm:block" />
+              <h1 className="text-base md:text-xl font-bold text-slate-900">
+                P&L Statement
               </h1>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-medium text-slate-600">
+            <div className="flex items-center gap-2 md:gap-3">
+              <span className="text-xs md:text-sm font-medium text-slate-600">
                 Jan - Nov 2025
               </span>
-              <span className="text-xs text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full">
+              <span className="text-xs text-slate-400 bg-slate-100 px-2 md:px-3 py-1 md:py-1.5 rounded-full hidden sm:inline">
                 Updated Nov 30
               </span>
             </div>
@@ -36,7 +36,7 @@ export default function PLPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[1800px] w-full mx-auto px-6 py-8">
+      <main className="flex-1 max-w-[1800px] w-full mx-auto px-4 md:px-6 py-4 md:py-8">
         <PLViewer allowDrillDown={false} />
       </main>
 

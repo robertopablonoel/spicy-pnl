@@ -2,5 +2,50 @@
   "version": 3,
   "middleware": {},
   "sortedMiddleware": [],
-  "functions": {}
+  "functions": {
+    "/opengraph-image/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/interception-route-rewrite-manifest.js",
+        "server/server-reference-manifest.js",
+        "server/app/opengraph-image/route_client-reference-manifest.js",
+        "server/edge/chunks/spicy-pnl__next-internal_server_app_opengraph-image_route_actions_71dbdd39.js",
+        "server/edge/chunks/[root-of-the-server]__39334fd4._.js",
+        "server/edge/chunks/[root-of-the-server]__8a129231._.js",
+        "server/edge/chunks/0457b_next_dist_compiled_@vercel_og_22741305._.js",
+        "server/edge/chunks/turbopack-spicy-pnl_edge-wrapper_a0684fd8.js"
+      ],
+      "name": "app/opengraph-image/route",
+      "page": "/opengraph-image/route",
+      "matchers": [
+        {
+          "regexp": "^/opengraph-image(?:/)?$",
+          "originalSource": "/opengraph-image"
+        }
+      ],
+      "wasm": [
+        {
+          "name": "wasm_fdb56e4cc5936d29",
+          "filePath": "server/edge/chunks/0457b_next_dist_compiled_@vercel_og_resvg_23ace1ce.wasm"
+        },
+        {
+          "name": "wasm_1ccdc983b1fd9f87",
+          "filePath": "server/edge/chunks/0457b_next_dist_compiled_@vercel_og_yoga_23ace1ce.wasm"
+        }
+      ],
+      "assets": [
+        {
+          "name": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf",
+          "filePath": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf"
+        }
+      ],
+      "env": {
+        "__NEXT_BUILD_ID": "uL5tl3Y5c1Mjdj1xME3sV",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "LRgoONaGCGd38h5MkBqIM8GG5so/FuRA1b7V/EuCV+U=",
+        "__NEXT_PREVIEW_MODE_ID": "29ceb407760ff0e4677a1b6f48fad63a",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "8a403e1a671530937f79a0c2fda792a16201191febe886270417ff4305c55b9d",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "2e6567cc6d1510bd142f86f577ea1286e5d55fa79326a303d35bea63caa6b125"
+      }
+    }
+  }
 }

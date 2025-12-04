@@ -42,36 +42,36 @@ export function TeaserSlide2() {
   const growthMultiple = firstMonth > 0 ? lastMonth / firstMonth : 0;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+        <h2 className="text-2xl md:text-4xl font-bold text-white mb-1 md:mb-2">
           Revenue Growth
         </h2>
-        <p className="text-slate-400">
-          Monthly net revenue trajectory (Jan - Nov 2025)
+        <p className="text-sm md:text-base text-slate-400">
+          Monthly net revenue (Jan - Nov 2025)
         </p>
       </div>
 
       {/* Chart */}
-      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-8">
+      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl md:rounded-2xl p-3 md:p-8">
         {/* Bars */}
-        <div className="flex items-end gap-2 md:gap-4 h-64 md:h-80">
+        <div className="flex items-end gap-1 md:gap-4 h-40 md:h-80">
           {data.monthlyData.map((month, index) => {
             const height = maxRevenue > 0 ? (month.revenue / maxRevenue) * 100 : 0;
-            const isHighlight = index === data.monthlyData.length - 1; // Highlight November
+            const isHighlight = index === data.monthlyData.length - 1;
 
             return (
               <div key={month.month} className="flex-1 flex flex-col items-center h-full">
-                {/* Value label */}
-                <span className={`text-xs md:text-sm font-mono mb-2 ${isHighlight ? 'text-violet-400' : 'text-slate-400'}`}>
+                {/* Value label - hide on mobile except for highlighted */}
+                <span className={`text-[8px] md:text-sm font-mono mb-1 md:mb-2 ${isHighlight ? 'text-violet-400' : 'text-slate-400'} ${isHighlight ? '' : 'hidden md:block'}`}>
                   {formatCurrency(month.revenue)}
                 </span>
 
-                {/* Bar container - takes remaining height */}
+                {/* Bar container */}
                 <div className="flex-1 w-full flex items-end">
                   <div
-                    className={`w-full rounded-t-lg transition-all duration-500 ${
+                    className={`w-full rounded-t transition-all duration-500 ${
                       isHighlight
                         ? 'bg-gradient-to-t from-violet-600 to-violet-400'
                         : 'bg-gradient-to-t from-slate-600 to-slate-500'
@@ -81,7 +81,7 @@ export function TeaserSlide2() {
                 </div>
 
                 {/* Month label */}
-                <span className={`text-xs font-medium mt-2 ${isHighlight ? 'text-violet-400' : 'text-slate-500'}`}>
+                <span className={`text-[8px] md:text-xs font-medium mt-1 md:mt-2 ${isHighlight ? 'text-violet-400' : 'text-slate-500'}`}>
                   {getMonthLabel(month.month)}
                 </span>
               </div>
@@ -91,34 +91,34 @@ export function TeaserSlide2() {
       </div>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-          <p className="text-2xl md:text-3xl font-bold text-white">
+      <div className="grid grid-cols-3 gap-2 md:gap-4">
+        <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
+          <p className="text-base md:text-3xl font-bold text-white">
             {formatCurrency(ytdRevenue)}
           </p>
-          <p className="text-xs text-slate-500 mt-1">YTD Revenue</p>
+          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">YTD Revenue</p>
         </div>
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-          <p className="text-2xl md:text-3xl font-bold text-violet-400">
+        <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
+          <p className="text-base md:text-3xl font-bold text-violet-400">
             {formatCurrency(lastMonth)}
           </p>
-          <p className="text-xs text-slate-500 mt-1">November Revenue</p>
+          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Nov Revenue</p>
         </div>
-        <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-          <p className="text-2xl md:text-3xl font-bold text-emerald-400">
+        <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
+          <p className="text-base md:text-3xl font-bold text-emerald-400">
             {formatCurrency(data.revenueRunRate)}
           </p>
-          <p className="text-xs text-slate-500 mt-1">Annualized Run Rate</p>
+          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Run Rate</p>
         </div>
       </div>
 
       {/* Callout */}
       <div className="text-center">
-        <p className="text-slate-400">
+        <p className="text-xs md:text-base text-slate-400">
           <span className="text-emerald-400 font-semibold">
             {growthMultiple.toFixed(1)}x growth
           </span>
-          {' '}from January to November — no paid ads, no Amazon, no TikTok Shop
+          {' '}Jan → Nov — no paid ads, no Amazon
         </p>
       </div>
     </div>

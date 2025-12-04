@@ -40,10 +40,34 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
-      "page": "/favicon.ico",
-      "regex": "^/favicon\\.ico(?:/)?$",
+      "page": "/dataroom",
+      "regex": "^/dataroom(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/favicon\\.ico(?:/)?$"
+      "namedRegex": "^/dataroom(?:/)?$"
+    },
+    {
+      "page": "/icon.svg",
+      "regex": "^/icon\\.svg(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/icon\\.svg(?:/)?$"
+    },
+    {
+      "page": "/opengraph-image",
+      "regex": "^/opengraph\\-image(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/opengraph\\-image(?:/)?$"
+    },
+    {
+      "page": "/pnl",
+      "regex": "^/pnl(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pnl(?:/)?$"
+    },
+    {
+      "page": "/teaser",
+      "regex": "^/teaser(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/teaser(?:/)?$"
     }
   ],
   "dataRoutes": [],

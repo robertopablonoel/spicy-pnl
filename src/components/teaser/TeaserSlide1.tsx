@@ -57,38 +57,38 @@ export function TeaserSlide1() {
   ];
 
   return (
-    <div className="text-center space-y-12">
+    <div className="text-center space-y-6 md:space-y-12">
       {/* Tagline */}
-      <div className="space-y-4">
-        <p className="text-violet-400 font-medium tracking-wide uppercase text-sm">
-          Investment Opportunity
+      <div className="space-y-3 md:space-y-4">
+        <p className="text-violet-400 font-medium tracking-wide uppercase text-xs md:text-sm">
+          Deal Overview
         </p>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
           A Viral Content Engine
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">
             Monetized Through DTC Wellness
           </span>
         </h1>
-        <p className="text-xl text-slate-400 max-w-3xl mx-auto mt-6">
+        <p className="text-sm md:text-xl text-slate-400 max-w-3xl mx-auto mt-4 md:mt-6 px-2">
           Creator-led e-commerce brand generating 70M+ monthly views with Amazon, TikTok Shop, and paid ads still untapped.
         </p>
       </div>
 
       {/* Hero Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 gap-3 md:gap-6">
         {heroMetrics.map((metric, index) => (
           <div
             key={index}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl md:rounded-2xl p-3 md:p-6 hover:bg-white/10 transition-all"
           >
-            <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">
+            <p className="text-[10px] md:text-xs text-slate-500 uppercase tracking-wider mb-1 md:mb-2">
               {metric.label}
             </p>
-            <p className="text-3xl md:text-4xl font-bold text-white mb-1">
+            <p className="text-xl md:text-4xl font-bold text-white mb-0.5 md:mb-1">
               {metric.value}
             </p>
-            <p className="text-xs text-slate-500">
+            <p className="text-[10px] md:text-xs text-slate-500">
               {metric.sublabel}
             </p>
           </div>
@@ -96,8 +96,8 @@ export function TeaserSlide1() {
       </div>
 
       {/* Origin Story Teaser */}
-      <div className="bg-gradient-to-r from-violet-500/10 to-pink-500/10 border border-violet-500/20 rounded-2xl p-6 max-w-2xl mx-auto">
-        <p className="text-slate-300 text-lg">
+      <div className="bg-gradient-to-r from-violet-500/10 to-pink-500/10 border border-violet-500/20 rounded-xl md:rounded-2xl p-4 md:p-6 max-w-2xl mx-auto">
+        <p className="text-slate-300 text-sm md:text-lg">
           <span className="text-violet-400 font-semibold">$75K → $1.8M EBITDA</span>
           {' '}in 24 months, bootstrapped. Built on compounding creator economics.
         </p>

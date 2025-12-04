@@ -34,20 +34,20 @@ export function SummaryCards() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-8">
       {cards.map((card) => (
         <div
           key={card.label}
-          className={`${card.color} border rounded-xl p-5 shadow-sm transition-shadow hover:shadow-md`}
+          className={`${card.color} border rounded-xl p-3 md:p-5 shadow-sm transition-shadow hover:shadow-md`}
         >
-          <div className={`text-sm font-medium ${card.textColor} uppercase tracking-wide`}>
+          <div className={`text-xs md:text-sm font-medium ${card.textColor} uppercase tracking-wide`}>
             {card.label}
           </div>
-          <div className={`text-3xl font-bold ${card.valueColor} mt-2 font-mono`}>
+          <div className={`text-xl md:text-3xl font-bold ${card.valueColor} mt-1 md:mt-2 font-mono`}>
             {formatCurrency(card.value)}
           </div>
           {card.subLabel && (
-            <div className={`text-sm ${card.textColor} mt-2 opacity-80`}>
+            <div className={`text-xs md:text-sm ${card.textColor} mt-1 md:mt-2 opacity-80`}>
               {card.subLabel}
             </div>
           )}

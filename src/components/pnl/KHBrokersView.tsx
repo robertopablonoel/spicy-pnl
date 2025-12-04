@@ -295,8 +295,36 @@ export function KHBrokersView({ allowDrillDown = true }: KHBrokersViewProps) {
 
   if (transactions.length === 0) return null;
 
-  const renderSection = (title: string, items: LineItem[], colorClass: string, totalColorClass: string) => (
-    <div className="mb-8">
+  // Mobile card view for a section
+  const renderMobileSection = (title: string, items: LineItem[], colorClass: string) => (
+    <div className="mb-6 md:hidden">
+      <div className="flex items-center gap-3 mb-3">
+        <div className={`w-1.5 h-6 rounded-full ${colorClass}`} />
+        <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+      </div>
+      <div className="space-y-2">
+        {items.map((item, idx) => (
+          <div
+            key={idx}
+            className={`flex justify-between items-center px-4 py-3 rounded-lg ${
+              item.isTotal ? 'bg-slate-100 border border-slate-200' : 'bg-white border border-slate-100'
+            }`}
+          >
+            <span className={`text-sm ${item.isBold ? 'font-semibold text-slate-900' : 'text-slate-700'}`}>
+              {item.label}
+            </span>
+            <span className={`font-mono text-sm ${item.isBold ? 'font-semibold' : ''} ${item.ytd < 0 ? 'text-red-600' : 'text-slate-900'}`}>
+              {formatCurrency(item.ytd)}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  // Desktop table view for a section
+  const renderDesktopSection = (title: string, items: LineItem[], colorClass: string, totalColorClass: string) => (
+    <div className="mb-8 hidden md:block">
       <div className="flex items-center gap-3 mb-3">
         <div className={`w-1.5 h-6 rounded-full ${colorClass}`} />
         <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
@@ -335,6 +363,13 @@ export function KHBrokersView({ allowDrillDown = true }: KHBrokersViewProps) {
     </div>
   );
 
+  const renderSection = (title: string, items: LineItem[], colorClass: string, totalColorClass: string) => (
+    <>
+      {renderMobileSection(title, items, colorClass)}
+      {renderDesktopSection(title, items, colorClass, totalColorClass)}
+    </>
+  );
+
   // Extract Gross Profit and Net Profit for separate display
   const grossProfitItem = cogs.find(i => i.label === 'Gross Profit');
   const netProfitItem = expenses.find(i => i.label === 'Net Profit');
@@ -348,52 +383,68 @@ export function KHBrokersView({ allowDrillDown = true }: KHBrokersViewProps) {
       : 0;
 
     return (
-      <div className={`mb-8 overflow-x-auto border ${borderColor} rounded-xl shadow-sm`}>
-        <table className="w-full min-w-max">
-          <thead>
-            <tr className={`${bgColor} border-b ${borderColor}`}>
-              <th className="sticky left-0 bg-inherit px-3 py-2 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-64 z-10">
-                &nbsp;
-              </th>
-              {months.map(month => (
-                <th key={month} className="px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-24">
-                  {formatMonth(month)}
+      <>
+        {/* Mobile profit card */}
+        <div className={`mb-6 md:hidden ${bgColor} border ${borderColor} rounded-xl p-4`}>
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="font-bold text-lg text-slate-900">{label}</p>
+              <p className="text-sm text-slate-500">{margin.toFixed(1)}% margin</p>
+            </div>
+            <p className={`font-mono font-bold text-2xl ${item.ytd < 0 ? 'text-red-600' : 'text-slate-900'}`}>
+              {formatCurrency(item.ytd)}
+            </p>
+          </div>
+        </div>
+
+        {/* Desktop profit table */}
+        <div className={`mb-8 hidden md:block overflow-x-auto border ${borderColor} rounded-xl shadow-sm`}>
+          <table className="w-full min-w-max">
+            <thead>
+              <tr className={`${bgColor} border-b ${borderColor}`}>
+                <th className="sticky left-0 bg-inherit px-3 py-2 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-64 z-10">
+                  &nbsp;
                 </th>
-              ))}
-              <th className="px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200">
-                YTD Total
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className={bgColor}>
-              <td className="sticky left-0 bg-inherit px-3 py-3 font-bold text-lg text-slate-900">
-                {label}
-                <span className="ml-2 text-sm font-normal text-slate-500">
-                  ({margin.toFixed(1)}% margin)
-                </span>
-              </td>
-              {months.map(month => (
+                {months.map(month => (
+                  <th key={month} className="px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-24">
+                    {formatMonth(month)}
+                  </th>
+                ))}
+                <th className="px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200">
+                  YTD Total
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className={bgColor}>
+                <td className="sticky left-0 bg-inherit px-3 py-3 font-bold text-lg text-slate-900">
+                  {label}
+                  <span className="ml-2 text-sm font-normal text-slate-500">
+                    ({margin.toFixed(1)}% margin)
+                  </span>
+                </td>
+                {months.map(month => (
+                  <td
+                    key={month}
+                    className={`px-3 py-3 text-right font-mono font-bold text-lg
+                      ${item.monthlyAmounts[month] < 0 ? 'text-red-600' : 'text-slate-900'}
+                    `}
+                  >
+                    {formatCurrency(item.monthlyAmounts[month])}
+                  </td>
+                ))}
                 <td
-                  key={month}
-                  className={`px-3 py-3 text-right font-mono font-bold text-lg
-                    ${item.monthlyAmounts[month] < 0 ? 'text-red-600' : 'text-slate-900'}
+                  className={`px-3 py-3 text-right font-mono font-bold text-lg bg-violet-100 border-l-2 border-violet-200
+                    ${item.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
                   `}
                 >
-                  {formatCurrency(item.monthlyAmounts[month])}
+                  {formatCurrency(item.ytd)}
                 </td>
-              ))}
-              <td
-                className={`px-3 py-3 text-right font-mono font-bold text-lg bg-violet-100 border-l-2 border-violet-200
-                  ${item.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
-                `}
-              >
-                {formatCurrency(item.ytd)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </>
     );
   };
 

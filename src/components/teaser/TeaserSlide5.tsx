@@ -76,37 +76,37 @@ export function TeaserSlide5() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+        <h2 className="text-2xl md:text-4xl font-bold text-white mb-1 md:mb-2">
           Untapped Growth Levers
         </h2>
-        <p className="text-slate-400">
+        <p className="text-sm md:text-base text-slate-400">
           Major channels remain completely unexplored
         </p>
       </div>
 
       {/* Growth Levers Grid */}
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
         {GROWTH_LEVERS.map((lever, index) => (
           <div
             key={index}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl md:rounded-2xl p-3 md:p-6 hover:bg-white/10 transition-all"
           >
-            <div className="flex items-start gap-4">
-              <div className="text-violet-400">
+            <div className="flex flex-col md:flex-row md:items-start gap-2 md:gap-4">
+              <div className="text-violet-400 hidden md:block">
                 {lever.icon}
               </div>
               <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-lg font-semibold text-white">{lever.title}</h3>
-                  <span className={`text-xs font-medium ${lever.statusColor} bg-white/5 px-2 py-0.5 rounded-full`}>
+                <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3 mb-1 md:mb-2">
+                  <h3 className="text-sm md:text-lg font-semibold text-white">{lever.title}</h3>
+                  <span className={`text-[10px] md:text-xs font-medium ${lever.statusColor} bg-white/5 px-1.5 md:px-2 py-0.5 rounded-full w-fit`}>
                     {lever.status}
                   </span>
                 </div>
-                <p className="text-slate-400 text-sm mb-2">{lever.description}</p>
-                <p className="text-slate-500 text-xs italic">{lever.potential}</p>
+                <p className="text-slate-400 text-[10px] md:text-sm mb-1 md:mb-2 line-clamp-2 md:line-clamp-none">{lever.description}</p>
+                <p className="text-slate-500 text-[10px] md:text-xs italic hidden md:block">{lever.potential}</p>
               </div>
             </div>
           </div>
@@ -114,26 +114,26 @@ export function TeaserSlide5() {
       </div>
 
       {/* Current vs Potential */}
-      <div className="bg-gradient-to-r from-violet-500/10 to-emerald-500/10 border border-violet-500/20 rounded-2xl p-6">
-        <div className="grid md:grid-cols-2 gap-8">
+      <div className="bg-gradient-to-r from-violet-500/10 to-emerald-500/10 border border-violet-500/20 rounded-xl md:rounded-2xl p-4 md:p-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-8">
           <div className="text-center">
-            <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Current Run Rate</p>
-            <p className="text-4xl font-bold text-white">{formatCurrency(data.revenueRunRate)}</p>
-            <p className="text-sm text-slate-400 mt-1">100% organic, DTC only</p>
+            <p className="text-[10px] md:text-xs text-slate-500 uppercase tracking-wider mb-1 md:mb-2">Current Run Rate</p>
+            <p className="text-xl md:text-4xl font-bold text-white">{formatCurrency(data.revenueRunRate)}</p>
+            <p className="text-[10px] md:text-sm text-slate-400 mt-0.5 md:mt-1">100% organic, DTC only</p>
           </div>
           <div className="text-center">
-            <p className="text-xs text-slate-500 uppercase tracking-wider mb-2">Potential Upside</p>
-            <p className="text-4xl font-bold text-emerald-400">2-3x</p>
-            <p className="text-sm text-slate-400 mt-1">With full channel deployment</p>
+            <p className="text-[10px] md:text-xs text-slate-500 uppercase tracking-wider mb-1 md:mb-2">Potential Upside</p>
+            <p className="text-xl md:text-4xl font-bold text-emerald-400">2-3x</p>
+            <p className="text-[10px] md:text-sm text-slate-400 mt-0.5 md:mt-1">With full channel deployment</p>
           </div>
         </div>
       </div>
 
       {/* Why Now Callout */}
       <div className="text-center">
-        <p className="text-slate-400">
+        <p className="text-xs md:text-base text-slate-400">
           <span className="text-violet-400 font-semibold">Low-hanging fruit for a buyer</span>
-          {' '}— proven playbook, just needs execution across new channels
+          {' '}— proven playbook, just needs execution
         </p>
       </div>
     </div>

@@ -1,6 +1,9 @@
 1:"$Sreact.fragment"
-2:I[25735,["/_next/static/chunks/05f04beb54e2009a.js","/_next/static/chunks/edca7556b0366fa1.js"],"PLViewer"]
-3:I[89424,["/_next/static/chunks/3500d6bcb9cde6b4.js"],"OutletBoundary"]
-4:"$Sreact.suspense"
-0:{"buildId":"giwedEyLyLHeezYjiUpOP","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"min-h-screen","children":[["$","header",null,{"className":"bg-white border-b border-slate-200 shadow-sm","children":["$","div",null,{"className":"max-w-[1800px] mx-auto px-6 py-4","children":["$","div",null,{"className":"flex items-center justify-between","children":[["$","div",null,{"children":[["$","h1",null,{"className":"text-2xl font-bold text-slate-900","children":"Spicy Cubes"}],["$","p",null,{"className":"text-sm text-slate-500","children":"Profit & Loss Statement - January to November 2025"}]]}],["$","div",null,{"className":"flex items-center gap-4","children":["$","span",null,{"className":"text-xs text-slate-400 bg-slate-100 px-3 py-1 rounded-full","children":"Data as of Nov 30, 2025"}]}]]}]}]}],["$","main",null,{"className":"max-w-[1800px] mx-auto px-6 py-6","children":["$","$L2",null,{}]}],["$","footer",null,{"className":"border-t border-slate-200 bg-white mt-12","children":["$","div",null,{"className":"max-w-[1800px] mx-auto px-6 py-4","children":["$","p",null,{"className":"text-xs text-slate-400 text-center","children":"P&L Viewer for Investor Presentations"}]}]}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/edca7556b0366fa1.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
-5:null
+2:I[33376,["/_next/static/chunks/4a64ff9d62c1ea51.js","/_next/static/chunks/1d643d9eefffcab9.js"],"ClientPageRoot"]
+3:I[30971,["/_next/static/chunks/13c4a044742c0e96.js","/_next/static/chunks/c2b7e98d0e0a75d9.js"],"default"]
+6:I[89424,["/_next/static/chunks/4a64ff9d62c1ea51.js","/_next/static/chunks/1d643d9eefffcab9.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"uL5tl3Y5c1Mjdj1xME3sV","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/c2b7e98d0e0a75d9.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
+8:null
