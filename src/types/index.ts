@@ -92,6 +92,7 @@ export interface PLState {
   expandedMonths: Set<string>;
   months: string[];
   exclusions: Exclusion[];
+  khBrokersView: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -119,4 +120,5 @@ export type PLAction =
   | { type: 'TAG_TRANSACTION'; payload: { transactionId: string; tag: TransactionTag } }
   | { type: 'UNTAG_TRANSACTION'; payload: string }
   | { type: 'ADD_SUB_ACCOUNT'; payload: { category: 'personal' | 'nonRecurring'; name: string } }
-  | { type: 'LOAD_TAGS'; payload: { tags: Record<string, TransactionTag>; config: TagConfig } };
+  | { type: 'LOAD_TAGS'; payload: { tags: Record<string, TransactionTag>; config: TagConfig } }
+  | { type: 'TOGGLE_KH_BROKERS_VIEW' };

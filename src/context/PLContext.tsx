@@ -16,6 +16,7 @@ const initialState: PLState = {
   expandedMonths: new Set(),
   months: [],
   exclusions: [],
+  khBrokersView: true, // Default ON
   loading: true,
   error: null
 };
@@ -176,6 +177,12 @@ function plReducer(state: PLState, action: PLAction): PLState {
         ...state,
         tags: action.payload.tags,
         tagConfig: action.payload.config
+      };
+
+    case 'TOGGLE_KH_BROKERS_VIEW':
+      return {
+        ...state,
+        khBrokersView: !state.khBrokersView
       };
 
     default:

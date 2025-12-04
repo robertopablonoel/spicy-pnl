@@ -4,10 +4,11 @@ import { usePL } from '@/context/PLContext';
 import { SummaryCards } from './SummaryCards';
 import { PLSection } from './PLSection';
 import { GrossProfitRow } from './GrossProfitRow';
+import { KHBrokersView } from './KHBrokersView';
 import { ExcludedSection } from '@/components/tagging/ExcludedSection';
 
 export function PLViewer() {
-  const { state } = usePL();
+  const { state, dispatch } = usePL();
 
   if (state.loading) {
     return (
@@ -33,46 +34,88 @@ export function PLViewer() {
     );
   }
 
+  const toggleView = () => {
+    dispatch({ type: 'TOGGLE_KH_BROKERS_VIEW' });
+  };
+
   return (
     <div>
+      {/* View Toggle */}
+      <div className="flex items-center justify-end mb-4">
+        <div className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1">
+          <button
+            onClick={() => state.khBrokersView || toggleView()}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+              state.khBrokersView
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            Summary
+          </button>
+          <button
+            onClick={() => !state.khBrokersView || toggleView()}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+              !state.khBrokersView
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            Detailed
+          </button>
+        </div>
+      </div>
+
       {/* Summary Cards */}
       <SummaryCards />
 
-      {/* Revenue Section */}
-      <PLSection
-        section="revenue"
-        title="Revenue"
-        colorClass="bg-emerald-500"
-      />
+      {state.khBrokersView ? (
+        /* KH Brokers Simplified View */
+        <KHBrokersView />
+      ) : (
+        /* Detailed View */
+        <>
+          {/* Revenue Section */}
+          <PLSection
+            section="revenue"
+            title="Revenue"
+            colorClass="bg-emerald-500"
+            totalColorClass="bg-emerald-50"
+          />
 
-      {/* COGS Section */}
-      <PLSection
-        section="cogs"
-        title="Cost of Goods Sold"
-        colorClass="bg-orange-500"
-      />
+          {/* COGS Section */}
+          <PLSection
+            section="cogs"
+            title="Cost of Goods Sold"
+            colorClass="bg-orange-500"
+            totalColorClass="bg-orange-50"
+          />
 
-      {/* Cost of Sales Section */}
-      <PLSection
-        section="costOfSales"
-        title="Cost of Sales"
-        colorClass="bg-amber-500"
-      />
+          {/* Cost of Sales Section */}
+          <PLSection
+            section="costOfSales"
+            title="Cost of Sales"
+            colorClass="bg-amber-500"
+            totalColorClass="bg-amber-50"
+          />
 
-      {/* Gross Profit */}
-      <GrossProfitRow type="grossProfit" />
+          {/* Gross Profit */}
+          <GrossProfitRow type="grossProfit" />
 
-      {/* Operating Expenses */}
-      <PLSection
-        section="operatingExpenses"
-        title="Operating Expenses"
-        colorClass="bg-red-500"
-      />
+          {/* Operating Expenses */}
+          <PLSection
+            section="operatingExpenses"
+            title="Operating Expenses"
+            colorClass="bg-red-500"
+            totalColorClass="bg-red-50"
+          />
 
-      {/* Net Income */}
-      <GrossProfitRow type="netIncome" />
+          {/* Net Income */}
+          <GrossProfitRow type="netIncome" />
+        </>
+      )}
 
-      {/* Excluded/Tagged Section */}
+      {/* Excluded/Tagged Section - shown in both views */}
       <ExcludedSection />
     </div>
   );

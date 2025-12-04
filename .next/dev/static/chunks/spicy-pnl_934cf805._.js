@@ -274,6 +274,7 @@ const initialState = {
     expandedMonths: new Set(),
     months: [],
     exclusions: [],
+    khBrokersView: true,
     loading: true,
     error: null
 };
@@ -439,6 +440,11 @@ function plReducer(state, action) {
                 tags: action.payload.tags,
                 tagConfig: action.payload.config
             };
+        case 'TOGGLE_KH_BROKERS_VIEW':
+            return {
+                ...state,
+                khBrokersView: !state.khBrokersView
+            };
         default:
             return state;
     }
@@ -559,7 +565,7 @@ function PLProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/spicy-pnl/src/context/PLContext.tsx",
-        lineNumber: 293,
+        lineNumber: 300,
         columnNumber: 5
     }, this);
 }

@@ -11,9 +11,10 @@ interface PLSectionProps {
   section: PLSectionType;
   title: string;
   colorClass: string;
+  totalColorClass?: string;
 }
 
-export function PLSection({ section, title, colorClass }: PLSectionProps) {
+export function PLSection({ section, title, colorClass, totalColorClass }: PLSectionProps) {
   const { state } = usePL();
   const { transactions, accounts, months, tags } = state;
 
@@ -72,7 +73,7 @@ export function PLSection({ section, title, colorClass }: PLSectionProps) {
             ))}
 
             {/* Section Total Row */}
-            <tr className={`${colorClass.replace('bg-', 'bg-opacity-10 bg-')} border-t-2 border-slate-300`}>
+            <tr className={`${totalColorClass || 'bg-slate-50'} border-t-2 border-slate-300`}>
               <td className="sticky left-0 bg-inherit px-3 py-2 font-bold text-slate-900">
                 Total {title}
               </td>
