@@ -62,7 +62,7 @@ export function PLSection({ section, title, colorClass, totalColorClass }: PLSec
                   {formatMonth(month)}
                 </th>
               ))}
-              <th className="px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-28 bg-slate-100">
+              <th className="px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200">
                 YTD Total
               </th>
             </tr>
@@ -88,8 +88,8 @@ export function PLSection({ section, title, colorClass, totalColorClass }: PLSec
                 </td>
               ))}
               <td
-                className={`px-3 py-2 text-right font-mono text-sm font-bold bg-slate-100
-                  ${sectionTotals.ytd < 0 ? 'text-red-600' : 'text-slate-900'}
+                className={`px-3 py-2 text-right font-mono text-sm font-bold bg-violet-100 border-l-2 border-violet-200
+                  ${sectionTotals.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
                 `}
               >
                 {formatCurrency(sectionTotals.ytd)}

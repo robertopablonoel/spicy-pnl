@@ -797,8 +797,8 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                             columnNumber: 11
                         }, this)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                        className: `px-3 py-2 text-right font-mono text-sm font-semibold whitespace-nowrap
-            ${row.ytdTotal < 0 ? 'text-red-600' : 'text-slate-900'}
+                        className: `px-3 py-2 text-right font-mono text-sm font-semibold whitespace-nowrap bg-violet-50 border-l-2 border-violet-200
+            ${row.ytdTotal < 0 ? 'text-red-600' : 'text-violet-900'}
           `,
                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(row.ytdTotal)
                     }, void 0, false, {
@@ -1021,7 +1021,7 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                             columnNumber: 17
                                         }, this)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                        className: "px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-28 bg-slate-100",
+                                        className: "px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200",
                                         children: "YTD Total"
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
@@ -1074,8 +1074,8 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                                 columnNumber: 17
                                             }, this)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                            className: `px-3 py-2 text-right font-mono text-sm font-bold bg-slate-100
-                  ${sectionTotals.ytd < 0 ? 'text-red-600' : 'text-slate-900'}
+                                            className: `px-3 py-2 text-right font-mono text-sm font-bold bg-violet-100 border-l-2 border-violet-200
+                  ${sectionTotals.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
                 `,
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(sectionTotals.ytd)
                                         }, void 0, false, {
@@ -1216,7 +1216,7 @@ function GrossProfitRow({ type }) {
                                     columnNumber: 15
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                className: "px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-28",
+                                className: "px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200",
                                 children: "YTD Total"
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/pnl/GrossProfitRow.tsx",
@@ -1271,8 +1271,8 @@ function GrossProfitRow({ type }) {
                                     columnNumber: 15
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                className: `px-3 py-3 text-right font-mono font-bold text-lg
-                ${data.ytd < 0 ? 'text-red-600' : 'text-slate-900'}
+                                className: `px-3 py-3 text-right font-mono font-bold text-lg bg-violet-100 border-l-2 border-violet-200
+                ${data.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
               `,
                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(data.ytd)
                             }, void 0, false, {
@@ -1673,9 +1673,9 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                             columnNumber: 11
                         }, this)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                        className: `px-3 py-2 text-right font-mono text-sm bg-slate-100
+                        className: `px-3 py-2 text-right font-mono text-sm bg-violet-50 border-l-2 border-violet-200
             ${item.isBold ? 'font-bold' : ''}
-            ${item.ytd < 0 ? 'text-red-600' : 'text-slate-900'}
+            ${item.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
           `,
                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.ytd)
                     }, void 0, false, {
@@ -1847,7 +1847,7 @@ function KHBrokersView() {
                                                 columnNumber: 17
                                             }, this)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                            className: "px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-28 bg-slate-100",
+                                            className: "px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200",
                                             children: "YTD Total"
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
@@ -1931,7 +1931,7 @@ function KHBrokersView() {
                                         columnNumber: 17
                                     }, this)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                    className: "px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-28",
+                                    className: "px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200",
                                     children: "YTD Total"
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
@@ -1986,8 +1986,8 @@ function KHBrokersView() {
                                         columnNumber: 17
                                     }, this)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                    className: `px-3 py-3 text-right font-mono font-bold text-lg
-                  ${item.ytd < 0 ? 'text-red-600' : 'text-slate-900'}
+                                    className: `px-3 py-3 text-right font-mono font-bold text-lg bg-violet-100 border-l-2 border-violet-200
+                  ${item.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
                 `,
                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.ytd)
                                 }, void 0, false, {

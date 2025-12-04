@@ -117,8 +117,8 @@ export function PLRow({ row, months, depth = 0, isChild = false }: PLRowProps) {
 
         {/* YTD Total */}
         <td
-          className={`px-3 py-2 text-right font-mono text-sm font-semibold whitespace-nowrap
-            ${row.ytdTotal < 0 ? 'text-red-600' : 'text-slate-900'}
+          className={`px-3 py-2 text-right font-mono text-sm font-semibold whitespace-nowrap bg-violet-50 border-l-2 border-violet-200
+            ${row.ytdTotal < 0 ? 'text-red-600' : 'text-violet-900'}
           `}
         >
           {formatCurrency(row.ytdTotal)}

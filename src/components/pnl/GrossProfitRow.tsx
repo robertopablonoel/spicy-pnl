@@ -82,7 +82,7 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
                 {formatMonth(month)}
               </th>
             ))}
-            <th className="px-3 py-2 text-right text-xs font-semibold text-slate-600 uppercase tracking-wider w-28">
+            <th className="px-3 py-2 text-right text-xs font-semibold text-violet-700 uppercase tracking-wider w-28 bg-violet-100 border-l-2 border-violet-200">
               YTD Total
             </th>
           </tr>
@@ -106,8 +106,8 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
               </td>
             ))}
             <td
-              className={`px-3 py-3 text-right font-mono font-bold text-lg
-                ${data.ytd < 0 ? 'text-red-600' : 'text-slate-900'}
+              className={`px-3 py-3 text-right font-mono font-bold text-lg bg-violet-100 border-l-2 border-violet-200
+                ${data.ytd < 0 ? 'text-red-600' : 'text-violet-900'}
               `}
             >
               {formatCurrency(data.ytd)}
