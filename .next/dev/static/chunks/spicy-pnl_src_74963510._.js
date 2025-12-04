@@ -1026,6 +1026,39 @@ function TeaserSlide3() {
                                 className: "flex-1 flex flex-col items-center h-full",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: `text-[6px] md:text-xs font-mono mb-1 flex gap-0.5 md:gap-1 ${isHighlight ? '' : 'hidden md:flex'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-emerald-400",
+                                                children: formatCurrency(month.grossProfit)
+                                            }, void 0, false, {
+                                                fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
+                                                lineNumber: 71,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-slate-600",
+                                                children: "/"
+                                            }, void 0, false, {
+                                                fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
+                                                lineNumber: 72,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-violet-400",
+                                                children: formatCurrency(month.netIncome)
+                                            }, void 0, false, {
+                                                fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
+                                                lineNumber: 73,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
+                                        lineNumber: 70,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "w-full flex-1 flex items-end justify-center gap-px md:gap-0.5",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1035,7 +1068,7 @@ function TeaserSlide3() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                                lineNumber: 72,
+                                                lineNumber: 79,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1045,13 +1078,13 @@ function TeaserSlide3() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                                lineNumber: 81,
+                                                lineNumber: 88,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                        lineNumber: 70,
+                                        lineNumber: 77,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1059,7 +1092,7 @@ function TeaserSlide3() {
                                         children: getMonthLabel(month.month)
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                        lineNumber: 92,
+                                        lineNumber: 99,
                                         columnNumber: 17
                                     }, this)
                                 ]
@@ -1084,7 +1117,7 @@ function TeaserSlide3() {
                                         className: "w-2 h-2 md:w-3 md:h-3 rounded bg-emerald-500"
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                        lineNumber: 103,
+                                        lineNumber: 110,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1092,13 +1125,13 @@ function TeaserSlide3() {
                                         children: "Gross Profit"
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                        lineNumber: 104,
+                                        lineNumber: 111,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 102,
+                                lineNumber: 109,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1108,7 +1141,7 @@ function TeaserSlide3() {
                                         className: "w-2 h-2 md:w-3 md:h-3 rounded bg-violet-500"
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                        lineNumber: 107,
+                                        lineNumber: 114,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1116,19 +1149,19 @@ function TeaserSlide3() {
                                         children: "EBITDA"
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                        lineNumber: 108,
+                                        lineNumber: 115,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 106,
+                                lineNumber: 113,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                        lineNumber: 101,
+                        lineNumber: 108,
                         columnNumber: 9
                     }, this)
                 ]
@@ -1148,7 +1181,7 @@ function TeaserSlide3() {
                                 children: formatCurrency(ytdGrossProfit)
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 116,
+                                lineNumber: 123,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1156,13 +1189,13 @@ function TeaserSlide3() {
                                 children: "YTD Gross Profit"
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 119,
+                                lineNumber: 126,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                        lineNumber: 115,
+                        lineNumber: 122,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1176,7 +1209,7 @@ function TeaserSlide3() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 122,
+                                lineNumber: 129,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1184,13 +1217,13 @@ function TeaserSlide3() {
                                 children: "Gross Margin"
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 125,
+                                lineNumber: 132,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                        lineNumber: 121,
+                        lineNumber: 128,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1201,7 +1234,7 @@ function TeaserSlide3() {
                                 children: formatCurrency(ytdNetIncome)
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 128,
+                                lineNumber: 135,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1209,13 +1242,13 @@ function TeaserSlide3() {
                                 children: "YTD EBITDA"
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 131,
+                                lineNumber: 138,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                        lineNumber: 127,
+                        lineNumber: 134,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1229,7 +1262,7 @@ function TeaserSlide3() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 134,
+                                lineNumber: 141,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1237,19 +1270,19 @@ function TeaserSlide3() {
                                 children: "EBITDA Margin"
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                                lineNumber: 137,
+                                lineNumber: 144,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                        lineNumber: 133,
+                        lineNumber: 140,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                lineNumber: 114,
+                lineNumber: 121,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1265,7 +1298,7 @@ function TeaserSlide3() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                            lineNumber: 144,
+                            lineNumber: 151,
                             columnNumber: 11
                         }, this),
                         ' ',
@@ -1273,12 +1306,12 @@ function TeaserSlide3() {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                    lineNumber: 143,
+                    lineNumber: 150,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/spicy-pnl/src/components/teaser/TeaserSlide3.tsx",
-                lineNumber: 142,
+                lineNumber: 149,
                 columnNumber: 7
             }, this)
         ]

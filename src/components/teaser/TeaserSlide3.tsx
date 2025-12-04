@@ -66,6 +66,13 @@ export function TeaserSlide3() {
 
             return (
               <div key={month.month} className="flex-1 flex flex-col items-center h-full">
+                {/* Value labels - show on desktop, only highlighted on mobile */}
+                <div className={`text-[6px] md:text-xs font-mono mb-1 flex gap-0.5 md:gap-1 ${isHighlight ? '' : 'hidden md:flex'}`}>
+                  <span className="text-emerald-400">{formatCurrency(month.grossProfit)}</span>
+                  <span className="text-slate-600">/</span>
+                  <span className="text-violet-400">{formatCurrency(month.netIncome)}</span>
+                </div>
+
                 {/* Bar container */}
                 <div className="w-full flex-1 flex items-end justify-center gap-px md:gap-0.5">
                   {/* Gross Profit bar */}
