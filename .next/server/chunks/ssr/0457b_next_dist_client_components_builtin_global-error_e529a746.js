@@ -1,3 +1,0 @@
-module.exports=[57429,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(95766);a.n(d("[project]/spicy-pnl/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},65418,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(95766);a.n(d("[project]/spicy-pnl/node_modules/next/dist/client/components/builtin/global-error.js"))},74732,a=>{"use strict";a.i(57429);var b=a.i(65418);a.n(b)}];
-
-//# sourceMappingURL=0457b_next_dist_client_components_builtin_global-error_e529a746.js.map
