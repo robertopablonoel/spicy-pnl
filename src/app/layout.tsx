@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { PLProvider } from "@/context/PLContext";
 
@@ -35,10 +34,6 @@ export default function RootLayout({
         <PLProvider>
           {children}
         </PLProvider>
-        <Script
-          src="//embed.typeform.com/next/embed.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );
