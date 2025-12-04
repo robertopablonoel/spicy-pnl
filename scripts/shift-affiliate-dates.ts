@@ -1,6 +1,10 @@
 /**
- * Shift affiliate/creator payments made on 1st-2nd of month to previous month
- * These payments are for work done in the prior month
+ * Shift ALL affiliate/creator payments to previous month
+ *
+ * RATIONALE: Affiliate payments are made for work done in the prior month.
+ * For example, a payment made on March 15th is for sales generated in February.
+ * Shifting these to the prior month provides a more accurate P&L by matching
+ * the expense to the revenue it generated.
  */
 
 import * as fs from 'fs';
@@ -28,10 +32,11 @@ function shiftDateToPreviousMonth(dateStr: string): string {
     newYear -= 1;
   }
 
-  // Use last day of previous month
-  const lastDay = new Date(newYear, newMonth, 0).getDate();
+  // Use same day in previous month (or last day if month is shorter)
+  const lastDayOfPrevMonth = new Date(newYear, newMonth, 0).getDate();
+  const newDay = Math.min(parseInt(day), lastDayOfPrevMonth);
 
-  return `${newMonth.toString().padStart(2, '0')}/${lastDay}/${newYear}`;
+  return `${newMonth.toString().padStart(2, '0')}/${newDay.toString().padStart(2, '0')}/${newYear}`;
 }
 
 const newLines: string[] = [];
@@ -48,32 +53,28 @@ for (let i = 0; i < lines.length; i++) {
     continue;
   }
 
-  // Only modify 6120 Affiliate Marketing transactions
-  if (currentCode !== '6120') {
+  // Only modify 6120 Affiliate Marketing and 6125 Affiliate Recruitment transactions
+  if (currentCode !== '6120' && currentCode !== '6125') {
     newLines.push(line);
     continue;
   }
 
-  // Check if transaction is on 1st or 2nd of month
+  // Shift ALL affiliate transactions to previous month
   const dateMatch = line.match(/^,(\d{2}\/\d{2}\/\d{4}),/);
   if (dateMatch) {
     const dateStr = dateMatch[1];
-    const [month, day, year] = dateStr.split('/');
+    const newDate = shiftDateToPreviousMonth(dateStr);
+    const newLine = line.replace(`,${dateStr},`, `,${newDate},`);
 
-    if (day === '01' || day === '02') {
-      const newDate = shiftDateToPreviousMonth(dateStr);
-      const newLine = line.replace(`,${dateStr},`, `,${newDate},`);
+    // Extract name and amount for logging
+    const parts = line.split(',');
+    const name = parts[4] || '';
+    const amount = parts[8] || '';
 
-      // Extract name and amount for logging
-      const parts = line.split(',');
-      const name = parts[4] || '';
-      const amount = parts[8] || '';
-
-      changes.push({ original: dateStr, newDate, name, amount });
-      changesCount++;
-      newLines.push(newLine);
-      continue;
-    }
+    changes.push({ original: dateStr, newDate, name, amount });
+    changesCount++;
+    newLines.push(newLine);
+    continue;
   }
 
   newLines.push(line);
