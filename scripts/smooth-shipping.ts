@@ -44,17 +44,34 @@ function parseCSVLine(line: string): string[] {
 // Accounts to smooth
 const SHIPPING_ACCOUNTS = ['6010', '6020', '6035'];
 
-// Months to smooth (Jan-Sep 2025)
-const SMOOTH_MONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09'];
+// Months to smooth (Dec 2024 + Jan-Sep 2025)
+// Format: { month, year }
+const SMOOTH_MONTHS = [
+  { month: '12', year: '2024' },
+  { month: '01', year: '2025' },
+  { month: '02', year: '2025' },
+  { month: '03', year: '2025' },
+  { month: '04', year: '2025' },
+  { month: '05', year: '2025' },
+  { month: '06', year: '2025' },
+  { month: '07', year: '2025' },
+  { month: '08', year: '2025' },
+  { month: '09', year: '2025' },
+];
 
 interface Transaction {
   lineNum: number;
   line: string;
   date: string;
-  month: string;
+  monthKey: string; // "MM/YYYY" format
   amount: number;
   section: string;
   sectionCode: string;
+}
+
+// Helper to create month key
+function monthKey(month: string, year: string): string {
+  return `${month}/${year}`;
 }
 
 // First pass: collect all transactions and calculate monthly revenue
@@ -68,8 +85,9 @@ const shippingTransactions: Transaction[] = [];
 
 // Initialize months
 for (const m of SMOOTH_MONTHS) {
-  revenueByMonth[m] = 0;
-  shippingByMonth[m] = 0;
+  const key = monthKey(m.month, m.year);
+  revenueByMonth[key] = 0;
+  shippingByMonth[key] = 0;
 }
 
 for (let i = 0; i < lines.length; i++) {
@@ -92,8 +110,11 @@ for (let i = 0; i < lines.length; i++) {
   const month = dateMatch[1];
   const year = dateMatch[2];
 
-  // Only process 2025 transactions in our target months
-  if (year !== '2025' || !SMOOTH_MONTHS.includes(month)) continue;
+  // Check if this month/year combo is in our smoothing range
+  const isInSmoothRange = SMOOTH_MONTHS.some(m => m.month === month && m.year === year);
+  if (!isInSmoothRange) continue;
+
+  const key = monthKey(month, year);
 
   // Extract amount (column 9, index 8) - use proper CSV parsing for quoted fields
   const parts = parseCSVLine(line);
@@ -104,7 +125,7 @@ for (let i = 0; i < lines.length; i++) {
     lineNum: i,
     line,
     date: dateMatch[0],
-    month,
+    monthKey: key,
     amount,
     section: currentSection,
     sectionCode: currentCode
@@ -114,63 +135,67 @@ for (let i = 0; i < lines.length; i++) {
 
   // Track revenue (4xxx accounts) - use absolute value since revenue is positive
   if (currentCode.startsWith('4')) {
-    revenueByMonth[month] += Math.abs(amount);
+    revenueByMonth[key] += Math.abs(amount);
   }
 
   // Track shipping transactions
   if (SHIPPING_ACCOUNTS.includes(currentCode)) {
-    shippingByMonth[month] += amount;
+    shippingByMonth[key] += amount;
     shippingTransactions.push(txn);
   }
 }
 
-// Calculate total shipping and total revenue for Jan-Sep
+// Calculate total shipping and total revenue for smoothing period
 let totalShipping = 0;
 let totalRevenue = 0;
 
 for (const m of SMOOTH_MONTHS) {
-  totalShipping += shippingByMonth[m];
-  totalRevenue += revenueByMonth[m];
+  const key = monthKey(m.month, m.year);
+  totalShipping += shippingByMonth[key];
+  totalRevenue += revenueByMonth[key];
 }
 
 console.log('='.repeat(100));
 console.log('SHIPPING SMOOTHING - PRO-RATA BY REVENUE');
 console.log('='.repeat(100));
 console.log('\n### BEFORE SMOOTHING:\n');
-console.log('Month     Revenue          Shipping        Ship % of Rev');
-console.log('-'.repeat(60));
+console.log('Month       Revenue          Shipping        Ship % of Rev');
+console.log('-'.repeat(65));
 
 for (const m of SMOOTH_MONTHS) {
-  const shipPct = revenueByMonth[m] > 0 ? (shippingByMonth[m] / revenueByMonth[m] * 100) : 0;
+  const key = monthKey(m.month, m.year);
+  const shipPct = revenueByMonth[key] > 0 ? (shippingByMonth[key] / revenueByMonth[key] * 100) : 0;
   console.log(
-    `${m}/2025   $${revenueByMonth[m].toFixed(0).padStart(12)}   $${shippingByMonth[m].toFixed(0).padStart(10)}   ${shipPct.toFixed(1)}%`
+    `${m.month}/${m.year}   $${revenueByMonth[key].toFixed(0).padStart(12)}   $${shippingByMonth[key].toFixed(0).padStart(10)}   ${shipPct.toFixed(1)}%`
   );
 }
-console.log('-'.repeat(60));
-console.log(`TOTAL     $${totalRevenue.toFixed(0).padStart(12)}   $${totalShipping.toFixed(0).padStart(10)}`);
+console.log('-'.repeat(65));
+console.log(`TOTAL       $${totalRevenue.toFixed(0).padStart(12)}   $${totalShipping.toFixed(0).padStart(10)}`);
 
 // Calculate pro-rata shipping by month
 const proRataShipping: Record<string, number> = {};
 for (const m of SMOOTH_MONTHS) {
-  const revenuePct = totalRevenue > 0 ? revenueByMonth[m] / totalRevenue : 1 / SMOOTH_MONTHS.length;
-  proRataShipping[m] = totalShipping * revenuePct;
+  const key = monthKey(m.month, m.year);
+  const revenuePct = totalRevenue > 0 ? revenueByMonth[key] / totalRevenue : 1 / SMOOTH_MONTHS.length;
+  proRataShipping[key] = totalShipping * revenuePct;
 }
 
 console.log('\n### AFTER SMOOTHING (Pro-rata by revenue):\n');
-console.log('Month     Revenue          Shipping        Ship % of Rev   Adjustment');
-console.log('-'.repeat(80));
+console.log('Month       Revenue          Shipping        Ship % of Rev   Adjustment');
+console.log('-'.repeat(85));
 
 for (const m of SMOOTH_MONTHS) {
-  const shipPct = revenueByMonth[m] > 0 ? (proRataShipping[m] / revenueByMonth[m] * 100) : 0;
-  const adjustment = proRataShipping[m] - shippingByMonth[m];
+  const key = monthKey(m.month, m.year);
+  const shipPct = revenueByMonth[key] > 0 ? (proRataShipping[key] / revenueByMonth[key] * 100) : 0;
+  const adjustment = proRataShipping[key] - shippingByMonth[key];
   const adjSign = adjustment >= 0 ? '+' : '';
   console.log(
-    `${m}/2025   $${revenueByMonth[m].toFixed(0).padStart(12)}   $${proRataShipping[m].toFixed(0).padStart(10)}   ${shipPct.toFixed(1)}%          ${adjSign}$${adjustment.toFixed(0)}`
+    `${m.month}/${m.year}   $${revenueByMonth[key].toFixed(0).padStart(12)}   $${proRataShipping[key].toFixed(0).padStart(10)}   ${shipPct.toFixed(1)}%          ${adjSign}$${adjustment.toFixed(0)}`
   );
 }
 
 // Now we need to modify the CSV
-// Strategy: Remove all shipping transactions from Jan-Sep and add new smoothed ones
+// Strategy: Remove all shipping transactions from smoothing period and add new smoothed ones
 
 // Track lines to remove (shipping transactions in smoothing period)
 const linesToRemove = new Set<number>();
@@ -197,9 +222,10 @@ for (let i = 0; i < lines.length; i++) {
 
     // Add one transaction per month with the smoothed amount
     for (const m of SMOOTH_MONTHS) {
+      const key = monthKey(m.month, m.year);
       // Use middle of month as date
-      const date = `${m}/15/2025`;
-      const amount = proRataShipping[m];
+      const date = `${m.month}/15/${m.year}`;
+      const amount = proRataShipping[key];
 
       // Format: ,date,type,num,name,class,memo,account,amount,balance
       // Note: amounts should be positive for expenses in this report format

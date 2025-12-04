@@ -222,9 +222,9 @@ export function PLProvider({ children }: { children: ReactNode }) {
         const csvContent = await txnResponse.text();
         const { transactions: allTransactions, accounts, months: allMonths } = parseCSV(csvContent);
 
-        // Filter out December - not relevant for P&L display
-        const transactions = allTransactions.filter(t => !t.month.endsWith('-12'));
-        const months = allMonths.filter(m => !m.endsWith('-12'));
+        // TTM: Dec 2024 through Nov 2025 (filter out Dec 2025 only)
+        const transactions = allTransactions.filter(t => t.month !== '2025-12');
+        const months = allMonths.filter(m => m !== '2025-12');
 
         // Parse exclusions if available
         let exclusions: Exclusion[] = [];
