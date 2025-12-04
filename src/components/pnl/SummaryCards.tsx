@@ -10,7 +10,15 @@ export function SummaryCards() {
 
   const summary = useMemo(() => {
     if (state.transactions.length === 0) return null;
-    return calculatePLSummary(state.transactions, state.accounts, state.tags);
+    const result = calculatePLSummary(state.transactions, state.accounts, state.tags);
+    console.log('PNL GROSS MARGIN DEBUG:', {
+      transactions: state.transactions.length,
+      tagsCount: Object.keys(state.tags).length,
+      grossMargin: result.grossMargin,
+      grossProfit: result.grossProfit,
+      netRevenue: result.netRevenue,
+    });
+    return result;
   }, [state.transactions, state.accounts, state.tags]);
 
   if (!summary) return null;

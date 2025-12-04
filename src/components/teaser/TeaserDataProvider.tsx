@@ -71,9 +71,15 @@ export function TeaserDataProvider({ children }: Props) {
         const exclCsvText = await exclResponse.text();
         const tags = parseExclusions(exclCsvText, transactions);
 
-        // Filter to 2025 and exclude December
+        // Filter out December (same as PLContext)
         // Transaction.month format is "YYYY-MM" (e.g., "2025-01")
         const months2025 = ['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11'];
+
+        // For gross margin calculation, use same filter as PLContext (all months except December)
+        // DON'T filter by tags here - calculatePLSummary does that internally
+        const allTransactionsNoDec = transactions.filter(t => !t.month.endsWith('-12'));
+
+        // For monthly charts, only use 2025 data (also don't filter by tags - calculation functions handle it)
         const activeTransactions = transactions.filter(t =>
           months2025.includes(t.month) &&
           !tags[t.id]
@@ -135,8 +141,28 @@ export function TeaserDataProvider({ children }: Props) {
         const ytdNetIncome = monthlyData.reduce((sum, m) => sum + m.netIncome, 0);
         const totalAffiliateSpend = monthlyData.reduce((sum, m) => sum + m.affiliateSpend, 0);
 
-        // Gross margin
-        const grossMargin = ytdRevenue !== 0 ? (ytdGrossProfit / ytdRevenue) * 100 : 0;
+        // Gross margin - calculate same as KHBrokersView for consistency with displayed P&L
+        // KH Income accounts: Sales (4000, 4030), Discounts (4010), Refunds (4020), Chargebacks (4040)
+        // KH COGS accounts: Product Costs (5000, 5030, 5040, 5050), Shipping & Fulfillment (5010, 6010, 6020, 6035)
+        const khIncomeAccounts = ['4000', '4030', '4010', '4020', '4040'];
+        const khCogsAccounts = ['5000', '5030', '5040', '5050', '5010', '6010', '6020', '6035'];
+
+        const khActiveTxns = allTransactionsNoDec.filter(t => !tags[t.id]);
+        const khTotalIncome = khActiveTxns
+          .filter(t => khIncomeAccounts.includes(t.accountCode))
+          .reduce((sum, t) => sum + t.amount, 0);
+        const khTotalCogs = khActiveTxns
+          .filter(t => khCogsAccounts.includes(t.accountCode))
+          .reduce((sum, t) => sum + t.amount, 0);
+        const khGrossProfit = khTotalIncome - khTotalCogs;
+        const grossMargin = khTotalIncome !== 0 ? (khGrossProfit / khTotalIncome) * 100 : 0;
+
+        console.log('GROSS MARGIN DEBUG (KH method):', {
+          khTotalIncome,
+          khTotalCogs,
+          khGrossProfit,
+          grossMargin,
+        });
 
         // EBITDA (using net income as proxy - would need D&A adjustments for true EBITDA)
         const ytdEBITDA = ytdNetIncome;
