@@ -78,9 +78,17 @@ interface ReclassifyRule {
   pattern: RegExp;
   toCode: string;
   reason: string;
+  amount?: number;  // Optional: match specific amount
 }
 
 const reclassifications: ReclassifyRule[] = [
+  // 6120 -> 6125: $30 affiliate recruitment (sample video payments)
+  { fromCode: '6120', pattern: /./, toCode: '6125', reason: 'Affiliate recruitment', amount: 30 },
+
+  // 6120 -> 6125: Yvel and Gabriella are affiliate recruiters
+  { fromCode: '6120', pattern: /yvel/i, toCode: '6125', reason: 'Affiliate recruitment' },
+  { fromCode: '6120', pattern: /gabriella/i, toCode: '6125', reason: 'Affiliate recruitment' },
+
   // 6495 -> 6140: eBay phone farm equipment
   { fromCode: '6495', pattern: /ebay/i, toCode: '6140', reason: 'Phone farm equipment' },
 
@@ -133,6 +141,17 @@ function isTransaction(line: string): boolean {
   return /^,\d{2}\/\d{2}\/\d{4},/.test(line);
 }
 
+// Helper: Extract amount from a transaction line (column 9, index 8)
+function getTransactionAmount(line: string): number | null {
+  const parts = line.split(',');
+  if (parts.length >= 9) {
+    const amountStr = parts[8].replace(/[$",]/g, '');
+    const amount = parseFloat(amountStr);
+    return isNaN(amount) ? null : Math.abs(amount);
+  }
+  return null;
+}
+
 // Process lines and mark for removal/reclassification
 const linesToRemove = new Set<number>();
 const lineReclassifications = new Map<number, { toCode: string; reason: string }>();
@@ -155,17 +174,26 @@ for (const info of lineInfos) {
 
   // Check reclassification rules - ONLY for P&L section transactions
   if (info.isPnLSection) {
+    const txnAmount = getTransactionAmount(info.content);
+
     for (const rule of reclassifications) {
-      if (info.sectionCode === rule.fromCode && rule.pattern.test(lineLower)) {
-        lineReclassifications.set(info.lineNum, { toCode: rule.toCode, reason: rule.reason });
-        reclassifiedLines.push({
-          line: info.content.substring(0, 80),
-          from: rule.fromCode,
-          to: rule.toCode,
-          reason: rule.reason
-        });
-        break;
-      }
+      // Check if section matches
+      if (info.sectionCode !== rule.fromCode) continue;
+
+      // Check if pattern matches
+      if (!rule.pattern.test(lineLower)) continue;
+
+      // Check if amount matches (if specified)
+      if (rule.amount !== undefined && txnAmount !== rule.amount) continue;
+
+      lineReclassifications.set(info.lineNum, { toCode: rule.toCode, reason: rule.reason });
+      reclassifiedLines.push({
+        line: info.content.substring(0, 80),
+        from: rule.fromCode,
+        to: rule.toCode,
+        reason: rule.reason
+      });
+      break;
     }
   }
 }
@@ -220,9 +248,23 @@ for (const info of lineInfos) {
   outputLines.push(info.content);
 }
 
-// Check for any sections that weren't found
+// Check for any sections that weren't found - create them
+// New sections to create (code -> full section name)
+const newSections: Record<string, string> = {
+  '6125': '6125 Affiliate Recruitment',
+};
+
 for (const [code, txnLines] of linesToAddToSection) {
-  console.log(`\nWARNING: Section with code "${code}" not found. ${txnLines.length} transactions could not be moved.`);
+  if (newSections[code]) {
+    // Create new section at the end of the file (before any trailing empty lines)
+    console.log(`\nCreating new section: ${newSections[code]} with ${txnLines.length} transactions`);
+    outputLines.push(`${newSections[code]},,,,,,,,,`);
+    for (const line of txnLines) {
+      outputLines.push(line);
+    }
+  } else {
+    console.log(`\nWARNING: Section with code "${code}" not found. ${txnLines.length} transactions could not be moved.`);
+  }
 }
 
 // Write output

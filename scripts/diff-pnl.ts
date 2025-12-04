@@ -271,6 +271,7 @@ const ACCOUNT_NAMES: Record<string, string> = {
   '6100': 'Advertising & Marketing',
   '6110': 'Paid Advertising',
   '6120': 'Affiliate Marketing Expense',
+  '6125': 'Affiliate Recruitment',
   '6130': 'Marketing Contractors',
   '6140': 'Advertising Software & Apps',
   '6150': 'Other Adv & Marketing',
