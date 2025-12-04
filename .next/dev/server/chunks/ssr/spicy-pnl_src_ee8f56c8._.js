@@ -194,15 +194,7 @@ function SummaryCards() {
     const { state } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$context$2f$PLContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePL"])();
     const summary = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
         if (state.transactions.length === 0) return null;
-        const result = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$calculations$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["calculatePLSummary"])(state.transactions, state.accounts, state.tags);
-        console.log('PNL GROSS MARGIN DEBUG:', {
-            transactions: state.transactions.length,
-            tagsCount: Object.keys(state.tags).length,
-            grossMargin: result.grossMargin,
-            grossProfit: result.grossProfit,
-            netRevenue: result.netRevenue
-        });
-        return result;
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$calculations$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["calculatePLSummary"])(state.transactions, state.accounts, state.tags);
     }, [
         state.transactions,
         state.accounts,
@@ -236,7 +228,7 @@ function SummaryCards() {
                         children: card.label
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                        lineNumber: 51,
+                        lineNumber: 43,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -244,7 +236,7 @@ function SummaryCards() {
                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(card.value)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                        lineNumber: 54,
+                        lineNumber: 46,
                         columnNumber: 11
                     }, this),
                     card.subLabel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -252,18 +244,18 @@ function SummaryCards() {
                         children: card.subLabel
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                        lineNumber: 58,
+                        lineNumber: 50,
                         columnNumber: 13
                     }, this)
                 ]
             }, card.label, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-                lineNumber: 47,
+                lineNumber: 39,
                 columnNumber: 9
             }, this))
     }, void 0, false, {
         fileName: "[project]/spicy-pnl/src/components/pnl/SummaryCards.tsx",
-        lineNumber: 45,
+        lineNumber: 37,
         columnNumber: 5
     }, this);
 }

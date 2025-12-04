@@ -157,12 +157,6 @@ export function TeaserDataProvider({ children }: Props) {
         const khGrossProfit = khTotalIncome - khTotalCogs;
         const grossMargin = khTotalIncome !== 0 ? (khGrossProfit / khTotalIncome) * 100 : 0;
 
-        console.log('GROSS MARGIN DEBUG (KH method):', {
-          khTotalIncome,
-          khTotalCogs,
-          khGrossProfit,
-          grossMargin,
-        });
 
         // EBITDA (using net income as proxy - would need D&A adjustments for true EBITDA)
         const ytdEBITDA = ytdNetIncome;

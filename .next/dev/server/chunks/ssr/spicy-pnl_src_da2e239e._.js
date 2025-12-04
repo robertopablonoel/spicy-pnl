@@ -313,12 +313,27 @@ function TeaserDataProvider({ children }) {
                 const khTotalCogs = khActiveTxns.filter((t)=>khCogsAccounts.includes(t.accountCode)).reduce((sum, t)=>sum + t.amount, 0);
                 const khGrossProfit = khTotalIncome - khTotalCogs;
                 const grossMargin = khTotalIncome !== 0 ? khGrossProfit / khTotalIncome * 100 : 0;
-                console.log('GROSS MARGIN DEBUG (KH method):', {
+                console.log('=== TEASER CROSS-CHECK ===');
+                console.log('Gross Margin (KH method):', {
                     khTotalIncome,
                     khTotalCogs,
                     khGrossProfit,
-                    grossMargin
+                    grossMargin: grossMargin.toFixed(1) + '%'
                 });
+                console.log('YTD Totals (2025 Jan-Nov):', {
+                    ytdRevenue,
+                    ytdGrossProfit,
+                    ytdNetIncome,
+                    totalAffiliateSpend
+                });
+                console.log('Run Rate (Nov * 12):', {
+                    novRevenue: monthlyData[monthlyData.length - 1]?.revenue,
+                    novNetIncome: monthlyData[monthlyData.length - 1]?.netIncome,
+                    revenueRunRate: (monthlyData[monthlyData.length - 1]?.revenue || 0) * 12,
+                    ebitdaRunRate: (monthlyData[monthlyData.length - 1]?.netIncome || 0) * 12
+                });
+                console.log('Affiliate ROAS:', ytdRevenue / totalAffiliateSpend);
+                console.log('=========================');
                 // EBITDA (using net income as proxy - would need D&A adjustments for true EBITDA)
                 const ytdEBITDA = ytdNetIncome;
                 // Calculate run rate based on last month (November)
@@ -365,7 +380,7 @@ function TeaserDataProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserDataProvider.tsx",
-        lineNumber: 209,
+        lineNumber: 224,
         columnNumber: 5
     }, this);
 }
