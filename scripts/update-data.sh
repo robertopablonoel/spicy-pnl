@@ -10,8 +10,10 @@
 # TRANSFORMATIONS APPLIED:
 # 1. Reclassifications - Move misclassified transactions to correct accounts
 # 2. Removals - Remove personal expenses (Amazon Cobra health insurance)
-# 3. Affiliate Date Shift - Move ALL affiliate payments to prior month
-# 4. Shipping Smoothing - Spread 3PL/shipping costs pro-rata by revenue (Jan-Sep)
+# 3. November Revenue - Add Shopify sales journal entries for November
+# 4. Nov/Dec Affiliate Replacement - Replace with data from nov-dec-payouts.csv
+# 5. Affiliate Date Shift - Move ALL affiliate payments to prior month
+# 6. Shipping Smoothing - Spread 3PL/shipping costs pro-rata by revenue (Jan-Sep)
 #
 # PREREQUISITES:
 # 1. Export "Transaction Detail by Account" report from QuickBooks
@@ -53,17 +55,27 @@ echo "Step 2: Applying reclassifications and removals..."
 npx tsx "$SCRIPT_DIR/apply-adjustments.ts"
 echo ""
 
-# Step 3: Shift affiliate payment dates to prior month
-echo "Step 3: Shifting ALL affiliate payment dates to prior month..."
+# Step 3: Add November Shopify revenue journal entries
+echo "Step 3: Adding November Shopify revenue journal entries..."
+npx tsx "$SCRIPT_DIR/add-november-revenue.ts"
+echo ""
+
+# Step 4: Replace Nov/Dec affiliate payouts with data from nov-dec-payouts.csv
+echo "Step 4: Replacing Nov/Dec affiliate payouts with corrected data..."
+npx tsx "$SCRIPT_DIR/replace-nov-dec-affiliates.ts"
+echo ""
+
+# Step 5: Shift affiliate payment dates to prior month
+echo "Step 5: Shifting ALL affiliate payment dates to prior month..."
 npx tsx "$SCRIPT_DIR/shift-affiliate-dates.ts"
 echo ""
 
-# Step 4: Smooth 3PL and shipping costs pro-rata by revenue (Jan-Sep)
-echo "Step 4: Smoothing 3PL/shipping costs pro-rata by revenue (Jan-Sep)..."
+# Step 6: Smooth 3PL and shipping costs pro-rata by revenue (Jan-Sep)
+echo "Step 6: Smoothing 3PL/shipping costs pro-rata by revenue (Jan-Sep)..."
 npx tsx "$SCRIPT_DIR/smooth-shipping.ts"
 echo ""
 
-# Step 5: Summary
+# Step 7: Summary
 echo "=============================================================="
 echo "DATA UPDATE COMPLETE"
 echo "=============================================================="
@@ -73,8 +85,9 @@ echo ""
 echo "TRANSFORMATIONS APPLIED:"
 echo "  1. Reclassifications (misclassified expenses moved to correct accounts)"
 echo "  2. Removals (personal expenses like Amazon Cobra)"
-echo "  3. Affiliate dates shifted to prior month (expense matching)"
-echo "  4. 3PL/shipping smoothed pro-rata by revenue (Jan-Sep)"
+echo "  3. November Shopify revenue journal entries added"
+echo "  4. Affiliate dates shifted to prior month (expense matching)"
+echo "  5. 3PL/shipping smoothed pro-rata by revenue (Jan-Sep)"
 echo ""
 echo "RUNTIME ADJUSTMENTS (applied by web app, not CSV):"
 echo "  - Exclusions: 230 items ($136k) from exclusions.csv"

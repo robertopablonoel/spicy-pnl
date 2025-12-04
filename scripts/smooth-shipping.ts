@@ -20,6 +20,27 @@ const outputPath = path.join(__dirname, '../public/all-txn.csv');
 const content = fs.readFileSync(inputPath, 'utf-8');
 const lines = content.split('\n');
 
+// Parse CSV line handling quoted fields with commas
+function parseCSVLine(line: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  result.push(current.trim());
+  return result;
+}
+
 // Accounts to smooth
 const SHIPPING_ACCOUNTS = ['6010', '6020', '6035'];
 
@@ -74,9 +95,9 @@ for (let i = 0; i < lines.length; i++) {
   // Only process 2025 transactions in our target months
   if (year !== '2025' || !SMOOTH_MONTHS.includes(month)) continue;
 
-  // Extract amount (column 9, index 8)
-  const parts = line.split(',');
-  const amountStr = parts[8]?.replace(/[$",]/g, '') || '0';
+  // Extract amount (column 9, index 8) - use proper CSV parsing for quoted fields
+  const parts = parseCSVLine(line);
+  const amountStr = parts[8]?.replace(/[$,]/g, '') || '0';
   const amount = parseFloat(amountStr) || 0;
 
   const txn: Transaction = {
@@ -181,7 +202,8 @@ for (let i = 0; i < lines.length; i++) {
       const amount = proRataShipping[m];
 
       // Format: ,date,type,num,name,class,memo,account,amount,balance
-      const smoothedLine = `,${date},Journal Entry,,,,"Smoothed shipping expense (pro-rata allocation)",6010 Outbound Shipping,${(-amount).toFixed(2)},`;
+      // Note: amounts should be positive for expenses in this report format
+      const smoothedLine = `,${date},Journal Entry,,,,"Smoothed shipping expense (pro-rata allocation)",6010 Outbound Shipping,${Math.abs(amount).toFixed(2)},`;
       newLines.push(smoothedLine);
     }
   }

@@ -53,8 +53,8 @@ for (let i = 0; i < lines.length; i++) {
     continue;
   }
 
-  // Only modify 6120 Affiliate Marketing and 6125 Affiliate Recruitment transactions
-  if (currentCode !== '6120' && currentCode !== '6125') {
+  // Only modify 6120 Affiliate Marketing transactions (NOT 6125 Recruitment)
+  if (currentCode !== '6120') {
     newLines.push(line);
     continue;
   }

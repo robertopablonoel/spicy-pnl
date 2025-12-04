@@ -33,7 +33,21 @@ This applies all transformations automatically.
 
 The following adjustments are applied to the raw QuickBooks export:
 
-### 1. Reclassifications (`apply-adjustments.ts`)
+### 1. November Shopify Entries (`add-november-revenue.ts`)
+
+Adds November revenue and COGS journal entries from Shopify:
+
+| Account | Entry | Amount |
+|---------|-------|--------|
+| 4000 Sales | Shopify Sales | $598,732.40 |
+| 4010 Discounts | Shopify Discounts | -$143,321.35 |
+| 4020 Refunds | Shopify Returns | -$19,982.96 |
+| 4030 Shipping Income | Shopify Shipping Income | $39,659.04 |
+| 5000 COGS | Shopify COGS | $85,199.62 |
+
+**Note:** Jan-Oct COGS entries are already in QuickBooks. This only adds November.
+
+### 2. Reclassifications (`apply-adjustments.ts`)
 
 Moves misclassified transactions to correct accounts:
 
@@ -54,19 +68,19 @@ Moves misclassified transactions to correct accounts:
 
 Also removes: Amazon Cobra (personal health insurance)
 
-### 2. Affiliate Date Shift (`shift-affiliate-dates.ts`)
+### 3. Affiliate Date Shift (`shift-affiliate-dates.ts`)
 
 Shifts ALL affiliate payments (6120, 6125) to the prior month.
 
 **Rationale:** Affiliate payments are made for work done in the prior month. A payment on March 15th is for February sales, so shifting it to February provides better expense/revenue matching.
 
-### 3. Shipping Smoothing (`smooth-shipping.ts`)
+### 4. Shipping Smoothing (`smooth-shipping.ts`)
 
 Spreads 3PL and shipping costs (6010, 6020, 6035) pro-rata by revenue across January-September.
 
 **Rationale:** Shipping costs are often paid in lump sums but should be matched to the revenue they supported. Pro-rata allocation based on monthly revenue provides a more accurate picture.
 
-### 4. Runtime Adjustments (in web app)
+### 5. Runtime Adjustments (in web app)
 
 These are NOT applied to the CSV, but handled at runtime:
 
@@ -102,6 +116,7 @@ public/
 
 scripts/
   update-data.sh          # Main update script
+  add-november-revenue.ts # November Shopify entries
   apply-adjustments.ts    # Reclassifications & removals
   shift-affiliate-dates.ts # Affiliate date shifting
   smooth-shipping.ts      # 3PL/shipping pro-rata smoothing
