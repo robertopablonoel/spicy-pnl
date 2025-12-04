@@ -10,8 +10,18 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "P&L Viewer",
-  description: "Profit & Loss Statement Viewer",
+  title: "Investor Portal",
+  description: "Viral content engine monetized through DTC wellness. $1.8M EBITDA run rate, 70M monthly views, 28% margins.",
+  openGraph: {
+    title: "Investment Opportunity",
+    description: "Viral content engine monetized through DTC wellness. $1.8M EBITDA run rate, 70M monthly views.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Investment Opportunity",
+    description: "Viral content engine monetized through DTC wellness. $1.8M EBITDA run rate, 70M monthly views.",
+  },
 };
 
 export default function RootLayout({

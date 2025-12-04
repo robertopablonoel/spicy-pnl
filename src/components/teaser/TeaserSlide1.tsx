@@ -37,7 +37,7 @@ export function TeaserSlide1() {
     {
       label: 'EBITDA Run Rate',
       value: formatCurrency(data.ebitdaRunRate),
-      sublabel: 'Based on trailing 3 months',
+      sublabel: 'Based on November',
     },
     {
       label: 'Monthly Views',

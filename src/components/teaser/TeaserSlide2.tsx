@@ -2,20 +2,15 @@
 
 import { useTeaserData } from './TeaserDataProvider';
 
-const MONTH_NAMES: Record<string, string> = {
-  '01': 'Jan',
-  '02': 'Feb',
-  '03': 'Mar',
-  '04': 'Apr',
-  '05': 'May',
-  '06': 'Jun',
-  '07': 'Jul',
-  '08': 'Aug',
-  '09': 'Sep',
-  '10': 'Oct',
-  '11': 'Nov',
-  '12': 'Dec',
-};
+function getMonthLabel(month: string): string {
+  const monthNum = month.split('-')[1]; // "2025-01" -> "01"
+  const names: Record<string, string> = {
+    '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr',
+    '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug',
+    '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec',
+  };
+  return names[monthNum] || month;
+}
 
 function formatCurrency(value: number): string {
   if (Math.abs(value) >= 1000000) {
@@ -87,7 +82,7 @@ export function TeaserSlide2() {
 
                 {/* Month label */}
                 <span className={`text-xs font-medium mt-2 ${isHighlight ? 'text-violet-400' : 'text-slate-500'}`}>
-                  {MONTH_NAMES[month.month]}
+                  {getMonthLabel(month.month)}
                 </span>
               </div>
             );
