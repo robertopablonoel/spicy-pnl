@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import Script from 'next/script';
 import { useTeaserData } from './TeaserDataProvider';
 
 function formatCurrency(value: number): string {
@@ -139,14 +141,25 @@ export function TeaserSlide6() {
         <p className="text-slate-400 mb-4">
           Seeking qualified buyers for a January close
         </p>
-        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 text-white px-6 py-3 rounded-full font-semibold">
+        <button
+          data-tf-popup="UU2u54HH"
+          data-tf-opacity="100"
+          data-tf-size="100"
+          data-tf-iframe-props="title=Acquisition Inquiry"
+          data-tf-medium="snippet"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 shadow-lg shadow-violet-500/25"
+        >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          Request Full CIM
-        </div>
+          Request a Call
+        </button>
+        <Script
+          src="//embed.typeform.com/next/embed.js"
+          strategy="lazyOnload"
+        />
         <p className="text-xs text-slate-600 mt-4">
-          Confidential Information Memorandum available under NDA
+          Confidential details shared after qualification
         </p>
       </div>
     </div>
