@@ -69,13 +69,6 @@ export function PLViewer() {
         colorClass="bg-red-500"
       />
 
-      {/* Other Income */}
-      <PLSection
-        section="otherIncome"
-        title="Other Income"
-        colorClass="bg-purple-500"
-      />
-
       {/* Net Income */}
       <GrossProfitRow type="netIncome" />
 

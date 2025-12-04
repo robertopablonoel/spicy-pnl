@@ -273,9 +273,81 @@ const initialState = {
     expandedAccounts: new Set(),
     expandedMonths: new Set(),
     months: [],
+    exclusions: [],
     loading: true,
     error: null
 };
+// Parse exclusions CSV
+function parseExclusionsCSV(csvContent) {
+    const lines = csvContent.trim().split('\n');
+    const exclusions = [];
+    // Skip header row
+    for(let i = 1; i < lines.length; i++){
+        const line = lines[i];
+        if (!line.trim()) continue;
+        // Parse CSV line handling quoted fields
+        const fields = [];
+        let current = '';
+        let inQuotes = false;
+        for(let j = 0; j < line.length; j++){
+            const char = line[j];
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+                fields.push(current.trim());
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        fields.push(current.trim());
+        if (fields.length >= 8) {
+            exclusions.push({
+                date: fields[0],
+                vendor: fields[1],
+                memo: fields[2],
+                account: fields[3],
+                accountCode: fields[4],
+                amount: parseFloat(fields[5]) || 0,
+                category: fields[6],
+                justification: fields[7]
+            });
+        }
+    }
+    return exclusions;
+}
+// Match exclusions to transactions
+function matchExclusionsToTransactions(exclusions, transactions) {
+    const tags = {};
+    const matchedExclusions = [];
+    for (const exclusion of exclusions){
+        // Find matching transaction by date, amount, and account code
+        const matchingTxn = transactions.find((txn)=>{
+            const txnDate = txn.transactionDate;
+            const amountMatch = Math.abs(txn.amount - exclusion.amount) < 0.01;
+            const dateMatch = txnDate === exclusion.date;
+            const accountMatch = txn.accountCode === exclusion.accountCode;
+            // Also check if not already tagged
+            return dateMatch && amountMatch && accountMatch && !tags[txn.id];
+        });
+        if (matchingTxn) {
+            // Tag the transaction
+            tags[matchingTxn.id] = {
+                category: exclusion.category.includes('Personal') || exclusion.category === 'Discretionary' ? 'personal' : 'nonRecurring',
+                subAccount: exclusion.category,
+                taggedAt: Date.now()
+            };
+            matchedExclusions.push({
+                ...exclusion,
+                transactionId: matchingTxn.id
+            });
+        }
+    }
+    return {
+        matchedExclusions,
+        tags
+    };
+}
 function plReducer(state, action) {
     switch(action.type){
         case 'SET_LOADING':
@@ -295,6 +367,7 @@ function plReducer(state, action) {
                 transactions: action.payload.transactions,
                 accounts: action.payload.accounts,
                 months: action.payload.months,
+                exclusions: action.payload.exclusions,
                 loading: false,
                 error: null
             };
@@ -385,20 +458,52 @@ function PLProvider({ children }) {
                         type: 'SET_LOADING',
                         payload: true
                     });
-                    const response = await fetch('/all-txn.csv');
-                    if (!response.ok) {
-                        throw new Error('Failed to load CSV file');
+                    // Load both CSVs in parallel
+                    const [txnResponse, exclusionsResponse] = await Promise.all([
+                        fetch('/all-txn.csv'),
+                        fetch('/exclusions.csv')
+                    ]);
+                    if (!txnResponse.ok) {
+                        throw new Error('Failed to load transaction CSV file');
                     }
-                    const csvContent = await response.text();
-                    const { transactions, accounts, months } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseCSV"])(csvContent);
+                    const csvContent = await txnResponse.text();
+                    const { transactions: allTransactions, accounts, months: allMonths } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["parseCSV"])(csvContent);
+                    // Filter out December - not relevant for P&L display
+                    const transactions = allTransactions.filter({
+                        "PLProvider.useEffect.loadData.transactions": (t)=>!t.month.endsWith('-12')
+                    }["PLProvider.useEffect.loadData.transactions"]);
+                    const months = allMonths.filter({
+                        "PLProvider.useEffect.loadData.months": (m)=>!m.endsWith('-12')
+                    }["PLProvider.useEffect.loadData.months"]);
+                    // Parse exclusions if available
+                    let exclusions = [];
+                    let exclusionTags = {};
+                    if (exclusionsResponse.ok) {
+                        const exclusionsContent = await exclusionsResponse.text();
+                        const rawExclusions = parseExclusionsCSV(exclusionsContent);
+                        const matched = matchExclusionsToTransactions(rawExclusions, transactions);
+                        exclusions = matched.matchedExclusions;
+                        exclusionTags = matched.tags;
+                    }
                     dispatch({
                         type: 'LOAD_DATA',
                         payload: {
                             transactions,
                             accounts,
-                            months
+                            months,
+                            exclusions
                         }
                     });
+                    // Apply exclusion tags
+                    if (Object.keys(exclusionTags).length > 0) {
+                        dispatch({
+                            type: 'LOAD_TAGS',
+                            payload: {
+                                tags: exclusionTags,
+                                config: initialState.tagConfig
+                            }
+                        });
+                    }
                 } catch (error) {
                     dispatch({
                         type: 'SET_ERROR',
@@ -454,7 +559,7 @@ function PLProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/spicy-pnl/src/context/PLContext.tsx",
-        lineNumber: 176,
+        lineNumber: 293,
         columnNumber: 5
     }, this);
 }

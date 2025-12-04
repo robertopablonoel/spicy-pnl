@@ -91,15 +91,29 @@ export interface PLState {
   expandedAccounts: Set<string>;
   expandedMonths: Set<string>;
   months: string[];
+  exclusions: Exclusion[];
   loading: boolean;
   error: string | null;
+}
+
+// Exclusion from CSV
+export interface Exclusion {
+  date: string;
+  vendor: string;
+  memo: string;
+  account: string;
+  accountCode: string;
+  amount: number;
+  category: string;
+  justification: string;
+  transactionId?: string;
 }
 
 // Action types
 export type PLAction =
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
-  | { type: 'LOAD_DATA'; payload: { transactions: Transaction[]; accounts: Map<string, Account>; months: string[] } }
+  | { type: 'LOAD_DATA'; payload: { transactions: Transaction[]; accounts: Map<string, Account>; months: string[]; exclusions: Exclusion[] } }
   | { type: 'TOGGLE_ACCOUNT'; payload: string }
   | { type: 'TOGGLE_MONTH'; payload: string }
   | { type: 'TAG_TRANSACTION'; payload: { transactionId: string; tag: TransactionTag } }

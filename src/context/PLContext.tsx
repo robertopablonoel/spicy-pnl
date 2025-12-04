@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { PLState, PLAction, TransactionTag, TagConfig } from '@/types';
+import { PLState, PLAction, TransactionTag, TagConfig, Exclusion, Transaction } from '@/types';
 import { parseCSV } from '@/lib/csvParser';
 
 const initialState: PLState = {
@@ -15,9 +15,93 @@ const initialState: PLState = {
   expandedAccounts: new Set(),
   expandedMonths: new Set(),
   months: [],
+  exclusions: [],
   loading: true,
   error: null
 };
+
+// Parse exclusions CSV
+function parseExclusionsCSV(csvContent: string): Exclusion[] {
+  const lines = csvContent.trim().split('\n');
+  const exclusions: Exclusion[] = [];
+
+  // Skip header row
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) continue;
+
+    // Parse CSV line handling quoted fields
+    const fields: string[] = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (let j = 0; j < line.length; j++) {
+      const char = line[j];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        fields.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    fields.push(current.trim());
+
+    if (fields.length >= 8) {
+      exclusions.push({
+        date: fields[0],
+        vendor: fields[1],
+        memo: fields[2],
+        account: fields[3],
+        accountCode: fields[4],
+        amount: parseFloat(fields[5]) || 0,
+        category: fields[6],
+        justification: fields[7]
+      });
+    }
+  }
+
+  return exclusions;
+}
+
+// Match exclusions to transactions
+function matchExclusionsToTransactions(
+  exclusions: Exclusion[],
+  transactions: Transaction[]
+): { matchedExclusions: Exclusion[]; tags: Record<string, TransactionTag> } {
+  const tags: Record<string, TransactionTag> = {};
+  const matchedExclusions: Exclusion[] = [];
+
+  for (const exclusion of exclusions) {
+    // Find matching transaction by date, amount, and account code
+    const matchingTxn = transactions.find(txn => {
+      const txnDate = txn.transactionDate;
+      const amountMatch = Math.abs(txn.amount - exclusion.amount) < 0.01;
+      const dateMatch = txnDate === exclusion.date;
+      const accountMatch = txn.accountCode === exclusion.accountCode;
+
+      // Also check if not already tagged
+      return dateMatch && amountMatch && accountMatch && !tags[txn.id];
+    });
+
+    if (matchingTxn) {
+      // Tag the transaction
+      tags[matchingTxn.id] = {
+        category: exclusion.category.includes('Personal') || exclusion.category === 'Discretionary' ? 'personal' : 'nonRecurring',
+        subAccount: exclusion.category,
+        taggedAt: Date.now()
+      };
+
+      matchedExclusions.push({
+        ...exclusion,
+        transactionId: matchingTxn.id
+      });
+    }
+  }
+
+  return { matchedExclusions, tags };
+}
 
 function plReducer(state: PLState, action: PLAction): PLState {
   switch (action.type) {
@@ -33,6 +117,7 @@ function plReducer(state: PLState, action: PLAction): PLState {
         transactions: action.payload.transactions,
         accounts: action.payload.accounts,
         months: action.payload.months,
+        exclusions: action.payload.exclusions,
         loading: false,
         error: null
       };
@@ -117,18 +202,50 @@ export function PLProvider({ children }: { children: ReactNode }) {
       try {
         dispatch({ type: 'SET_LOADING', payload: true });
 
-        const response = await fetch('/all-txn.csv');
-        if (!response.ok) {
-          throw new Error('Failed to load CSV file');
+        // Load both CSVs in parallel
+        const [txnResponse, exclusionsResponse] = await Promise.all([
+          fetch('/all-txn.csv'),
+          fetch('/exclusions.csv')
+        ]);
+
+        if (!txnResponse.ok) {
+          throw new Error('Failed to load transaction CSV file');
         }
 
-        const csvContent = await response.text();
-        const { transactions, accounts, months } = parseCSV(csvContent);
+        const csvContent = await txnResponse.text();
+        const { transactions: allTransactions, accounts, months: allMonths } = parseCSV(csvContent);
+
+        // Filter out December - not relevant for P&L display
+        const transactions = allTransactions.filter(t => !t.month.endsWith('-12'));
+        const months = allMonths.filter(m => !m.endsWith('-12'));
+
+        // Parse exclusions if available
+        let exclusions: Exclusion[] = [];
+        let exclusionTags: Record<string, TransactionTag> = {};
+
+        if (exclusionsResponse.ok) {
+          const exclusionsContent = await exclusionsResponse.text();
+          const rawExclusions = parseExclusionsCSV(exclusionsContent);
+          const matched = matchExclusionsToTransactions(rawExclusions, transactions);
+          exclusions = matched.matchedExclusions;
+          exclusionTags = matched.tags;
+        }
 
         dispatch({
           type: 'LOAD_DATA',
-          payload: { transactions, accounts, months }
+          payload: { transactions, accounts, months, exclusions }
         });
+
+        // Apply exclusion tags
+        if (Object.keys(exclusionTags).length > 0) {
+          dispatch({
+            type: 'LOAD_TAGS',
+            payload: {
+              tags: exclusionTags,
+              config: initialState.tagConfig
+            }
+          });
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
