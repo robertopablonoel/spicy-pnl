@@ -313,27 +313,6 @@ function TeaserDataProvider({ children }) {
                 const khTotalCogs = khActiveTxns.filter((t)=>khCogsAccounts.includes(t.accountCode)).reduce((sum, t)=>sum + t.amount, 0);
                 const khGrossProfit = khTotalIncome - khTotalCogs;
                 const grossMargin = khTotalIncome !== 0 ? khGrossProfit / khTotalIncome * 100 : 0;
-                console.log('=== TEASER CROSS-CHECK ===');
-                console.log('Gross Margin (KH method):', {
-                    khTotalIncome,
-                    khTotalCogs,
-                    khGrossProfit,
-                    grossMargin: grossMargin.toFixed(1) + '%'
-                });
-                console.log('YTD Totals (2025 Jan-Nov):', {
-                    ytdRevenue,
-                    ytdGrossProfit,
-                    ytdNetIncome,
-                    totalAffiliateSpend
-                });
-                console.log('Run Rate (Nov * 12):', {
-                    novRevenue: monthlyData[monthlyData.length - 1]?.revenue,
-                    novNetIncome: monthlyData[monthlyData.length - 1]?.netIncome,
-                    revenueRunRate: (monthlyData[monthlyData.length - 1]?.revenue || 0) * 12,
-                    ebitdaRunRate: (monthlyData[monthlyData.length - 1]?.netIncome || 0) * 12
-                });
-                console.log('Affiliate ROAS:', ytdRevenue / totalAffiliateSpend);
-                console.log('=========================');
                 // EBITDA (using net income as proxy - would need D&A adjustments for true EBITDA)
                 const ytdEBITDA = ytdNetIncome;
                 // Calculate run rate based on last month (November)
@@ -380,7 +359,7 @@ function TeaserDataProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/spicy-pnl/src/components/teaser/TeaserDataProvider.tsx",
-        lineNumber: 224,
+        lineNumber: 203,
         columnNumber: 5
     }, this);
 }
@@ -962,8 +941,8 @@ function TeaserSlide3() {
     const ytdGrossProfit = data.monthlyData.reduce((sum, m)=>sum + m.grossProfit, 0);
     const ytdNetIncome = data.monthlyData.reduce((sum, m)=>sum + m.netIncome, 0);
     const ytdRevenue = data.monthlyData.reduce((sum, m)=>sum + m.revenue, 0);
-    // Calculate margins
-    const gpMargin = ytdRevenue > 0 ? ytdGrossProfit / ytdRevenue * 100 : 0;
+    // Use grossMargin from provider (KH method) for consistency with other slides
+    const gpMargin = data.grossMargin;
     const netMargin = ytdRevenue > 0 ? ytdNetIncome / ytdRevenue * 100 : 0;
     // Get max for chart scaling
     const maxGP = Math.max(...data.monthlyData.map((m)=>m.grossProfit));

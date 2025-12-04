@@ -37,8 +37,8 @@ export function TeaserSlide3() {
   const ytdNetIncome = data.monthlyData.reduce((sum, m) => sum + m.netIncome, 0);
   const ytdRevenue = data.monthlyData.reduce((sum, m) => sum + m.revenue, 0);
 
-  // Calculate margins
-  const gpMargin = ytdRevenue > 0 ? (ytdGrossProfit / ytdRevenue) * 100 : 0;
+  // Use grossMargin from provider (KH method) for consistency with other slides
+  const gpMargin = data.grossMargin;
   const netMargin = ytdRevenue > 0 ? (ytdNetIncome / ytdRevenue) * 100 : 0;
 
   // Get max for chart scaling
