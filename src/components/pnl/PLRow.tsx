@@ -13,16 +13,17 @@ interface PLRowProps {
   months: string[];
   depth?: number;
   isChild?: boolean;
+  allowDrillDown?: boolean;
 }
 
-export function PLRow({ row, months, depth = 0, isChild = false }: PLRowProps) {
+export function PLRow({ row, months, depth = 0, isChild = false, allowDrillDown = true }: PLRowProps) {
   const { state, dispatch } = usePL();
   const { expandedAccounts, expandedMonths, transactions, accounts, tags } = state;
 
-  const isExpanded = expandedAccounts.has(row.accountCode);
+  const isExpanded = allowDrillDown && expandedAccounts.has(row.accountCode);
   const hasChildren = row.account.children.length > 0;
   const hasTransactions = row.transactionCount > 0;
-  const isExpandable = hasChildren || hasTransactions;
+  const isExpandable = allowDrillDown && (hasChildren || hasTransactions);
 
   // Get child rows if expanded
   const childRows = useMemo(() => {
@@ -133,6 +134,7 @@ export function PLRow({ row, months, depth = 0, isChild = false }: PLRowProps) {
           months={months}
           depth={depth + 1}
           isChild
+          allowDrillDown={allowDrillDown}
         />
       ))}
 

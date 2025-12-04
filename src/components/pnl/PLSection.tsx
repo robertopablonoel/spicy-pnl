@@ -12,9 +12,10 @@ interface PLSectionProps {
   title: string;
   colorClass: string;
   totalColorClass?: string;
+  allowDrillDown?: boolean;
 }
 
-export function PLSection({ section, title, colorClass, totalColorClass }: PLSectionProps) {
+export function PLSection({ section, title, colorClass, totalColorClass, allowDrillDown = true }: PLSectionProps) {
   const { state } = usePL();
   const { transactions, accounts, months, tags } = state;
 
@@ -69,7 +70,7 @@ export function PLSection({ section, title, colorClass, totalColorClass }: PLSec
           </thead>
           <tbody>
             {rows.map(row => (
-              <PLRow key={row.accountCode} row={row} months={months} />
+              <PLRow key={row.accountCode} row={row} months={months} allowDrillDown={allowDrillDown} />
             ))}
 
             {/* Section Total Row */}

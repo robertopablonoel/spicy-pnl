@@ -156,17 +156,19 @@ function groupByMonth(transactions: Transaction[]): Record<string, Transaction[]
 function KHLineItemRow({
   item,
   months,
-  totalColorClass
+  totalColorClass,
+  allowDrillDown = true
 }: {
   item: LineItem;
   months: string[];
   totalColorClass: string;
+  allowDrillDown?: boolean;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set());
 
   const hasTransactions = item.transactions && item.transactions.length > 0;
-  const isExpandable = hasTransactions && !item.isTotal;
+  const isExpandable = allowDrillDown && hasTransactions && !item.isTotal;
 
   const transactionsByMonth = useMemo(() => {
     if (!item.transactions) return {};
@@ -278,7 +280,11 @@ function KHLineItemRow({
   );
 }
 
-export function KHBrokersView() {
+interface KHBrokersViewProps {
+  allowDrillDown?: boolean;
+}
+
+export function KHBrokersView({ allowDrillDown = true }: KHBrokersViewProps) {
   const { state } = usePL();
   const { transactions, months, tags } = state;
 
@@ -320,6 +326,7 @@ export function KHBrokersView() {
                 item={item}
                 months={months}
                 totalColorClass={totalColorClass}
+                allowDrillDown={allowDrillDown}
               />
             ))}
           </tbody>

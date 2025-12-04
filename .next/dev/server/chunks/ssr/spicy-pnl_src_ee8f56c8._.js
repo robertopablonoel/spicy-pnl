@@ -671,13 +671,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$compo
 ;
 ;
 ;
-function PLRow({ row, months, depth = 0, isChild = false }) {
+function PLRow({ row, months, depth = 0, isChild = false, allowDrillDown = true }) {
     const { state, dispatch } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$context$2f$PLContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePL"])();
     const { expandedAccounts, expandedMonths, transactions, accounts, tags } = state;
-    const isExpanded = expandedAccounts.has(row.accountCode);
+    const isExpanded = allowDrillDown && expandedAccounts.has(row.accountCode);
     const hasChildren = row.account.children.length > 0;
     const hasTransactions = row.transactionCount > 0;
-    const isExpandable = hasChildren || hasTransactions;
+    const isExpandable = allowDrillDown && (hasChildren || hasTransactions);
     // Get child rows if expanded
     const childRows = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
         if (!isExpanded || !hasChildren) return [];
@@ -758,13 +758,13 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                                     className: "text-slate-400 flex-shrink-0"
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                    lineNumber: 96,
+                                    lineNumber: 97,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                    lineNumber: 98,
+                                    lineNumber: 99,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -772,18 +772,18 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                                     children: row.account.name
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                    lineNumber: 100,
+                                    lineNumber: 101,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                            lineNumber: 94,
+                            lineNumber: 95,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                        lineNumber: 90,
+                        lineNumber: 91,
                         columnNumber: 9
                     }, this),
                     months.map((month)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -793,7 +793,7 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                             children: row.monthlyAmounts[month] !== 0 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(row.monthlyAmounts[month]) : '-'
                         }, month, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                            lineNumber: 108,
+                            lineNumber: 109,
                             columnNumber: 11
                         }, this)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -803,23 +803,24 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(row.ytdTotal)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                        lineNumber: 119,
+                        lineNumber: 120,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                lineNumber: 81,
+                lineNumber: 82,
                 columnNumber: 7
             }, this),
             isExpanded && childRows.map((childRow)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(PLRow, {
                     row: childRow,
                     months: months,
                     depth: depth + 1,
-                    isChild: true
+                    isChild: true,
+                    allowDrillDown: allowDrillDown
                 }, childRow.accountCode, false, {
                     fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                    lineNumber: 130,
+                    lineNumber: 131,
                     columnNumber: 9
                 }, this)),
             isExpanded && !hasChildren && Object.keys(transactionsByMonth).length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -847,7 +848,7 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                                             className: "text-slate-400"
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                            lineNumber: 160,
+                                            lineNumber: 162,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -855,7 +856,7 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMonth"])(month)
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                            lineNumber: 161,
+                                            lineNumber: 163,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -867,7 +868,7 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                            lineNumber: 162,
+                                            lineNumber: 164,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -875,13 +876,13 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(monthTxns.reduce((sum, t)=>sum + t.amount, 0))
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                            lineNumber: 163,
+                                            lineNumber: 165,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                    lineNumber: 153,
+                                    lineNumber: 155,
                                     columnNumber: 19
                                 }, this),
                                 monthExpanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -890,23 +891,23 @@ function PLRow({ row, months, depth = 0, isChild = false }) {
                                             transaction: txn
                                         }, txn.id, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                            lineNumber: 172,
+                                            lineNumber: 174,
                                             columnNumber: 25
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                                    lineNumber: 170,
+                                    lineNumber: 172,
                                     columnNumber: 21
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                            lineNumber: 148,
+                            lineNumber: 150,
                             columnNumber: 17
                         }, this)
                     }, `${row.accountCode}-${month}-group`, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLRow.tsx",
-                        lineNumber: 147,
+                        lineNumber: 149,
                         columnNumber: 15
                     }, this);
                 })
@@ -935,7 +936,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$compo
 ;
 ;
 ;
-function PLSection({ section, title, colorClass, totalColorClass }) {
+function PLSection({ section, title, colorClass, totalColorClass, allowDrillDown = true }) {
     const { state } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$context$2f$PLContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePL"])();
     const { transactions, accounts, months, tags } = state;
     const rows = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
@@ -978,7 +979,7 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                         className: `w-1.5 h-6 rounded-full ${colorClass}`
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                        lineNumber: 45,
+                        lineNumber: 46,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -986,13 +987,13 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                         children: title
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                        lineNumber: 46,
+                        lineNumber: 47,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                lineNumber: 44,
+                lineNumber: 45,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1009,7 +1010,7 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                         children: "Account"
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                        lineNumber: 54,
+                                        lineNumber: 55,
                                         columnNumber: 15
                                     }, this),
                                     months.map((month)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -1017,7 +1018,7 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMonth"])(month)
                                         }, month, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                            lineNumber: 58,
+                                            lineNumber: 59,
                                             columnNumber: 17
                                         }, this)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -1025,28 +1026,29 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                         children: "YTD Total"
                                     }, void 0, false, {
                                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                        lineNumber: 65,
+                                        lineNumber: 66,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                lineNumber: 53,
+                                lineNumber: 54,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                            lineNumber: 52,
+                            lineNumber: 53,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                             children: [
                                 rows.map((row)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$PLRow$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PLRow"], {
                                         row: row,
-                                        months: months
+                                        months: months,
+                                        allowDrillDown: allowDrillDown
                                     }, row.accountCode, false, {
                                         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                        lineNumber: 72,
+                                        lineNumber: 73,
                                         columnNumber: 15
                                     }, this)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
@@ -1060,7 +1062,7 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                            lineNumber: 77,
+                                            lineNumber: 78,
                                             columnNumber: 15
                                         }, this),
                                         months.map((month)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1070,7 +1072,7 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(sectionTotals.monthly[month])
                                             }, month, false, {
                                                 fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                                lineNumber: 81,
+                                                lineNumber: 82,
                                                 columnNumber: 17
                                             }, this)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1080,36 +1082,36 @@ function PLSection({ section, title, colorClass, totalColorClass }) {
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(sectionTotals.ytd)
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                            lineNumber: 90,
+                                            lineNumber: 91,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                                    lineNumber: 76,
+                                    lineNumber: 77,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                            lineNumber: 70,
+                            lineNumber: 71,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                    lineNumber: 51,
+                    lineNumber: 52,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-                lineNumber: 50,
+                lineNumber: 51,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/spicy-pnl/src/components/pnl/PLSection.tsx",
-        lineNumber: 42,
+        lineNumber: 43,
         columnNumber: 5
     }, this);
 }
@@ -1588,11 +1590,11 @@ function groupByMonth(transactions) {
     return grouped;
 }
 // Expandable line item row component
-function KHLineItemRow({ item, months, totalColorClass }) {
+function KHLineItemRow({ item, months, totalColorClass, allowDrillDown = true }) {
     const [isExpanded, setIsExpanded] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [expandedMonths, setExpandedMonths] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(new Set());
     const hasTransactions = item.transactions && item.transactions.length > 0;
-    const isExpandable = hasTransactions && !item.isTotal;
+    const isExpandable = allowDrillDown && hasTransactions && !item.isTotal;
     const transactionsByMonth = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
         if (!item.transactions) return {};
         return groupByMonth(item.transactions);
@@ -1634,31 +1636,31 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                                     className: "text-slate-400 flex-shrink-0"
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 207,
+                                    lineNumber: 209,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 209,
+                                    lineNumber: 211,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     children: item.label
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 211,
+                                    lineNumber: 213,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                            lineNumber: 205,
+                            lineNumber: 207,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                        lineNumber: 204,
+                        lineNumber: 206,
                         columnNumber: 9
                     }, this),
                     months.map((month)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1669,7 +1671,7 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.monthlyAmounts[month])
                         }, month, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                            lineNumber: 215,
+                            lineNumber: 217,
                             columnNumber: 11
                         }, this)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1680,13 +1682,13 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.ytd)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                        lineNumber: 225,
+                        lineNumber: 227,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                lineNumber: 197,
+                lineNumber: 199,
                 columnNumber: 7
             }, this),
             isExpanded && Object.keys(transactionsByMonth).length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1711,7 +1713,7 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                                             className: "text-slate-400"
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 255,
+                                            lineNumber: 257,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1719,7 +1721,7 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMonth"])(month)
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 256,
+                                            lineNumber: 258,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1731,7 +1733,7 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 257,
+                                            lineNumber: 259,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1739,13 +1741,13 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(monthTxns.reduce((sum, t)=>sum + t.amount, 0))
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 258,
+                                            lineNumber: 260,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 248,
+                                    lineNumber: 250,
                                     columnNumber: 19
                                 }, this),
                                 monthExpanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1754,23 +1756,23 @@ function KHLineItemRow({ item, months, totalColorClass }) {
                                             transaction: txn
                                         }, txn.id, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 267,
+                                            lineNumber: 269,
                                             columnNumber: 25
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 265,
+                                    lineNumber: 267,
                                     columnNumber: 21
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                            lineNumber: 244,
+                            lineNumber: 246,
                             columnNumber: 17
                         }, this)
                     }, `${item.label}-${month}-group`, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                        lineNumber: 243,
+                        lineNumber: 245,
                         columnNumber: 15
                     }, this);
                 })
@@ -1778,7 +1780,7 @@ function KHLineItemRow({ item, months, totalColorClass }) {
         ]
     }, void 0, true);
 }
-function KHBrokersView() {
+function KHBrokersView({ allowDrillDown = true }) {
     const { state } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$context$2f$PLContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePL"])();
     const { transactions, months, tags } = state;
     const { income, cogs, expenses } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
@@ -1804,7 +1806,7 @@ function KHBrokersView() {
                             className: `w-1.5 h-6 rounded-full ${colorClass}`
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                            lineNumber: 295,
+                            lineNumber: 301,
                             columnNumber: 9
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1812,13 +1814,13 @@ function KHBrokersView() {
                             children: title
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                            lineNumber: 296,
+                            lineNumber: 302,
                             columnNumber: 9
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                    lineNumber: 294,
+                    lineNumber: 300,
                     columnNumber: 7
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1835,7 +1837,7 @@ function KHBrokersView() {
                                             children: "Account"
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 303,
+                                            lineNumber: 309,
                                             columnNumber: 15
                                         }, this),
                                         months.map((month)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -1843,7 +1845,7 @@ function KHBrokersView() {
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMonth"])(month)
                                             }, month, false, {
                                                 fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                                lineNumber: 307,
+                                                lineNumber: 313,
                                                 columnNumber: 17
                                             }, this)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -1851,50 +1853,51 @@ function KHBrokersView() {
                                             children: "YTD Total"
                                         }, void 0, false, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 311,
+                                            lineNumber: 317,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 302,
+                                    lineNumber: 308,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                lineNumber: 301,
+                                lineNumber: 307,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                                 children: items.map((item, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(KHLineItemRow, {
                                         item: item,
                                         months: months,
-                                        totalColorClass: totalColorClass
+                                        totalColorClass: totalColorClass,
+                                        allowDrillDown: allowDrillDown
                                     }, idx, false, {
                                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                        lineNumber: 318,
+                                        lineNumber: 324,
                                         columnNumber: 15
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                lineNumber: 316,
+                                lineNumber: 322,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                        lineNumber: 300,
+                        lineNumber: 306,
                         columnNumber: 9
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                    lineNumber: 299,
+                    lineNumber: 305,
                     columnNumber: 7
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-            lineNumber: 293,
+            lineNumber: 299,
             columnNumber: 5
         }, this);
     // Extract Gross Profit and Net Profit for separate display
@@ -1919,7 +1922,7 @@ function KHBrokersView() {
                                     children: " "
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 348,
+                                    lineNumber: 355,
                                     columnNumber: 15
                                 }, this),
                                 months.map((month)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -1927,7 +1930,7 @@ function KHBrokersView() {
                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMonth"])(month)
                                     }, month, false, {
                                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                        lineNumber: 352,
+                                        lineNumber: 359,
                                         columnNumber: 17
                                     }, this)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -1935,18 +1938,18 @@ function KHBrokersView() {
                                     children: "YTD Total"
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 356,
+                                    lineNumber: 363,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                            lineNumber: 347,
+                            lineNumber: 354,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                        lineNumber: 346,
+                        lineNumber: 353,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -1966,13 +1969,13 @@ function KHBrokersView() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                            lineNumber: 365,
+                                            lineNumber: 372,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 363,
+                                    lineNumber: 370,
                                     columnNumber: 15
                                 }, this),
                                 months.map((month)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1982,7 +1985,7 @@ function KHBrokersView() {
                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.monthlyAmounts[month])
                                     }, month, false, {
                                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                        lineNumber: 370,
+                                        lineNumber: 377,
                                         columnNumber: 17
                                     }, this)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1992,29 +1995,29 @@ function KHBrokersView() {
                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$lib$2f$csvParser$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(item.ytd)
                                 }, void 0, false, {
                                     fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                                    lineNumber: 379,
+                                    lineNumber: 386,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                            lineNumber: 362,
+                            lineNumber: 369,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                        lineNumber: 361,
+                        lineNumber: 368,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-                lineNumber: 345,
+                lineNumber: 352,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-            lineNumber: 344,
+            lineNumber: 351,
             columnNumber: 7
         }, this);
     };
@@ -2028,7 +2031,7 @@ function KHBrokersView() {
         ]
     }, void 0, true, {
         fileName: "[project]/spicy-pnl/src/components/pnl/KHBrokersView.tsx",
-        lineNumber: 394,
+        lineNumber: 401,
         columnNumber: 5
     }, this);
 }
@@ -2328,7 +2331,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$compo
 ;
 ;
 ;
-function PLViewer() {
+function PLViewer({ allowDrillDown = true }) {
     const { state, dispatch } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$context$2f$PLContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePL"])();
     if (state.loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2351,7 +2354,7 @@ function PLViewer() {
                                 strokeWidth: "4"
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                                lineNumber: 18,
+                                lineNumber: 22,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -2360,31 +2363,31 @@ function PLViewer() {
                                 d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                             }, void 0, false, {
                                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                                lineNumber: 19,
+                                lineNumber: 23,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 17,
+                        lineNumber: 21,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         children: "Loading financial data..."
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 21,
+                        lineNumber: 25,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                lineNumber: 16,
+                lineNumber: 20,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-            lineNumber: 15,
+            lineNumber: 19,
             columnNumber: 7
         }, this);
     }
@@ -2398,7 +2401,7 @@ function PLViewer() {
                         children: "Error:"
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 31,
+                        lineNumber: 35,
                         columnNumber: 11
                     }, this),
                     " ",
@@ -2406,12 +2409,12 @@ function PLViewer() {
                 ]
             }, void 0, true, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                lineNumber: 30,
+                lineNumber: 34,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-            lineNumber: 29,
+            lineNumber: 33,
             columnNumber: 7
         }, this);
     }
@@ -2422,7 +2425,7 @@ function PLViewer() {
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            allowDrillDown && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center justify-end mb-6",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "inline-flex rounded-lg border border-slate-200 bg-white p-1 shadow-sm",
@@ -2433,8 +2436,8 @@ function PLViewer() {
                             children: "Summary"
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                            lineNumber: 46,
-                            columnNumber: 11
+                            lineNumber: 51,
+                            columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             onClick: ()=>!state.khBrokersView || toggleView(),
@@ -2442,28 +2445,36 @@ function PLViewer() {
                             children: "Detailed"
                         }, void 0, false, {
                             fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                            lineNumber: 56,
-                            columnNumber: 11
+                            lineNumber: 61,
+                            columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                    lineNumber: 45,
-                    columnNumber: 9
+                    lineNumber: 50,
+                    columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                lineNumber: 44,
-                columnNumber: 7
+                lineNumber: 49,
+                columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$SummaryCards$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SummaryCards"], {}, void 0, false, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                lineNumber: 70,
+                lineNumber: 76,
                 columnNumber: 7
             }, this),
-            state.khBrokersView ? /* KH Brokers Simplified View */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$KHBrokersView$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["KHBrokersView"], {}, void 0, false, {
+            !allowDrillDown ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$KHBrokersView$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["KHBrokersView"], {
+                allowDrillDown: false
+            }, void 0, false, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                lineNumber: 74,
+                lineNumber: 80,
+                columnNumber: 9
+            }, this) : state.khBrokersView ? /* KH Brokers Simplified View */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$KHBrokersView$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["KHBrokersView"], {
+                allowDrillDown: true
+            }, void 0, false, {
+                fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
+                lineNumber: 83,
                 columnNumber: 9
             }, this) : /* Detailed View */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
@@ -2471,67 +2482,71 @@ function PLViewer() {
                         section: "revenue",
                         title: "Revenue",
                         colorClass: "bg-emerald-500",
-                        totalColorClass: "bg-emerald-50"
+                        totalColorClass: "bg-emerald-50",
+                        allowDrillDown: allowDrillDown
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 79,
+                        lineNumber: 88,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$PLSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PLSection"], {
                         section: "cogs",
                         title: "Cost of Goods Sold",
                         colorClass: "bg-orange-500",
-                        totalColorClass: "bg-orange-50"
+                        totalColorClass: "bg-orange-50",
+                        allowDrillDown: allowDrillDown
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 87,
+                        lineNumber: 97,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$PLSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PLSection"], {
                         section: "costOfSales",
                         title: "Cost of Sales",
                         colorClass: "bg-amber-500",
-                        totalColorClass: "bg-amber-50"
-                    }, void 0, false, {
-                        fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 95,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$GrossProfitRow$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GrossProfitRow"], {
-                        type: "grossProfit"
-                    }, void 0, false, {
-                        fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 103,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$PLSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PLSection"], {
-                        section: "operatingExpenses",
-                        title: "Operating Expenses",
-                        colorClass: "bg-red-500",
-                        totalColorClass: "bg-red-50"
+                        totalColorClass: "bg-amber-50",
+                        allowDrillDown: allowDrillDown
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
                         lineNumber: 106,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$GrossProfitRow$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GrossProfitRow"], {
+                        type: "grossProfit"
+                    }, void 0, false, {
+                        fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
+                        lineNumber: 115,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$PLSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PLSection"], {
+                        section: "operatingExpenses",
+                        title: "Operating Expenses",
+                        colorClass: "bg-red-500",
+                        totalColorClass: "bg-red-50",
+                        allowDrillDown: allowDrillDown
+                    }, void 0, false, {
+                        fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
+                        lineNumber: 118,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$pnl$2f$GrossProfitRow$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["GrossProfitRow"], {
                         type: "netIncome"
                     }, void 0, false, {
                         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                        lineNumber: 114,
+                        lineNumber: 127,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$tagging$2f$ExcludedSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ExcludedSection"], {}, void 0, false, {
+            allowDrillDown && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$src$2f$components$2f$tagging$2f$ExcludedSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ExcludedSection"], {}, void 0, false, {
                 fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-                lineNumber: 119,
-                columnNumber: 7
+                lineNumber: 132,
+                columnNumber: 26
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/spicy-pnl/src/components/pnl/PLViewer.tsx",
-        lineNumber: 42,
+        lineNumber: 46,
         columnNumber: 5
     }, this);
 }

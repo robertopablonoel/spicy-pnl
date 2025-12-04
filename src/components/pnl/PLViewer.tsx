@@ -7,7 +7,11 @@ import { GrossProfitRow } from './GrossProfitRow';
 import { KHBrokersView } from './KHBrokersView';
 import { ExcludedSection } from '@/components/tagging/ExcludedSection';
 
-export function PLViewer() {
+interface PLViewerProps {
+  allowDrillDown?: boolean;
+}
+
+export function PLViewer({ allowDrillDown = true }: PLViewerProps) {
   const { state, dispatch } = usePL();
 
   if (state.loading) {
@@ -40,38 +44,43 @@ export function PLViewer() {
 
   return (
     <div>
-      {/* View Toggle */}
-      <div className="flex items-center justify-end mb-6">
-        <div className="inline-flex rounded-lg border border-slate-200 bg-white p-1 shadow-sm">
-          <button
-            onClick={() => state.khBrokersView || toggleView()}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-              state.khBrokersView
-                ? 'bg-slate-900 text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-            }`}
-          >
-            Summary
-          </button>
-          <button
-            onClick={() => !state.khBrokersView || toggleView()}
-            className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-              !state.khBrokersView
-                ? 'bg-slate-900 text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-            }`}
-          >
-            Detailed
-          </button>
+      {/* View Toggle - only show in data room */}
+      {allowDrillDown && (
+        <div className="flex items-center justify-end mb-6">
+          <div className="inline-flex rounded-lg border border-slate-200 bg-white p-1 shadow-sm">
+            <button
+              onClick={() => state.khBrokersView || toggleView()}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                state.khBrokersView
+                  ? 'bg-slate-900 text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              Summary
+            </button>
+            <button
+              onClick={() => !state.khBrokersView || toggleView()}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                !state.khBrokersView
+                  ? 'bg-slate-900 text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              Detailed
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Summary Cards */}
       <SummaryCards />
 
-      {state.khBrokersView ? (
+      {/* If no drill-down allowed, always show simplified view without expansion */}
+      {!allowDrillDown ? (
+        <KHBrokersView allowDrillDown={false} />
+      ) : state.khBrokersView ? (
         /* KH Brokers Simplified View */
-        <KHBrokersView />
+        <KHBrokersView allowDrillDown={true} />
       ) : (
         /* Detailed View */
         <>
@@ -81,6 +90,7 @@ export function PLViewer() {
             title="Revenue"
             colorClass="bg-emerald-500"
             totalColorClass="bg-emerald-50"
+            allowDrillDown={allowDrillDown}
           />
 
           {/* COGS Section */}
@@ -89,6 +99,7 @@ export function PLViewer() {
             title="Cost of Goods Sold"
             colorClass="bg-orange-500"
             totalColorClass="bg-orange-50"
+            allowDrillDown={allowDrillDown}
           />
 
           {/* Cost of Sales Section */}
@@ -97,6 +108,7 @@ export function PLViewer() {
             title="Cost of Sales"
             colorClass="bg-amber-500"
             totalColorClass="bg-amber-50"
+            allowDrillDown={allowDrillDown}
           />
 
           {/* Gross Profit */}
@@ -108,6 +120,7 @@ export function PLViewer() {
             title="Operating Expenses"
             colorClass="bg-red-500"
             totalColorClass="bg-red-50"
+            allowDrillDown={allowDrillDown}
           />
 
           {/* Net Income */}
@@ -115,8 +128,8 @@ export function PLViewer() {
         </>
       )}
 
-      {/* Excluded/Tagged Section - shown in both views */}
-      <ExcludedSection />
+      {/* Excluded/Tagged Section - only shown in data room */}
+      {allowDrillDown && <ExcludedSection />}
     </div>
   );
 }
