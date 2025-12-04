@@ -161,13 +161,17 @@ export function TeaserDataProvider({ children }: Props) {
         // EBITDA (using net income as proxy - would need D&A adjustments for true EBITDA)
         const ytdEBITDA = ytdNetIncome;
 
-        // Calculate run rate based on last month (November)
-        const lastMonth = monthlyData[monthlyData.length - 1];
-        const revenueRunRate = lastMonth.revenue * 12;
-        const ebitdaRunRate = lastMonth.netIncome * 12;
+        // Calculate run rate based on last 3 months average (Sep-Nov)
+        const last3Months = monthlyData.slice(-3);
+        const avgMonthlyRevenue = last3Months.reduce((sum, m) => sum + m.revenue, 0) / 3;
+        const avgMonthlyNetIncome = last3Months.reduce((sum, m) => sum + m.netIncome, 0) / 3;
+        const revenueRunRate = avgMonthlyRevenue * 12;
+        const ebitdaRunRate = avgMonthlyNetIncome * 12;
 
-        console.log('Run rate calc:', {
-          lastMonth: { month: lastMonth.month, revenue: lastMonth.revenue, netIncome: lastMonth.netIncome },
+        console.log('Run rate calc (3-month avg):', {
+          last3Months: last3Months.map(m => ({ month: m.month, revenue: m.revenue, netIncome: m.netIncome })),
+          avgMonthlyRevenue,
+          avgMonthlyNetIncome,
           revenueRunRate,
           ebitdaRunRate,
         });
