@@ -19,7 +19,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$spicy$2d$pnl$2f$node_modules
 ;
 ;
 const runtime = 'edge';
-const alt = 'Investment Opportunity';
+const alt = 'Deal Overview';
 const size = {
     width: 1200,
     height: 630
@@ -53,7 +53,7 @@ async function Image() {
                         letterSpacing: '0.1em',
                         marginBottom: 20
                     },
-                    children: "INVESTMENT OPPORTUNITY"
+                    children: "DEAL OVERVIEW"
                 }, void 0, false, {
                     fileName: "[project]/spicy-pnl/src/app/opengraph-image.tsx",
                     lineNumber: 36,
@@ -251,7 +251,7 @@ async function __TURBOPACK__default__export__(props) {
         const data = {
             alt: imageMetadata.alt,
             type: imageMetadata.contentType || 'image/png',
-            url: imageUrl + (idParam ? '/' + idParam : '') + "?d8fb89a5f64cfeff"
+            url: imageUrl + (idParam ? '/' + idParam : '') + "?62f53efc68eb4464"
         };
         const { size } = imageMetadata;
         if (size) {

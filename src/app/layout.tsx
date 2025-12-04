@@ -9,16 +9,16 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Investor Portal",
+  title: "Deal Overview",
   description: "Viral content engine monetized through DTC wellness. $1.8M EBITDA run rate, 70M monthly views, 28% margins.",
   openGraph: {
-    title: "Investment Opportunity",
+    title: "Deal Overview",
     description: "Viral content engine monetized through DTC wellness. $1.8M EBITDA run rate, 70M monthly views.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Investment Opportunity",
+    title: "Deal Overview",
     description: "Viral content engine monetized through DTC wellness. $1.8M EBITDA run rate, 70M monthly views.",
   },
 };
