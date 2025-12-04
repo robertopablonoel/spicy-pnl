@@ -145,8 +145,8 @@ export function calculatePLSummary(
   const netIncome = grossProfit - totalOpEx + otherIncome;
   const netMargin = netRevenue !== 0 ? (netIncome / netRevenue) * 100 : 0;
 
-  // Tagged items
-  const taggedAmount = taggedTransactions.reduce((sum, t) => sum + Math.abs(t.amount), 0);
+  // Tagged items - use net amount (not absolute) to match exclusions display
+  const taggedAmount = taggedTransactions.reduce((sum, t) => sum + t.amount, 0);
 
   return {
     grossRevenue,
