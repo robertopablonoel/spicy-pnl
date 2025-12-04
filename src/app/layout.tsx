@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { PLProvider } from "@/context/PLContext";
+import { PasswordGate } from "@/components/auth/PasswordGate";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -9,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Spicy Cubes - P&L Viewer",
+  title: "P&L Viewer",
   description: "Profit & Loss Statement Viewer",
 };
 
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased bg-slate-100`}>
-        <PLProvider>
-          {children}
-        </PLProvider>
+        <PasswordGate>
+          <PLProvider>
+            {children}
+          </PLProvider>
+        </PasswordGate>
       </body>
     </html>
   );
