@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from "next/link";
-import Script from 'next/script';
 import { useRouter } from 'next/navigation';
 
 const DATA_ROOM_PASSWORD = 'spicydataroom2025';
@@ -189,10 +188,6 @@ export default function Home() {
                 </svg>
                 Request Access
               </button>
-              <Script
-                src="//embed.typeform.com/next/embed.js"
-                strategy="lazyOnload"
-              />
             </div>
           </div>
         </div>

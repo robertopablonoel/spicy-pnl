@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
-import Script from 'next/script';
 import { useTeaserData } from './TeaserDataProvider';
 
 function formatCurrency(value: number): string {
@@ -154,10 +152,6 @@ export function TeaserSlide6() {
           </svg>
           Request a Call
         </button>
-        <Script
-          src="//embed.typeform.com/next/embed.js"
-          strategy="lazyOnload"
-        />
         <p className="text-[10px] md:text-xs text-slate-600 mt-3 md:mt-4">
           Confidential details shared after qualification
         </p>
