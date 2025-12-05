@@ -53,7 +53,7 @@ export default async function Image() {
               marginBottom: 10,
             }}
           >
-            Viral Content Engine
+            DTC Wellness Brand
           </div>
           <div
             style={{
@@ -65,7 +65,7 @@ export default async function Image() {
               textAlign: 'center',
             }}
           >
-            Monetized Through DTC
+            With Proprietary Distribution
           </div>
           <div
             style={{
