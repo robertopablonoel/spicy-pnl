@@ -64,14 +64,14 @@ export function TeaserSlide1() {
           Deal Overview
         </p>
         <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-          A Viral Content Engine
+          A DTC Wellness Brand
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">
-            Monetized Through DTC Wellness
+            With Proprietary Distribution
           </span>
         </h1>
         <p className="text-sm md:text-xl text-slate-400 max-w-3xl mx-auto mt-4 md:mt-6 px-2">
-          Creator-led e-commerce brand generating 70M+ monthly views with Amazon, TikTok Shop, and paid ads still untapped.
+          70M+ monthly organic views powered by custom creator software. Zero paid ads. Amazon, TikTok Shop still untapped.
         </p>
       </div>
 

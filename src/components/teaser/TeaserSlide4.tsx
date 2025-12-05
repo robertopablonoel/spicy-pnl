@@ -30,10 +30,10 @@ export function TeaserSlide4() {
       {/* Header */}
       <div className="text-center">
         <h2 className="text-2xl md:text-4xl font-bold text-white mb-1 md:mb-2">
-          The Content Machine
+          Proprietary Creator Engine
         </h2>
         <p className="text-sm md:text-base text-slate-400">
-          Creator-powered organic reach that converts
+          Custom software automates recruiting, management, and tracking
         </p>
       </div>
 
@@ -130,16 +130,16 @@ export function TeaserSlide4() {
       {/* Moat Description */}
       <div className="grid md:grid-cols-3 gap-2 md:gap-4">
         <div className="bg-gradient-to-br from-violet-500/10 to-pink-500/10 border border-violet-500/20 rounded-lg md:rounded-xl p-3 md:p-4">
-          <p className="text-violet-400 font-semibold text-xs md:text-sm mb-0.5 md:mb-1">Proprietary Software</p>
-          <p className="text-slate-400 text-[10px] md:text-xs">Custom creator management platform for tracking, communication, and payments</p>
+          <p className="text-violet-400 font-semibold text-xs md:text-sm mb-0.5 md:mb-1">Custom-Built Software</p>
+          <p className="text-slate-400 text-[10px] md:text-xs">End-to-end platform automating discovery, outreach, onboarding, tracking, and payouts</p>
         </div>
         <div className="bg-gradient-to-br from-pink-500/10 to-orange-500/10 border border-pink-500/20 rounded-lg md:rounded-xl p-3 md:p-4">
-          <p className="text-pink-400 font-semibold text-xs md:text-sm mb-0.5 md:mb-1">Retainer + Commission</p>
-          <p className="text-slate-400 text-[10px] md:text-xs">Hybrid model aligns incentives and ensures consistent content output</p>
+          <p className="text-pink-400 font-semibold text-xs md:text-sm mb-0.5 md:mb-1">Scalable Recruiting</p>
+          <p className="text-slate-400 text-[10px] md:text-xs">Automated pipeline finds and qualifies creators—system scales, not headcount</p>
         </div>
         <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-lg md:rounded-xl p-3 md:p-4">
-          <p className="text-emerald-400 font-semibold text-xs md:text-sm mb-0.5 md:mb-1">Compounding Flywheel</p>
-          <p className="text-slate-400 text-[10px] md:text-xs">Views drive revenue, revenue funds creators, creators drive views</p>
+          <p className="text-emerald-400 font-semibold text-xs md:text-sm mb-0.5 md:mb-1">Performance Tracking</p>
+          <p className="text-slate-400 text-[10px] md:text-xs">Real-time attribution, automated commission calc, instant ROI visibility per creator</p>
         </div>
       </div>
     </div>

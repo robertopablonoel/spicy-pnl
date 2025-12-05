@@ -32,7 +32,7 @@ export function TeaserSlide6() {
           The Opportunity
         </h2>
         <p className="text-sm md:text-base text-slate-400">
-          Strategic acquisition of a proven content-commerce engine
+          Profitable DTC brand with proprietary distribution and untapped channels
         </p>
       </div>
 
@@ -81,7 +81,7 @@ export function TeaserSlide6() {
               <svg className="w-4 h-4 md:w-5 md:h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-slate-300 text-xs md:text-sm">Creator network + management software</span>
+              <span className="text-slate-300 text-xs md:text-sm">Proprietary creator software (recruiting, management, tracking)</span>
             </li>
             <li className="flex items-start gap-2 md:gap-3">
               <svg className="w-4 h-4 md:w-5 md:h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
