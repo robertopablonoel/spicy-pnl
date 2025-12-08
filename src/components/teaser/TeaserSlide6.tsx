@@ -59,9 +59,9 @@ export function TeaserSlide6() {
           </div>
           <div className="text-center">
             <p className="text-lg md:text-4xl font-bold text-blue-400">
-              {data.affiliateROAS.toFixed(1)}x
+              35
             </p>
-            <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Creator ROAS</p>
+            <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Active Creators</p>
           </div>
         </div>
       </div>
