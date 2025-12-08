@@ -26,3 +26,11 @@ out
 *.njsproj
 *.sln
 *.sw?
+
+# Private data files
+private/
+
+# Environment files
+.env
+.env.local
+.env.*.local

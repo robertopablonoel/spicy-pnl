@@ -103,9 +103,9 @@ export function TeaserSlide4() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
           <p className="text-lg md:text-3xl font-bold text-pink-400">
-            {data.affiliateROAS.toFixed(1)}x
+            &gt;4.5x
           </p>
-          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Creator ROAS</p>
+          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Blended MER</p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
           <p className="text-lg md:text-3xl font-bold text-violet-400">
@@ -121,9 +121,9 @@ export function TeaserSlide4() {
         </div>
         <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
           <p className="text-lg md:text-3xl font-bold text-emerald-400">
-            {formatCurrency(data.totalAffiliateSpend)}
+            Proprietary
           </p>
-          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">YTD Creator Spend</p>
+          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Unit Economics</p>
         </div>
       </div>
 

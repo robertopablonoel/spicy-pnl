@@ -61,13 +61,15 @@ export function TeaserDataProvider({ children }: Props) {
   useEffect(() => {
     async function loadData() {
       try {
-        // Load transactions
-        const txnResponse = await fetch('/all-txn.csv');
+        // Load transactions via API
+        const apiToken = process.env.NEXT_PUBLIC_DATA_API_TOKEN || 'dev-token';
+        const headers = { 'x-api-token': apiToken };
+        const txnResponse = await fetch('/api/data?file=all-txn', { headers });
         const txnCsvText = await txnResponse.text();
         const { transactions, accounts } = parseCSV(txnCsvText);
 
-        // Load exclusions
-        const exclResponse = await fetch('/exclusions.csv');
+        // Load exclusions via API
+        const exclResponse = await fetch('/api/data?file=exclusions', { headers });
         const exclCsvText = await exclResponse.text();
         const tags = parseExclusions(exclCsvText, transactions);
 

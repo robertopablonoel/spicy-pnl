@@ -209,10 +209,12 @@ export function PLProvider({ children }: { children: ReactNode }) {
       try {
         dispatch({ type: 'SET_LOADING', payload: true });
 
-        // Load both CSVs in parallel
+        // Load both CSVs in parallel via API
+        const apiToken = process.env.NEXT_PUBLIC_DATA_API_TOKEN || 'dev-token';
+        const headers = { 'x-api-token': apiToken };
         const [txnResponse, exclusionsResponse] = await Promise.all([
-          fetch('/all-txn.csv'),
-          fetch('/exclusions.csv')
+          fetch('/api/data?file=all-txn', { headers }),
+          fetch('/api/data?file=exclusions', { headers })
         ]);
 
         if (!txnResponse.ok) {
