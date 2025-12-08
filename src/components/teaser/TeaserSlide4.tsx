@@ -109,9 +109,9 @@ export function TeaserSlide4() {
         </div>
         <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
           <p className="text-lg md:text-3xl font-bold text-violet-400">
-            $1
+            100%
           </p>
-          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">CPM</p>
+          <p className="text-[10px] md:text-xs text-slate-500 mt-0.5 md:mt-1">Organic</p>
         </div>
         <div className="bg-white/5 border border-white/10 rounded-lg md:rounded-xl p-2 md:p-4 text-center">
           <p className="text-lg md:text-3xl font-bold text-blue-400">
