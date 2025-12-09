@@ -337,7 +337,7 @@ export default function OverviewPage() {
                       35,000 branded searches/month already happening on Amazon. Demand exists, just not captured.
                       Eurofins certification complete - ready to list.
                     </p>
-                    <p className="text-amber-400 text-xs font-medium">Est. $200K+ incremental ARR from existing brand awareness</p>
+                    <p className="text-amber-400 text-xs font-medium">Est. $200-300K/month incremental from existing brand awareness</p>
                   </div>
                 </div>
               </div>
