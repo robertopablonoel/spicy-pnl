@@ -119,6 +119,31 @@ export default function DataRoomPage() {
             </div>
           </Link>
 
+          {/* Projections */}
+          <Link
+            href="/dataroom/projections"
+            className="group block bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-blue-500/50 transition-all"
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h2 className="text-xl font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                  Growth Projections
+                </h2>
+                <p className="text-slate-400 text-sm">
+                  Dec 2025 - Mar 2026 forecasts including Amazon launch and subscription revenue
+                </p>
+              </div>
+              <svg className="w-5 h-5 text-slate-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </Link>
+
           {/* Video */}
           <Link
             href="/dataroom/video"

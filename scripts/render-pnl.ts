@@ -220,8 +220,8 @@ const KH_MAPPING = {
 
 // ============ Main ============
 
-const csvPath = path.join(__dirname, '../public/all-txn.csv');
-const exclusionsPath = path.join(__dirname, '../public/exclusions.csv');
+const csvPath = path.join(__dirname, '../src/data/all-txn.csv');
+const exclusionsPath = path.join(__dirname, '../src/data/exclusions.csv');
 
 const csvContent = fs.readFileSync(csvPath, 'utf-8');
 const exclusionsContent = fs.readFileSync(exclusionsPath, 'utf-8');
