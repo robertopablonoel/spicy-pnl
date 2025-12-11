@@ -15,8 +15,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const inputPath = path.join(__dirname, '../public/all-txn.csv');
-const outputPath = path.join(__dirname, '../public/all-txn.csv');
+const inputPath = path.join(__dirname, '../private/all-txn.csv');
+const outputPath = path.join(__dirname, '../private/all-txn.csv');
 
 const content = fs.readFileSync(inputPath, 'utf-8');
 const lines = content.split('\n');

@@ -29,7 +29,7 @@ set -e  # Exit on any error
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-PUBLIC_DIR="$PROJECT_DIR/public"
+PUBLIC_DIR="$PROJECT_DIR/private"
 
 echo "=============================================================="
 echo "SPICY CUBES P&L DATA UPDATE"

@@ -12,9 +12,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const inputPath = path.join(__dirname, '../public/all-txn.csv');
-const payoutsPath = path.join(__dirname, '../public/nov-dec-payouts.csv');
-const outputPath = path.join(__dirname, '../public/all-txn.csv');
+const inputPath = path.join(__dirname, '../private/all-txn.csv');
+const payoutsPath = path.join(__dirname, '../private/nov-dec-payouts.csv');
+const outputPath = path.join(__dirname, '../private/all-txn.csv');
 
 // Parse CSV line handling quoted fields
 function parseCSVLine(line: string): string[] {
@@ -108,6 +108,7 @@ let removedNov = 0;
 let removedDec = 0;
 
 const newLines: string[] = [];
+let addedPayouts = false;
 
 for (let i = 0; i < lines.length; i++) {
   const line = lines[i];
@@ -121,8 +122,8 @@ for (let i = 0; i < lines.length; i++) {
     currentCode = codeMatch ? codeMatch[1] : '';
     newLines.push(line);
 
-    // After 6120 section header, add our replacement entries
-    if (currentCode === '6120') {
+    // After 6120 section header, add our replacement entries (only once)
+    if (currentCode === '6120' && !addedPayouts) {
       // Add November payouts (dated 11/30/2025 so they'll be shifted to October after date shift)
       for (const payout of novPayouts) {
         const entryLine = `,11/30/2025,Journal Entry,NOV_PAYOUT,,${payout.name},Affiliate payout (Nov 2025),6120 Affiliate Marketing Expense,${payout.total.toFixed(2)},`;
@@ -134,13 +135,17 @@ for (let i = 0; i < lines.length; i++) {
         const entryLine = `,12/31/2025,Journal Entry,DEC_PAYOUT,,${payout.name},Affiliate payout (Dec 2025),6120 Affiliate Marketing Expense,${payout.total.toFixed(2)},`;
         newLines.push(entryLine);
       }
+      addedPayouts = true;
     }
     continue;
   }
 
   // Check if this is an affiliate transaction in Nov or Dec to remove
   // Only remove 6120 (Affiliate Marketing), NOT 6125 (Recruitment bonuses)
-  if (currentCode === '6120') {
+  // Check both: current section OR line contains 6120 account reference
+  const is6120Line = currentCode === '6120' || line.includes('6120 Affiliate Marketing');
+
+  if (is6120Line) {
     const dateMatch = line.match(/^,(\d{2})\/\d{2}\/(\d{4}),/);
     if (dateMatch) {
       const month = dateMatch[1];

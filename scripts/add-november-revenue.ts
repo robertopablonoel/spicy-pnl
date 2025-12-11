@@ -18,8 +18,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const inputPath = path.join(__dirname, '../public/all-txn.csv');
-const outputPath = path.join(__dirname, '../public/all-txn.csv');
+const inputPath = path.join(__dirname, '../private/all-txn.csv');
+const outputPath = path.join(__dirname, '../private/all-txn.csv');
 
 const content = fs.readFileSync(inputPath, 'utf-8');
 const lines = content.split('\n');
@@ -36,17 +36,19 @@ const NOVEMBER_ENTRIES = [
 // Build new lines with entries inserted
 const newLines: string[] = [];
 let entriesAdded = 0;
+const addedAccounts = new Set<string>();
 
 for (let i = 0; i < lines.length; i++) {
   const line = lines[i];
   newLines.push(line);
 
-  // Add November entries after matching section headers
+  // Add November entries after matching section headers (only once per account)
   for (const entry of NOVEMBER_ENTRIES) {
-    if (line.trim().startsWith(entry.account + ',')) {
+    if (line.trim().startsWith(entry.account + ',') && !addedAccounts.has(entry.account)) {
       const journalLine = `,11/30/2025,Journal Entry,2025_11_Shopify,,Shopify,${entry.memo},,${entry.amount.toFixed(2)},0.00`;
       newLines.push(journalLine);
       entriesAdded++;
+      addedAccounts.add(entry.account);
     }
   }
 }
