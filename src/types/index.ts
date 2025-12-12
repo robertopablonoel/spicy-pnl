@@ -4,8 +4,7 @@ export type PLSection =
   | 'cogs'
   | 'costOfSales'
   | 'operatingExpenses'
-  | 'otherIncome'
-  | 'excluded';
+  | 'otherIncome';
 
 // Core transaction from CSV
 export interface RawTransaction {
@@ -39,18 +38,6 @@ export interface Account {
   depth: number;
 }
 
-// Tagging system
-export interface TransactionTag {
-  category: 'personal' | 'nonRecurring';
-  subAccount: string;
-  taggedAt: number;
-}
-
-export interface TagConfig {
-  personal: string[];
-  nonRecurring: string[];
-}
-
 // Monthly aggregation
 export interface MonthlyAmount {
   month: string;
@@ -78,47 +65,23 @@ export interface PLSummary {
   otherIncome: number;
   netIncome: number;
   netMargin: number;
-  taggedItemsCount: number;
-  taggedAmount: number;
 }
 
 // Application state
 export interface PLState {
   transactions: Transaction[];
   accounts: Map<string, Account>;
-  tags: Record<string, TransactionTag>;
-  tagConfig: TagConfig;
   expandedAccounts: Set<string>;
   expandedMonths: Set<string>;
   months: string[];
-  exclusions: Exclusion[];
-  khBrokersView: boolean;
   loading: boolean;
   error: string | null;
-}
-
-// Exclusion from CSV
-export interface Exclusion {
-  date: string;
-  vendor: string;
-  memo: string;
-  account: string;
-  accountCode: string;
-  amount: number;
-  category: string;
-  justification: string;
-  transactionId?: string;
 }
 
 // Action types
 export type PLAction =
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
-  | { type: 'LOAD_DATA'; payload: { transactions: Transaction[]; accounts: Map<string, Account>; months: string[]; exclusions: Exclusion[] } }
+  | { type: 'LOAD_DATA'; payload: { transactions: Transaction[]; accounts: Map<string, Account>; months: string[] } }
   | { type: 'TOGGLE_ACCOUNT'; payload: string }
-  | { type: 'TOGGLE_MONTH'; payload: string }
-  | { type: 'TAG_TRANSACTION'; payload: { transactionId: string; tag: TransactionTag } }
-  | { type: 'UNTAG_TRANSACTION'; payload: string }
-  | { type: 'ADD_SUB_ACCOUNT'; payload: { category: 'personal' | 'nonRecurring'; name: string } }
-  | { type: 'LOAD_TAGS'; payload: { tags: Record<string, TransactionTag>; config: TagConfig } }
-  | { type: 'TOGGLE_KH_BROKERS_VIEW' };
+  | { type: 'TOGGLE_MONTH'; payload: string };

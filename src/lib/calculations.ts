@@ -1,28 +1,24 @@
-import { Transaction, Account, PLRow, PLSummary, TransactionTag, PLSection } from '@/types';
+import { Transaction, Account, PLRow, PLSummary, PLSection } from '@/types';
 
 // Get all transactions for an account (including children)
 export function getAccountTransactions(
   accountCode: string,
   transactions: Transaction[],
-  accounts: Map<string, Account>,
-  tags: Record<string, TransactionTag>,
-  includeTagged: boolean = false
+  accounts: Map<string, Account>
 ): Transaction[] {
   const account = accounts.get(accountCode);
   if (!account) return [];
 
   // Get direct transactions
   let result = transactions.filter(t => {
-    const matchesAccount = t.accountCode === accountCode ||
+    return t.accountCode === accountCode ||
       (t.parentAccountCode === accountCode && !accounts.has(t.accountCode));
-    const isTagged = tags[t.id] !== undefined;
-    return matchesAccount && (includeTagged || !isTagged);
   });
 
   // Add child account transactions
   for (const childCode of account.children) {
     result = result.concat(
-      getAccountTransactions(childCode, transactions, accounts, tags, includeTagged)
+      getAccountTransactions(childCode, transactions, accounts)
     );
   }
 
@@ -34,10 +30,9 @@ export function calculateMonthlyAmounts(
   accountCode: string,
   transactions: Transaction[],
   accounts: Map<string, Account>,
-  months: string[],
-  tags: Record<string, TransactionTag>
+  months: string[]
 ): { monthlyAmounts: Record<string, number>; ytdTotal: number; transactionCount: number } {
-  const accountTransactions = getAccountTransactions(accountCode, transactions, accounts, tags);
+  const accountTransactions = getAccountTransactions(accountCode, transactions, accounts);
 
   const monthlyAmounts: Record<string, number> = {};
   months.forEach(m => { monthlyAmounts[m] = 0; });
@@ -59,8 +54,7 @@ export function buildPLRows(
   section: PLSection,
   transactions: Transaction[],
   accounts: Map<string, Account>,
-  months: string[],
-  tags: Record<string, TransactionTag>
+  months: string[]
 ): PLRow[] {
   const rows: PLRow[] = [];
 
@@ -71,7 +65,7 @@ export function buildPLRows(
 
   for (const account of topLevelAccounts) {
     const { monthlyAmounts, ytdTotal, transactionCount } = calculateMonthlyAmounts(
-      account.code, transactions, accounts, months, tags
+      account.code, transactions, accounts, months
     );
 
     // Only add if there's activity
@@ -92,31 +86,31 @@ export function buildPLRows(
 // Calculate P&L summary metrics
 export function calculatePLSummary(
   transactions: Transaction[],
-  accounts: Map<string, Account>,
-  tags: Record<string, TransactionTag>
+  accounts: Map<string, Account>
 ): PLSummary {
-  // Filter out tagged transactions
-  const activeTransactions = transactions.filter(t => !tags[t.id]);
-  const taggedTransactions = transactions.filter(t => tags[t.id]);
-
-  // Calculate by section
-  const bySection = (section: PLSection) =>
-    activeTransactions
+  // Simple calculation by account code range
+  const byCodeRange = (minCode: number, maxCode: number) =>
+    transactions
       .filter(t => {
-        const account = accounts.get(t.accountCode);
-        if (!account) return false;
-        // Check if this account or its parent matches the section
-        if (account.section === section) return true;
-        if (t.parentAccountCode) {
-          const parent = accounts.get(t.parentAccountCode);
-          if (parent?.section === section) return true;
-        }
-        return false;
+        const code = parseInt(t.accountCode, 10);
+        return code >= minCode && code < maxCode;
       })
       .reduce((sum, t) => sum + t.amount, 0);
 
+  // Calculate by section using code ranges directly
+  const bySection = (section: PLSection) => {
+    switch (section) {
+      case 'revenue': return byCodeRange(4000, 4100);
+      case 'cogs': return byCodeRange(5000, 6000);
+      case 'costOfSales': return byCodeRange(6000, 6100);
+      case 'operatingExpenses': return byCodeRange(6100, 7000);
+      case 'otherIncome': return byCodeRange(7000, 8000);
+      default: return 0;
+    }
+  };
+
   // Revenue breakdown
-  const revenueTransactions = activeTransactions.filter(t => {
+  const revenueTransactions = transactions.filter(t => {
     const code = parseInt(t.accountCode, 10);
     return code >= 4000 && code < 4100;
   });
@@ -145,9 +139,6 @@ export function calculatePLSummary(
   const netIncome = grossProfit - totalOpEx + otherIncome;
   const netMargin = netRevenue !== 0 ? (netIncome / netRevenue) * 100 : 0;
 
-  // Tagged items - use net amount (not absolute) to match exclusions display
-  const taggedAmount = taggedTransactions.reduce((sum, t) => sum + t.amount, 0);
-
   return {
     grossRevenue,
     netRevenue,
@@ -158,9 +149,7 @@ export function calculatePLSummary(
     totalOpEx,
     otherIncome,
     netIncome,
-    netMargin,
-    taggedItemsCount: taggedTransactions.length,
-    taggedAmount
+    netMargin
   };
 }
 
@@ -187,40 +176,15 @@ export function groupTransactionsByMonth(transactions: Transaction[]): Record<st
   return grouped;
 }
 
-// Get tagged transactions grouped by category and sub-account
-export function getTaggedTransactionsGrouped(
-  transactions: Transaction[],
-  tags: Record<string, TransactionTag>
-): Record<string, Record<string, Transaction[]>> {
-  const result: Record<string, Record<string, Transaction[]>> = {
-    personal: {},
-    nonRecurring: {}
-  };
-
-  for (const txn of transactions) {
-    const tag = tags[txn.id];
-    if (!tag) continue;
-
-    if (!result[tag.category][tag.subAccount]) {
-      result[tag.category][tag.subAccount] = [];
-    }
-    result[tag.category][tag.subAccount].push(txn);
-  }
-
-  return result;
-}
-
 // Calculate section total for a month
 export function calculateSectionMonthlyTotal(
   section: PLSection,
   transactions: Transaction[],
   accounts: Map<string, Account>,
-  month: string,
-  tags: Record<string, TransactionTag>
+  month: string
 ): number {
   return transactions
     .filter(t => {
-      if (tags[t.id]) return false;
       if (t.month !== month) return false;
 
       const account = accounts.get(t.accountCode);

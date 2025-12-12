@@ -3,47 +3,15 @@
 import { useMemo } from 'react';
 import { usePL } from '@/context/PLContext';
 import { formatCurrency } from '@/lib/csvParser';
-import { Transaction, TransactionTag } from '@/types';
-
-// Same KH mapping as KHBrokersView for consistency
-const KH_INCOME_ACCOUNTS = ['4000', '4030', '4010', '4020', '4040'];
-const KH_COGS_ACCOUNTS = ['5000', '5030', '5040', '5050', '5010', '6010', '6020', '6035'];
-const KH_EXPENSE_ACCOUNTS = ['6055', '6065', '6070', '6075', '6100', '6110', '6120', '6125', '6130', '6140', '6150', '6210', '6240', '6250', '6260', '6290', '6300', '6320', '6330', '6375', '6390', '6410', '6450', '6470', '6495'];
-
-function calculateKHSummary(
-  transactions: Transaction[],
-  tags: Record<string, TransactionTag>,
-  months: string[]
-) {
-  const activeTxns = transactions.filter(t => !tags[t.id] && months.includes(t.month));
-
-  const sumAccounts = (accounts: string[]) =>
-    activeTxns
-      .filter(t => accounts.includes(t.accountCode))
-      .reduce((sum, t) => sum + t.amount, 0);
-
-  const totalIncome = sumAccounts(KH_INCOME_ACCOUNTS);
-  const totalCogs = sumAccounts(KH_COGS_ACCOUNTS);
-  const totalExpenses = sumAccounts(KH_EXPENSE_ACCOUNTS);
-
-  const grossProfit = totalIncome - totalCogs;
-  const netIncome = grossProfit - totalExpenses;
-  const netMargin = totalIncome !== 0 ? (netIncome / totalIncome) * 100 : 0;
-
-  return {
-    netRevenue: totalIncome,
-    netIncome,
-    netMargin
-  };
-}
+import { calculatePLSummary } from '@/lib/calculations';
 
 export function SummaryCards() {
   const { state } = usePL();
 
   const summary = useMemo(() => {
     if (state.transactions.length === 0) return null;
-    return calculateKHSummary(state.transactions, state.tags, state.months);
-  }, [state.transactions, state.tags, state.months]);
+    return calculatePLSummary(state.transactions, state.accounts);
+  }, [state.transactions, state.accounts]);
 
   if (!summary) return null;
 

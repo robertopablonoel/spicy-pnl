@@ -63,6 +63,9 @@ RECLASSIFICATIONS = [
 
     # 6100 -> 6120: Zelle, PayPal (affiliate payments)
     ("6100", "6120", lambda line: "Zelle" in line or "PayPal" in line or "PAYPAL" in line),
+
+    # 6145 -> 6140: CREATORHUNTER.IO, MAKEUGC.AI (software, not creatives)
+    ("6145", "6140", lambda line: "CREATORHUNTER" in line or "MAKEUGC" in line),
 ]
 
 
@@ -73,6 +76,7 @@ ACCOUNT_NAMES = {
     "6120": "6100 Advertising & Marketing:6120 Affiliate Marketing Expense",
     "6125": "6100 Advertising & Marketing:6125 Affiliate Recruitment",
     "6140": "6100 Advertising & Marketing:6140 Advertising Software & Apps",
+    "6145": "6100 Advertising & Marketing:6145 Creatives",
     "6240": "6240 Contractors",
     "6330": "6330 Accounting Prof Services",
     "6340": "6340 Meals & Entertainment",

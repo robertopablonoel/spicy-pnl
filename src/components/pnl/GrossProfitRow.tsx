@@ -11,7 +11,7 @@ interface GrossProfitRowProps {
 
 export function GrossProfitRow({ type }: GrossProfitRowProps) {
   const { state } = usePL();
-  const { transactions, accounts, months, tags } = state;
+  const { transactions, accounts, months } = state;
 
   const calculations = useMemo(() => {
     const revenue: Record<string, number> = {};
@@ -23,11 +23,11 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
     let revenueYtd = 0, cogsYtd = 0, cosYtd = 0, opexYtd = 0, otherYtd = 0;
 
     months.forEach(month => {
-      revenue[month] = calculateSectionMonthlyTotal('revenue', transactions, accounts, month, tags);
-      cogs[month] = calculateSectionMonthlyTotal('cogs', transactions, accounts, month, tags);
-      costOfSales[month] = calculateSectionMonthlyTotal('costOfSales', transactions, accounts, month, tags);
-      opex[month] = calculateSectionMonthlyTotal('operatingExpenses', transactions, accounts, month, tags);
-      other[month] = calculateSectionMonthlyTotal('otherIncome', transactions, accounts, month, tags);
+      revenue[month] = calculateSectionMonthlyTotal('revenue', transactions, accounts, month);
+      cogs[month] = calculateSectionMonthlyTotal('cogs', transactions, accounts, month);
+      costOfSales[month] = calculateSectionMonthlyTotal('costOfSales', transactions, accounts, month);
+      opex[month] = calculateSectionMonthlyTotal('operatingExpenses', transactions, accounts, month);
+      other[month] = calculateSectionMonthlyTotal('otherIncome', transactions, accounts, month);
 
       revenueYtd += revenue[month];
       cogsYtd += cogs[month];
@@ -52,7 +52,7 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
       netIncome: { monthly: netIncome, ytd: niYtd },
       revenue: { monthly: revenue, ytd: revenueYtd }
     };
-  }, [transactions, accounts, months, tags]);
+  }, [transactions, accounts, months]);
 
   if (transactions.length === 0) return null;
 

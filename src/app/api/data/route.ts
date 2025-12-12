@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { readFile } from 'fs/promises';
+import path from 'path';
 
 // Simple token-based auth - set this in your Vercel env vars
 const API_TOKEN = process.env.DATA_API_TOKEN || 'dev-token';
 
-// Import CSV files as raw strings at build time
-import allTxnCsv from '@/data/all-txn.csv';
-import exclusionsCsv from '@/data/exclusions.csv';
-
-const FILES: Record<string, { content: string; contentType: string }> = {
-  'all-txn': { content: allTxnCsv, contentType: 'text/csv' },
-  'exclusions': { content: exclusionsCsv, contentType: 'text/csv' },
+const FILES: Record<string, { filename: string; contentType: string }> = {
+  'all-txn': { filename: 'all-txn.csv', contentType: 'text/csv' },
 };
 
 export async function GET(request: NextRequest) {
@@ -31,9 +28,18 @@ export async function GET(request: NextRequest) {
 
   const fileConfig = FILES[file];
 
-  return new NextResponse(fileConfig.content, {
-    headers: {
-      'Content-Type': fileConfig.contentType,
-    },
-  });
+  try {
+    // Read file at runtime from the data directory
+    const filePath = path.join(process.cwd(), 'data', fileConfig.filename);
+    const content = await readFile(filePath, 'utf-8');
+
+    return new NextResponse(content, {
+      headers: {
+        'Content-Type': fileConfig.contentType,
+      },
+    });
+  } catch (error) {
+    console.error('Error reading file:', error);
+    return NextResponse.json({ error: 'File not found' }, { status: 404 });
+  }
 }

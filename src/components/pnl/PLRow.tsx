@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { usePL } from '@/context/PLContext';
-import { PLRow as PLRowType, Transaction } from '@/types';
+import { PLRow as PLRowType } from '@/types';
 import { ChevronIcon } from '@/components/ui/ChevronIcon';
 import { formatCurrency, formatMonth } from '@/lib/csvParser';
 import { getAccountTransactions, groupTransactionsByMonth, calculateMonthlyAmounts } from '@/lib/calculations';
@@ -18,7 +18,7 @@ interface PLRowProps {
 
 export function PLRow({ row, months, depth = 0, isChild = false, allowDrillDown = true }: PLRowProps) {
   const { state, dispatch } = usePL();
-  const { expandedAccounts, expandedMonths, transactions, accounts, tags } = state;
+  const { expandedAccounts, expandedMonths, transactions, accounts } = state;
 
   const isExpanded = allowDrillDown && expandedAccounts.has(row.accountCode);
   const hasChildren = row.account.children.length > 0;
@@ -35,7 +35,7 @@ export function PLRow({ row, months, depth = 0, isChild = false, allowDrillDown 
         if (!childAccount) return null;
 
         const { monthlyAmounts, ytdTotal, transactionCount } = calculateMonthlyAmounts(
-          childCode, transactions, accounts, months, tags
+          childCode, transactions, accounts, months
         );
 
         if (ytdTotal === 0 && transactionCount === 0) return null;
@@ -49,15 +49,15 @@ export function PLRow({ row, months, depth = 0, isChild = false, allowDrillDown 
         } as PLRowType;
       })
       .filter((r): r is PLRowType => r !== null);
-  }, [isExpanded, hasChildren, row.account.children, accounts, transactions, months, tags]);
+  }, [isExpanded, hasChildren, row.account.children, accounts, transactions, months]);
 
   // Get transactions grouped by month if expanded (only for leaf nodes)
   const transactionsByMonth = useMemo(() => {
     if (!isExpanded || hasChildren) return {};
 
-    const txns = getAccountTransactions(row.accountCode, transactions, accounts, tags);
+    const txns = getAccountTransactions(row.accountCode, transactions, accounts);
     return groupTransactionsByMonth(txns);
-  }, [isExpanded, hasChildren, row.accountCode, transactions, accounts, tags]);
+  }, [isExpanded, hasChildren, row.accountCode, transactions, accounts]);
 
   const handleToggle = () => {
     if (isExpandable) {

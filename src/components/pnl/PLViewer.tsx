@@ -4,15 +4,13 @@ import { usePL } from '@/context/PLContext';
 import { SummaryCards } from './SummaryCards';
 import { PLSection } from './PLSection';
 import { GrossProfitRow } from './GrossProfitRow';
-import { KHBrokersView } from './KHBrokersView';
-import { ExcludedSection } from '@/components/tagging/ExcludedSection';
 
 interface PLViewerProps {
   allowDrillDown?: boolean;
 }
 
 export function PLViewer({ allowDrillDown = true }: PLViewerProps) {
-  const { state, dispatch } = usePL();
+  const { state } = usePL();
 
   if (state.loading) {
     return (
@@ -38,98 +36,52 @@ export function PLViewer({ allowDrillDown = true }: PLViewerProps) {
     );
   }
 
-  const toggleView = () => {
-    dispatch({ type: 'TOGGLE_KH_BROKERS_VIEW' });
-  };
-
   return (
     <div>
-      {/* View Toggle - only show in data room */}
-      {allowDrillDown && (
-        <div className="flex items-center justify-end mb-6">
-          <div className="inline-flex rounded-lg border border-slate-200 bg-white p-1 shadow-sm">
-            <button
-              onClick={() => state.khBrokersView || toggleView()}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                state.khBrokersView
-                  ? 'bg-slate-900 text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              Summary
-            </button>
-            <button
-              onClick={() => !state.khBrokersView || toggleView()}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                !state.khBrokersView
-                  ? 'bg-slate-900 text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              Detailed
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Summary Cards */}
       <SummaryCards />
 
-      {/* If no drill-down allowed, always show simplified view without expansion */}
-      {!allowDrillDown ? (
-        <KHBrokersView allowDrillDown={false} />
-      ) : state.khBrokersView ? (
-        /* KH Brokers Simplified View */
-        <KHBrokersView allowDrillDown={true} />
-      ) : (
-        /* Detailed View */
-        <>
-          {/* Revenue Section */}
-          <PLSection
-            section="revenue"
-            title="Revenue"
-            colorClass="bg-emerald-500"
-            totalColorClass="bg-emerald-50"
-            allowDrillDown={allowDrillDown}
-          />
+      {/* Revenue Section */}
+      <PLSection
+        section="revenue"
+        title="Revenue"
+        colorClass="bg-emerald-500"
+        totalColorClass="bg-emerald-50"
+        allowDrillDown={allowDrillDown}
+      />
 
-          {/* COGS Section */}
-          <PLSection
-            section="cogs"
-            title="Cost of Goods Sold"
-            colorClass="bg-orange-500"
-            totalColorClass="bg-orange-50"
-            allowDrillDown={allowDrillDown}
-          />
+      {/* COGS Section */}
+      <PLSection
+        section="cogs"
+        title="Cost of Goods Sold"
+        colorClass="bg-orange-500"
+        totalColorClass="bg-orange-50"
+        allowDrillDown={allowDrillDown}
+      />
 
-          {/* Cost of Sales Section */}
-          <PLSection
-            section="costOfSales"
-            title="Cost of Sales"
-            colorClass="bg-amber-500"
-            totalColorClass="bg-amber-50"
-            allowDrillDown={allowDrillDown}
-          />
+      {/* Cost of Sales Section */}
+      <PLSection
+        section="costOfSales"
+        title="Cost of Sales"
+        colorClass="bg-amber-500"
+        totalColorClass="bg-amber-50"
+        allowDrillDown={allowDrillDown}
+      />
 
-          {/* Gross Profit */}
-          <GrossProfitRow type="grossProfit" />
+      {/* Gross Profit */}
+      <GrossProfitRow type="grossProfit" />
 
-          {/* Operating Expenses */}
-          <PLSection
-            section="operatingExpenses"
-            title="Operating Expenses"
-            colorClass="bg-red-500"
-            totalColorClass="bg-red-50"
-            allowDrillDown={allowDrillDown}
-          />
+      {/* Operating Expenses */}
+      <PLSection
+        section="operatingExpenses"
+        title="Operating Expenses"
+        colorClass="bg-red-500"
+        totalColorClass="bg-red-50"
+        allowDrillDown={allowDrillDown}
+      />
 
-          {/* Net Income */}
-          <GrossProfitRow type="netIncome" />
-        </>
-      )}
-
-      {/* Excluded/Tagged Section - only shown in data room */}
-      {allowDrillDown && <ExcludedSection />}
+      {/* Net Income */}
+      <GrossProfitRow type="netIncome" />
     </div>
   );
 }

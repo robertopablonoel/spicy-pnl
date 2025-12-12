@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { PLSection as PLSectionType, PLRow as PLRowType } from '@/types';
+import { PLSection as PLSectionType } from '@/types';
 import { usePL } from '@/context/PLContext';
 import { buildPLRows, calculateSectionMonthlyTotal } from '@/lib/calculations';
 import { formatCurrency, formatMonth } from '@/lib/csvParser';
@@ -17,25 +17,25 @@ interface PLSectionProps {
 
 export function PLSection({ section, title, colorClass, totalColorClass, allowDrillDown = true }: PLSectionProps) {
   const { state } = usePL();
-  const { transactions, accounts, months, tags } = state;
+  const { transactions, accounts, months } = state;
 
   const rows = useMemo(() => {
     if (transactions.length === 0) return [];
-    return buildPLRows(section, transactions, accounts, months, tags);
-  }, [section, transactions, accounts, months, tags]);
+    return buildPLRows(section, transactions, accounts, months);
+  }, [section, transactions, accounts, months]);
 
   const sectionTotals = useMemo(() => {
     const totals: Record<string, number> = {};
     let ytd = 0;
 
     months.forEach(month => {
-      const total = calculateSectionMonthlyTotal(section, transactions, accounts, month, tags);
+      const total = calculateSectionMonthlyTotal(section, transactions, accounts, month);
       totals[month] = total;
       ytd += total;
     });
 
     return { monthly: totals, ytd };
-  }, [section, transactions, accounts, months, tags]);
+  }, [section, transactions, accounts, months]);
 
   if (rows.length === 0) return null;
 
