@@ -40,6 +40,9 @@ RECLASSIFICATIONS = [
     # 6390 -> 6120: Luisa Mariana (affiliate payment)
     ("6390", "6120", lambda line: "Luisa Mariana" in line),
 
+    # 6120 -> 6130: Elena Bastyte (branding work, not affiliate)
+    ("6120", "6130", lambda line: "Elena Bastyte" in line),
+
     # 6390 -> 6375: SPICY CUBES, Amazon test (QA testing)
     ("6390", "6375", lambda line: "SPICY CUBES" in line or "Amazon test" in line.lower()),
 
