@@ -77,12 +77,12 @@ export function TeaserDataProvider({ children }: Props) {
         const monthlyData: MonthlyData[] = ttmMonths.map(fullMonth => {
           const revenue = calculateSectionMonthlyTotal('revenue', activeTransactions, accounts, fullMonth);
           const cogs = calculateSectionMonthlyTotal('cogs', activeTransactions, accounts, fullMonth);
-          const cos = calculateSectionMonthlyTotal('costOfSales', activeTransactions, accounts, fullMonth);
-          const opex = calculateSectionMonthlyTotal('operatingExpenses', activeTransactions, accounts, fullMonth);
-          const other = calculateSectionMonthlyTotal('otherIncome', activeTransactions, accounts, fullMonth);
+          const expenses = calculateSectionMonthlyTotal('expenses', activeTransactions, accounts, fullMonth);
+          const otherIncome = calculateSectionMonthlyTotal('otherIncome', activeTransactions, accounts, fullMonth);
+          const otherExpenses = calculateSectionMonthlyTotal('otherExpenses', activeTransactions, accounts, fullMonth);
 
-          const grossProfit = revenue - cogs - cos;
-          const netIncome = grossProfit - opex + other;
+          const grossProfit = revenue - cogs;
+          const netIncome = grossProfit - expenses + otherIncome - otherExpenses;
 
           // Get affiliate spend (6120 + 6125)
           const affiliateSpend = activeTransactions

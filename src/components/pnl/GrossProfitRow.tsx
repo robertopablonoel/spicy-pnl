@@ -6,7 +6,7 @@ import { calculateSectionMonthlyTotal } from '@/lib/calculations';
 import { formatCurrency, formatMonth } from '@/lib/csvParser';
 
 interface GrossProfitRowProps {
-  type: 'grossProfit' | 'netIncome';
+  type: 'grossProfit' | 'netOperatingIncome' | 'netIncome';
 }
 
 export function GrossProfitRow({ type }: GrossProfitRowProps) {
@@ -16,39 +16,47 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
   const calculations = useMemo(() => {
     const revenue: Record<string, number> = {};
     const cogs: Record<string, number> = {};
-    const costOfSales: Record<string, number> = {};
-    const opex: Record<string, number> = {};
-    const other: Record<string, number> = {};
+    const expenses: Record<string, number> = {};
+    const otherIncome: Record<string, number> = {};
+    const otherExpenses: Record<string, number> = {};
 
-    let revenueYtd = 0, cogsYtd = 0, cosYtd = 0, opexYtd = 0, otherYtd = 0;
+    let revenueYtd = 0, cogsYtd = 0, expensesYtd = 0, otherIncomeYtd = 0, otherExpensesYtd = 0;
 
     months.forEach(month => {
       revenue[month] = calculateSectionMonthlyTotal('revenue', transactions, accounts, month);
       cogs[month] = calculateSectionMonthlyTotal('cogs', transactions, accounts, month);
-      costOfSales[month] = calculateSectionMonthlyTotal('costOfSales', transactions, accounts, month);
-      opex[month] = calculateSectionMonthlyTotal('operatingExpenses', transactions, accounts, month);
-      other[month] = calculateSectionMonthlyTotal('otherIncome', transactions, accounts, month);
+      expenses[month] = calculateSectionMonthlyTotal('expenses', transactions, accounts, month);
+      otherIncome[month] = calculateSectionMonthlyTotal('otherIncome', transactions, accounts, month);
+      otherExpenses[month] = calculateSectionMonthlyTotal('otherExpenses', transactions, accounts, month);
 
       revenueYtd += revenue[month];
       cogsYtd += cogs[month];
-      cosYtd += costOfSales[month];
-      opexYtd += opex[month];
-      otherYtd += other[month];
+      expensesYtd += expenses[month];
+      otherIncomeYtd += otherIncome[month];
+      otherExpensesYtd += otherExpenses[month];
     });
 
     const grossProfit: Record<string, number> = {};
+    const netOperatingIncome: Record<string, number> = {};
     const netIncome: Record<string, number> = {};
-    let gpYtd = 0, niYtd = 0;
+    let gpYtd = 0, noiYtd = 0, niYtd = 0;
 
     months.forEach(month => {
-      grossProfit[month] = revenue[month] - cogs[month] - costOfSales[month];
-      netIncome[month] = grossProfit[month] - opex[month] + other[month];
+      // Gross Profit = Revenue - COGS (matching broker package)
+      grossProfit[month] = revenue[month] - cogs[month];
+      // Net Operating Income = Gross Profit - Expenses
+      netOperatingIncome[month] = grossProfit[month] - expenses[month];
+      // Net Income = NOI + Other Income - Other Expenses
+      netIncome[month] = netOperatingIncome[month] + otherIncome[month] - otherExpenses[month];
+
       gpYtd += grossProfit[month];
+      noiYtd += netOperatingIncome[month];
       niYtd += netIncome[month];
     });
 
     return {
       grossProfit: { monthly: grossProfit, ytd: gpYtd },
+      netOperatingIncome: { monthly: netOperatingIncome, ytd: noiYtd },
       netIncome: { monthly: netIncome, ytd: niYtd },
       revenue: { monthly: revenue, ytd: revenueYtd }
     };
@@ -56,10 +64,31 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
 
   if (transactions.length === 0) return null;
 
-  const data = type === 'grossProfit' ? calculations.grossProfit : calculations.netIncome;
-  const label = type === 'grossProfit' ? 'Gross Profit' : 'Net Income';
-  const bgColor = type === 'grossProfit' ? 'bg-blue-50' : 'bg-green-50';
-  const borderColor = type === 'grossProfit' ? 'border-blue-200' : 'border-green-200';
+  let data: { monthly: Record<string, number>; ytd: number };
+  let label: string;
+  let bgColor: string;
+  let borderColor: string;
+
+  switch (type) {
+    case 'grossProfit':
+      data = calculations.grossProfit;
+      label = 'Gross Profit';
+      bgColor = 'bg-blue-50';
+      borderColor = 'border-blue-200';
+      break;
+    case 'netOperatingIncome':
+      data = calculations.netOperatingIncome;
+      label = 'Net Operating Income';
+      bgColor = 'bg-amber-50';
+      borderColor = 'border-amber-200';
+      break;
+    case 'netIncome':
+      data = calculations.netIncome;
+      label = 'Net Income';
+      bgColor = 'bg-green-50';
+      borderColor = 'border-green-200';
+      break;
+  }
 
   // Calculate margin
   const margin = calculations.revenue.ytd !== 0

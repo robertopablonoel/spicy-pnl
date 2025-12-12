@@ -2,9 +2,15 @@
 export type PLSection =
   | 'revenue'
   | 'cogs'
-  | 'costOfSales'
-  | 'operatingExpenses'
-  | 'otherIncome';
+  | 'expenses'
+  | 'otherIncome'
+  | 'otherExpenses';
+
+// Expense subcategory classification
+export type ExpenseSubcategory =
+  | 'costOfSales'      // 6000-6099
+  | 'advertising'       // 6100-6199
+  | 'other';            // 6200+
 
 // Core transaction from CSV
 export interface RawTransaction {
@@ -34,6 +40,7 @@ export interface Account {
   fullName: string;
   parentCode: string | null;
   section: PLSection;
+  expenseSubcategory?: ExpenseSubcategory;
   children: string[];
   depth: number;
 }

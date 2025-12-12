@@ -1,4 +1,4 @@
-import { Transaction, Account, PLRow, PLSummary, PLSection } from '@/types';
+import { Transaction, Account, PLRow, PLSummary, PLSection, ExpenseSubcategory } from '@/types';
 
 // Get all transactions for an account (including children)
 export function getAccountTransactions(
@@ -83,6 +83,68 @@ export function buildPLRows(
   return rows;
 }
 
+// Build P&L rows for an expense subcategory
+export function buildExpenseSubcategoryRows(
+  subcategory: ExpenseSubcategory,
+  transactions: Transaction[],
+  accounts: Map<string, Account>,
+  months: string[]
+): PLRow[] {
+  const rows: PLRow[] = [];
+
+  // Get accounts for this expense subcategory
+  const subcategoryAccounts = Array.from(accounts.values())
+    .filter(a => a.section === 'expenses' && a.expenseSubcategory === subcategory && a.parentCode === null)
+    .sort((a, b) => a.code.localeCompare(b.code));
+
+  for (const account of subcategoryAccounts) {
+    const { monthlyAmounts, ytdTotal, transactionCount } = calculateMonthlyAmounts(
+      account.code, transactions, accounts, months
+    );
+
+    // Only add if there's activity
+    if (ytdTotal !== 0 || transactionCount > 0) {
+      rows.push({
+        accountCode: account.code,
+        account,
+        monthlyAmounts,
+        ytdTotal,
+        transactionCount
+      });
+    }
+  }
+
+  return rows;
+}
+
+// Calculate total for an expense subcategory
+export function calculateExpenseSubcategoryTotal(
+  subcategory: ExpenseSubcategory,
+  transactions: Transaction[],
+  accounts: Map<string, Account>,
+  months: string[]
+): { monthly: Record<string, number>; ytd: number } {
+  const monthly: Record<string, number> = {};
+  let ytd = 0;
+
+  months.forEach(month => { monthly[month] = 0; });
+
+  for (const txn of transactions) {
+    const account = accounts.get(txn.accountCode);
+    if (!account) continue;
+
+    // Check if this account belongs to the subcategory
+    if (account.section === 'expenses' && account.expenseSubcategory === subcategory) {
+      if (txn.month && monthly[txn.month] !== undefined) {
+        monthly[txn.month] += txn.amount;
+        ytd += txn.amount;
+      }
+    }
+  }
+
+  return { monthly, ytd };
+}
+
 // Calculate P&L summary metrics
 export function calculatePLSummary(
   transactions: Transaction[],
@@ -96,18 +158,6 @@ export function calculatePLSummary(
         return code >= minCode && code < maxCode;
       })
       .reduce((sum, t) => sum + t.amount, 0);
-
-  // Calculate by section using code ranges directly
-  const bySection = (section: PLSection) => {
-    switch (section) {
-      case 'revenue': return byCodeRange(4000, 4100);
-      case 'cogs': return byCodeRange(5000, 6000);
-      case 'costOfSales': return byCodeRange(6000, 6100);
-      case 'operatingExpenses': return byCodeRange(6100, 7000);
-      case 'otherIncome': return byCodeRange(7000, 8000);
-      default: return 0;
-    }
-  };
 
   // Revenue breakdown
   const revenueTransactions = transactions.filter(t => {
@@ -128,15 +178,16 @@ export function calculatePLSummary(
   const netRevenue = grossRevenue + contraRevenue;
 
   // Cost sections
-  const totalCOGS = bySection('cogs');
-  const totalCostOfSales = bySection('costOfSales');
-  const totalOpEx = bySection('operatingExpenses');
-  const otherIncome = bySection('otherIncome');
+  const totalCOGS = byCodeRange(5000, 6000);
+  const totalCostOfSales = byCodeRange(6000, 6100);
+  const totalOpEx = byCodeRange(6100, 7000);
+  const otherIncome = byCodeRange(7000, 8000);
+  const otherExpenses = byCodeRange(8000, 9000);
 
   // Calculated metrics
   const grossProfit = netRevenue - totalCOGS - totalCostOfSales;
   const grossMargin = netRevenue !== 0 ? (grossProfit / netRevenue) * 100 : 0;
-  const netIncome = grossProfit - totalOpEx + otherIncome;
+  const netIncome = grossProfit - totalOpEx + otherIncome - otherExpenses;
   const netMargin = netRevenue !== 0 ? (netIncome / netRevenue) * 100 : 0;
 
   return {
@@ -198,4 +249,27 @@ export function calculateSectionMonthlyTotal(
       return false;
     })
     .reduce((sum, t) => sum + t.amount, 0);
+}
+
+// Calculate total expenses (all 6xxx accounts)
+export function calculateTotalExpenses(
+  transactions: Transaction[],
+  months: string[]
+): { monthly: Record<string, number>; ytd: number } {
+  const monthly: Record<string, number> = {};
+  let ytd = 0;
+
+  months.forEach(month => { monthly[month] = 0; });
+
+  for (const txn of transactions) {
+    const code = parseInt(txn.accountCode, 10);
+    if (code >= 6000 && code < 7000) {
+      if (txn.month && monthly[txn.month] !== undefined) {
+        monthly[txn.month] += txn.amount;
+        ytd += txn.amount;
+      }
+    }
+  }
+
+  return { monthly, ytd };
 }

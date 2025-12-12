@@ -3,6 +3,7 @@
 Step 2: Apply Reclassifications
 
 Moves misclassified transactions to their correct accounts based on rules.
+This script actually moves transactions between sections in the CSV.
 
 Input: output/step1_november_revenue.csv
 Output: output/step2_reclassified.csv
@@ -10,7 +11,7 @@ Output: output/step2_reclassified.csv
 
 import re
 from pathlib import Path
-from typing import List
+from typing import List, Dict, Tuple
 from collections import defaultdict
 
 from pnl_generator import generate_pnl
@@ -69,14 +70,15 @@ RECLASSIFICATIONS = [
 ]
 
 
-# Common account names for replacement
-ACCOUNT_NAMES = {
+# Section headers for each account
+SECTION_HEADERS = {
     "6100": "6100 Advertising & Marketing",
-    "6110": "6100 Advertising & Marketing:6110 Paid Advertising",
-    "6120": "6100 Advertising & Marketing:6120 Affiliate Marketing Expense",
-    "6125": "6100 Advertising & Marketing:6125 Affiliate Recruitment",
-    "6140": "6100 Advertising & Marketing:6140 Advertising Software & Apps",
-    "6145": "6100 Advertising & Marketing:6145 Creatives",
+    "6110": "6110 Paid Advertising",
+    "6120": "6120 Affiliate Marketing Expense",
+    "6125": "6125 Affiliate Recruitment",
+    "6130": "6130 Marketing Contractors and Agencies",
+    "6140": "6140 Advertising Software & Apps",
+    "6145": "6145 Creatives",
     "6240": "6240 Contractors",
     "6330": "6330 Accounting Prof Services",
     "6340": "6340 Meals & Entertainment",
@@ -88,52 +90,131 @@ ACCOUNT_NAMES = {
 }
 
 
-def reclassify_line(line: str, from_code: str, to_code: str) -> str:
-    """Change account code in a line from from_code to to_code."""
-    if from_code in ACCOUNT_NAMES and to_code in ACCOUNT_NAMES:
-        line = line.replace(ACCOUNT_NAMES[from_code], ACCOUNT_NAMES[to_code])
-    return line
+def parse_sections(lines: List[str]) -> Tuple[List[str], Dict[str, List[str]], List[str]]:
+    """
+    Parse file into header, sections dict, and footer.
+    Returns: (header_lines, sections_dict, footer_lines)
+    """
+    header_lines = []
+    sections: Dict[str, List[str]] = defaultdict(list)
+    footer_lines = []
 
-
-def apply_reclassifications(lines: List[str]) -> List[str]:
-    """Apply all reclassification rules to transactions."""
-    new_lines = []
-    current_section = ""
-    reclassification_counts = defaultdict(int)
+    current_section = None
+    in_header = True
 
     for line in lines:
         trimmed = line.strip()
 
-        # Track current section
+        # Check for section header (starts with 4-digit code)
         section_match = re.match(r'^(\d{4})\s+[^,]', trimmed)
         if section_match:
+            in_header = False
             current_section = section_match.group(1)
-            new_lines.append(line)
+            sections[current_section].append(line)
             continue
 
-        # Check if line matches any reclassification rule
-        reclassified = False
-        for from_code, to_code, criteria in RECLASSIFICATIONS:
-            # Check if line is in the from_code section or references from_code
-            in_section = current_section == from_code
-            has_account_ref = f":{from_code} " in line or f":{from_code}," in line
+        # Check for total line (ends section)
+        if trimmed.startswith("Total for "):
+            if current_section:
+                sections[current_section].append(line)
+            current_section = None
+            continue
 
-            if (in_section or has_account_ref) and criteria(line):
-                new_line = reclassify_line(line, from_code, to_code)
-                new_lines.append(new_line)
-                reclassification_counts[f"{from_code} -> {to_code}"] += 1
-                reclassified = True
+        # Check for footer (after all sections)
+        if not in_header and current_section is None and trimmed and not trimmed.startswith(","):
+            # This could be a non-section line like a report footer
+            footer_lines.append(line)
+            continue
+
+        if in_header:
+            header_lines.append(line)
+        elif current_section:
+            sections[current_section].append(line)
+        else:
+            # Between sections or end of file
+            footer_lines.append(line)
+
+    return header_lines, dict(sections), footer_lines
+
+
+def apply_reclassifications(sections: Dict[str, List[str]]) -> Dict[str, List[str]]:
+    """
+    Apply reclassification rules by moving transactions between sections.
+    """
+    reclassification_counts = defaultdict(int)
+    transactions_to_move: List[Tuple[str, str, str]] = []  # (from_section, to_section, line)
+
+    # First pass: identify transactions to move
+    for section_code, section_lines in sections.items():
+        new_section_lines = []
+
+        for line in section_lines:
+            # Keep section headers and totals
+            if not line.strip().startswith(","):
+                new_section_lines.append(line)
+                continue
+
+            # Check if this transaction should be reclassified
+            moved = False
+            for from_code, to_code, criteria in RECLASSIFICATIONS:
+                if section_code == from_code and criteria(line):
+                    transactions_to_move.append((from_code, to_code, line))
+                    reclassification_counts[f"{from_code} -> {to_code}"] += 1
+                    moved = True
+                    break
+
+            if not moved:
+                new_section_lines.append(line)
+
+        sections[section_code] = new_section_lines
+
+    # Second pass: add transactions to their new sections
+    for from_code, to_code, line in transactions_to_move:
+        if to_code not in sections:
+            # Create new section
+            header = SECTION_HEADERS.get(to_code, f"{to_code} Unknown")
+            sections[to_code] = [f"{header},,,,,,,,,"]
+
+        # Find insertion point (before Total line if exists)
+        section_lines = sections[to_code]
+        insert_idx = len(section_lines)
+        for i, l in enumerate(section_lines):
+            if l.strip().startswith("Total for "):
+                insert_idx = i
                 break
 
-        if not reclassified:
-            new_lines.append(line)
+        section_lines.insert(insert_idx, line)
 
     print("\nReclassifications applied:")
     for key, count in sorted(reclassification_counts.items()):
         print(f"  {key}: {count} transactions")
     print(f"\nTotal reclassified: {sum(reclassification_counts.values())}")
 
-    return new_lines
+    return sections
+
+
+def rebuild_file(header_lines: List[str], sections: Dict[str, List[str]], footer_lines: List[str]) -> List[str]:
+    """
+    Rebuild the file from header, sections, and footer.
+    Sections are output in account code order.
+    """
+    output_lines = header_lines.copy()
+
+    # Sort sections by account code
+    for code in sorted(sections.keys()):
+        section_lines = sections[code]
+
+        # Ensure section has a header
+        has_header = any(not l.strip().startswith(",") and not l.strip().startswith("Total")
+                        for l in section_lines)
+        if not has_header and code in SECTION_HEADERS:
+            section_lines.insert(0, f"{SECTION_HEADERS[code]},,,,,,,,,")
+
+        output_lines.extend(section_lines)
+
+    output_lines.extend(footer_lines)
+
+    return output_lines
 
 
 def main():
@@ -150,16 +231,23 @@ def main():
     lines = content.split('\n')
     print(f"\nLoaded {len(lines)} lines from input file")
 
-    # Run transformation
-    lines = apply_reclassifications(lines)
+    # Parse into sections
+    header_lines, sections, footer_lines = parse_sections(lines)
+    print(f"Found {len(sections)} sections")
+
+    # Apply reclassifications
+    sections = apply_reclassifications(sections)
+
+    # Rebuild file
+    output_lines = rebuild_file(header_lines, sections, footer_lines)
 
     # Write output
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(lines))
+        f.write('\n'.join(output_lines))
 
     print(f"\nOutput written to: {OUTPUT_FILE}")
-    print(f"Total lines: {len(lines)}")
+    print(f"Total lines: {len(output_lines)}")
 
     # Generate P&L
     generate_pnl(OUTPUT_FILE, PNL_FILE)

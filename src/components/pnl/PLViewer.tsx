@@ -3,6 +3,7 @@
 import { usePL } from '@/context/PLContext';
 import { SummaryCards } from './SummaryCards';
 import { PLSection } from './PLSection';
+import { ExpensesSection } from './ExpensesSection';
 import { GrossProfitRow } from './GrossProfitRow';
 
 interface PLViewerProps {
@@ -44,7 +45,7 @@ export function PLViewer({ allowDrillDown = true }: PLViewerProps) {
       {/* Revenue Section */}
       <PLSection
         section="revenue"
-        title="Revenue"
+        title="Income"
         colorClass="bg-emerald-500"
         totalColorClass="bg-emerald-50"
         allowDrillDown={allowDrillDown}
@@ -59,24 +60,30 @@ export function PLViewer({ allowDrillDown = true }: PLViewerProps) {
         allowDrillDown={allowDrillDown}
       />
 
-      {/* Cost of Sales Section */}
-      <PLSection
-        section="costOfSales"
-        title="Cost of Sales"
-        colorClass="bg-amber-500"
-        totalColorClass="bg-amber-50"
-        allowDrillDown={allowDrillDown}
-      />
-
       {/* Gross Profit */}
       <GrossProfitRow type="grossProfit" />
 
-      {/* Operating Expenses */}
+      {/* Expenses Section (with subcategories) */}
+      <ExpensesSection allowDrillDown={allowDrillDown} />
+
+      {/* Net Operating Income */}
+      <GrossProfitRow type="netOperatingIncome" />
+
+      {/* Other Income Section */}
       <PLSection
-        section="operatingExpenses"
-        title="Operating Expenses"
-        colorClass="bg-red-500"
-        totalColorClass="bg-red-50"
+        section="otherIncome"
+        title="Other Income"
+        colorClass="bg-blue-500"
+        totalColorClass="bg-blue-50"
+        allowDrillDown={allowDrillDown}
+      />
+
+      {/* Other Expenses Section */}
+      <PLSection
+        section="otherExpenses"
+        title="Other Expenses"
+        colorClass="bg-slate-500"
+        totalColorClass="bg-slate-50"
         allowDrillDown={allowDrillDown}
       />
 

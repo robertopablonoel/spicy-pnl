@@ -1,4 +1,4 @@
-import { RawTransaction, Transaction, Account, PLSection } from '@/types';
+import { RawTransaction, Transaction, Account, PLSection, ExpenseSubcategory } from '@/types';
 
 // Parse a CSV line handling quoted fields with commas
 function parseCSVLine(line: string): string[] {
@@ -65,10 +65,10 @@ function extractAccountCode(accountFullName: string): { code: string; parentCode
   };
 }
 
-// Check if code is a P&L account (4000-7999)
+// Check if code is a P&L account (4000-8999)
 function isPnLAccount(code: string): boolean {
   const num = parseInt(code, 10);
-  return num >= 4000 && num < 8000;
+  return num >= 4000 && num < 9000;
 }
 
 // Extract code from section header
@@ -83,11 +83,22 @@ function classifyAccount(code: string): PLSection {
 
   if (numCode >= 4000 && numCode < 4100) return 'revenue';
   if (numCode >= 5000 && numCode < 6000) return 'cogs';
-  if (numCode >= 6000 && numCode < 6100) return 'costOfSales';
-  if (numCode >= 6100 && numCode < 7000) return 'operatingExpenses';
+  if (numCode >= 6000 && numCode < 7000) return 'expenses';
   if (numCode >= 7000 && numCode < 8000) return 'otherIncome';
+  if (numCode >= 8000 && numCode < 9000) return 'otherExpenses';
 
-  return 'operatingExpenses';
+  return 'expenses';
+}
+
+// Classify expense subcategory
+function classifyExpenseSubcategory(code: string): ExpenseSubcategory | undefined {
+  const numCode = parseInt(code, 10);
+
+  if (numCode >= 6000 && numCode < 6100) return 'costOfSales';
+  if (numCode >= 6100 && numCode < 6200) return 'advertising';
+  if (numCode >= 6200 && numCode < 7000) return 'other';
+
+  return undefined;
 }
 
 // Generate unique transaction ID
@@ -193,6 +204,7 @@ export function parseCSV(csvContent: string): ParseResult {
         fullName: raw.accountFullName,
         parentCode,
         section: classifyAccount(code),
+        expenseSubcategory: classifyExpenseSubcategory(code),
         children: [],
         depth: parentCode ? 1 : 0
       });
@@ -213,6 +225,7 @@ export function parseCSV(csvContent: string): ParseResult {
           fullName: parentPart,
           parentCode: null,
           section: classifyAccount(parentCode),
+          expenseSubcategory: classifyExpenseSubcategory(parentCode),
           children: [code],
           depth: 0
         });
