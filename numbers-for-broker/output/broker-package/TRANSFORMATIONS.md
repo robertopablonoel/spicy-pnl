@@ -18,15 +18,17 @@ The raw data (`1_raw_transactions.csv`) was exported from QuickBooks covering Ja
 
 ## Transformation 2: Account Reclassifications
 
-**What:** Moved 665 transactions to their correct expense categories.
+**What:** Moved 456 transactions to their correct expense categories.
 
 **Why:** QuickBooks auto-categorization and some manual entries placed transactions in incorrect accounts. Examples include:
 
-- Affiliate recruitment bonuses (e.g., $30 referral payments) miscategorized as general affiliate marketing
-- Facebook ad spend categorized under general marketing instead of paid advertising
-- PayPal and Zelle affiliate payments miscategorized
-- Meals during business travel moved to Travel expense
-- Software and professional services sorted into appropriate categories
+- **Paid Advertising (66 transactions):** Facebook ad spend was categorized under general marketing instead of paid advertising
+- **Affiliate Marketing (78 transactions):** PayPal, Zelle, UPS Store, Vintage Paper, and Printful payments for affiliate-related activities were miscategorized
+- **Affiliate Recruitment (244 transactions):** $30 referral bonuses and recruitment payments were mixed with general affiliate marketing
+- **Marketing Contractors:** Elena Bastyte branding work was incorrectly tagged as affiliate marketing
+- **Software & Apps (12 transactions):** Railway hosting was categorized as travel expense
+- **Accounting Services (15 transactions):** LedgerGurus and Zamp payments were in generic contractor or software categories
+- **Travel (10 transactions):** Meals during business travel and other travel-related expenses were scattered across categories
 
 These reclassifications don't change the total expenses—they just ensure each expense category accurately reflects actual spending.
 

@@ -4,9 +4,11 @@ This document explains the expenses excluded from the final P&L. These are eithe
 
 ## Overview
 
-Total excluded: **$158,160**
+Total excluded: **$167,043**
 
 These exclusions transform `2_transformed_pnl.csv` into `3_final_pnl.csv`.
+
+**Note:** Exclusions were only applied to the trailing twelve months (TTM). Earlier periods were not reviewed for exclusions.
 
 ---
 
@@ -72,9 +74,9 @@ Other miscellaneous owner expenses.
 
 Personal purchases that were mistakenly run through the business.
 
-### Discretionary — $1,424
+### Discretionary Spending — $10,380
 
-Discretionary spending not required for business operations.
+All discretionary spending expenses (14 transactions) that are not required for business operations. This includes owner purchases and non-essential spending run through the business.
 
 ---
 
@@ -90,6 +92,20 @@ Tax-related legal consultation for the sale.
 
 ---
 
+## Non-Operating Items
+
+These items are excluded because they don't reflect ongoing operational performance.
+
+### Depreciation — $3,500
+
+Mold depreciation expense (12 monthly journal entries). This is a non-cash accounting entry that doesn't represent actual operational spending.
+
+### Interest Income — $1,043
+
+Miscellaneous interest and other income that is not part of core business operations.
+
+---
+
 ## Summary by Category
 
 | Category | Amount | Count |
@@ -99,20 +115,24 @@ Tax-related legal consultation for the sale.
 | One-Time COGS | $22,856 | 4 |
 | Terminated Agency | $12,000 | 5 |
 | Owner Travel | $11,322 | 68 |
+| Discretionary Spending | $10,380 | 14 |
 | Terminated Contractor | $9,945 | 7 |
 | Terminated Service | $5,459 | 60 |
 | M&A Process | $3,920 | 5 |
+| Depreciation | $3,500 | 12 |
 | Owner Education | $2,886 | 8 |
 | Owner Tools | $2,632 | 57 |
 | Owner Expense | $1,850 | 1 |
-| Discretionary | $1,424 | 2 |
+| Interest/Other Income | $1,043 | 2 |
 | Personal | $753 | 1 |
 | Legal/Tax | $500 | 1 |
 | Refunds | ($2,225) | 2 |
-| **Total** | **$158,160** | **233** |
+| **Total** | **$167,043** | **259** |
 
 ---
 
 ## Impact on Net Income
 
-These exclusions increase net income by $144,852, reflecting the true ongoing profitability of the business without one-time costs and owner-specific expenses.
+These exclusions increase net income by $156,339, reflecting the true ongoing profitability of the business without one-time costs, owner-specific expenses, and non-operating items.
+
+**Final Net Income: $716,934**
