@@ -2,12 +2,13 @@
 """
 Run the complete P&L transformation pipeline.
 
-This script runs all 5 transformation steps in sequence:
+This script runs all 6 transformation steps in sequence:
 1. Add November Shopify revenue
 2. Apply reclassifications
 3. Replace Nov/Dec affiliate payouts
 4. Shift affiliate dates
 5. Smooth shipping costs
+6. Apply exclusions
 
 Usage: python3 run_pipeline.py
 """
@@ -25,6 +26,7 @@ STEPS = [
     ("step3_replace_nov_dec_affiliates.py", "Replace Nov/Dec Affiliate Payouts"),
     ("step4_shift_affiliate_dates.py", "Shift Affiliate Dates"),
     ("step5_smooth_shipping.py", "Smooth Shipping Costs"),
+    ("step6_apply_exclusions.py", "Apply Exclusions"),
 ]
 
 
@@ -53,14 +55,15 @@ def main():
     print("PIPELINE COMPLETE")
     print("=" * 80)
     print("\nOutputs:")
-    print("  Transformed data: output/all-txn-2024-2025-transformed.csv")
+    print("  Transformed data: output/all-txn-2024-2025-final.csv")
     print("\nP&L Reports (one per step):")
     print("  pnl_step0.csv - Baseline (original data)")
     print("  pnl_step1.csv - After November revenue")
     print("  pnl_step2.csv - After reclassifications")
     print("  pnl_step3.csv - After affiliate replacement")
     print("  pnl_step4.csv - After date shifting")
-    print("  pnl_step5.csv - Final (after shipping smoothing)")
+    print("  pnl_step5.csv - After shipping smoothing")
+    print("  pnl_step6.csv - Final (after exclusions)")
 
 
 if __name__ == "__main__":

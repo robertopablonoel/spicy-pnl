@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-Generate P&L reports ending at October 2025 for each pipeline step.
+Generate TTM (Trailing Twelve Months) P&L reports ending November 2025.
+
+TTM period: December 2024 - November 2025
 """
 
 import re
@@ -81,20 +83,13 @@ PNL_ACCOUNTS: Dict[str, AccountConfig] = {
     "8005": AccountConfig("8005 Depreciation", "Other Expenses", 70),
 }
 
-MONTHS = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+# TTM months: Dec 2024 - Nov 2025
+TTM_MONTHS = [
+    "December 2024",
+    "January 2025", "February 2025", "March 2025", "April 2025",
+    "May 2025", "June 2025", "July 2025", "August 2025",
+    "September 2025", "October 2025", "November 2025"
 ]
-
-
-def get_month_columns_oct() -> List[str]:
-    """Generate month column headers for Jan 2024 - Oct 2025."""
-    cols = []
-    for m in range(12):
-        cols.append(f"{MONTHS[m]} 2024")
-    for m in range(10):  # Only Jan-Oct 2025
-        cols.append(f"{MONTHS[m]} 2025")
-    return cols
 
 
 def parse_csv_line(line: str) -> List[str]:
@@ -120,17 +115,17 @@ def parse_date(date_str: str) -> Optional[Tuple[int, int]]:
     match = re.match(r'^(\d{2})/(\d{2})/(\d{4})$', date_str)
     if not match:
         return None
-    month = int(match.group(1)) - 1
+    month = int(match.group(1))  # 1-12
     year = int(match.group(3))
     return (year, month)
 
 
-def get_month_index_oct(year: int, month: int) -> Optional[int]:
-    """Get month column index (0-21) for Jan 2024 - Oct 2025."""
-    if year == 2024:
-        return month
-    if year == 2025 and month <= 9:  # Only through October (index 9)
-        return 12 + month
+def get_ttm_month_index(year: int, month: int) -> Optional[int]:
+    """Get TTM month column index (0-11) for Dec 2024 - Nov 2025."""
+    if year == 2024 and month == 12:
+        return 0  # December 2024
+    if year == 2025 and 1 <= month <= 11:
+        return month  # Jan=1, Feb=2, ..., Nov=11
     return None
 
 
@@ -165,16 +160,15 @@ def format_for_csv(num: float) -> str:
     return formatted
 
 
-def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) -> Dict[str, float]:
+def generate_ttm_pnl(input_file: Path, output_file: Path, silent: bool = False) -> Dict[str, float]:
     """
-    Generate P&L report from transaction data, ending at October 2025.
+    Generate TTM P&L report from transaction data (Dec 2024 - Nov 2025).
     """
     with open(input_file, 'r', encoding='utf-8') as f:
         content = f.read()
     lines = content.split('\n')
 
-    month_cols = get_month_columns_oct()
-    num_months = len(month_cols)
+    num_months = len(TTM_MONTHS)
 
     # Data: account_code -> list of monthly amounts
     data: Dict[str, List[float]] = {}
@@ -211,7 +205,7 @@ def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) 
                 continue
 
             year, month = date_parts
-            month_idx = get_month_index_oct(year, month)
+            month_idx = get_ttm_month_index(year, month)
             if month_idx is None:
                 continue
 
@@ -222,11 +216,11 @@ def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) 
     output: List[str] = []
     empty_cols = "," * (num_months + 1)
 
-    output.append(f"Profit and Loss by Month{empty_cols}")
+    output.append(f"Profit and Loss - TTM (Trailing Twelve Months){empty_cols}")
     output.append(f"And Company (Spicy Cubes){empty_cols}")
-    output.append(f'"January 1, 2024-October 31, 2025"{empty_cols}')
+    output.append(f'"December 1, 2024 - November 30, 2025"{empty_cols}')
     output.append("")
-    output.append(f"Distribution account,{','.join(month_cols)},Total")
+    output.append(f"Distribution account,{','.join(TTM_MONTHS)},Total")
 
     def output_account_row(code: str) -> List[float]:
         config = PNL_ACCOUNTS[code]
@@ -359,12 +353,12 @@ def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) 
 
 def main():
     print("=" * 80)
-    print("GENERATING P&L REPORTS (JAN 2024 - OCT 2025)")
+    print("GENERATING TTM P&L REPORTS (DEC 2024 - NOV 2025)")
     print("=" * 80)
 
     script_dir = Path(__file__).parent
     base_dir = script_dir.parent
-    output_dir = base_dir / "output" / "pnl-thru-oct"
+    output_dir = base_dir / "output" / "pnl-ttm-nov"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Define steps and their input files
@@ -387,10 +381,10 @@ def main():
 
         output_file = output_dir / f"pnl_{step_name}.csv"
         print(f"{step_name}: {description}")
-        generate_pnl_oct(input_file, output_file)
+        generate_ttm_pnl(input_file, output_file)
 
     print(f"\n{'=' * 80}")
-    print(f"All P&L reports generated in: {output_dir}")
+    print(f"All TTM P&L reports generated in: {output_dir}")
     print("=" * 80)
 
 

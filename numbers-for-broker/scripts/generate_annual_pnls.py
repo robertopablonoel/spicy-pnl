@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-Generate P&L reports ending at October 2025 for each pipeline step.
+Generate Annual P&L reports:
+- 2024: January 2024 - December 2024
+- 2025 YTD: January 2025 - November 2025
 """
 
 import re
@@ -87,16 +89,6 @@ MONTHS = [
 ]
 
 
-def get_month_columns_oct() -> List[str]:
-    """Generate month column headers for Jan 2024 - Oct 2025."""
-    cols = []
-    for m in range(12):
-        cols.append(f"{MONTHS[m]} 2024")
-    for m in range(10):  # Only Jan-Oct 2025
-        cols.append(f"{MONTHS[m]} 2025")
-    return cols
-
-
 def parse_csv_line(line: str) -> List[str]:
     """Parse a CSV line handling quoted fields."""
     result = []
@@ -120,18 +112,9 @@ def parse_date(date_str: str) -> Optional[Tuple[int, int]]:
     match = re.match(r'^(\d{2})/(\d{2})/(\d{4})$', date_str)
     if not match:
         return None
-    month = int(match.group(1)) - 1
+    month = int(match.group(1))  # 1-12
     year = int(match.group(3))
     return (year, month)
-
-
-def get_month_index_oct(year: int, month: int) -> Optional[int]:
-    """Get month column index (0-21) for Jan 2024 - Oct 2025."""
-    if year == 2024:
-        return month
-    if year == 2025 and month <= 9:  # Only through October (index 9)
-        return 12 + month
-    return None
 
 
 def parse_amount(amount_str: str) -> float:
@@ -165,15 +148,29 @@ def format_for_csv(num: float) -> str:
     return formatted
 
 
-def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) -> Dict[str, float]:
+def generate_annual_pnl(
+    input_file: Path,
+    output_file: Path,
+    year: int,
+    end_month: int = 12,
+    silent: bool = False
+) -> Dict[str, float]:
     """
-    Generate P&L report from transaction data, ending at October 2025.
+    Generate annual P&L report from transaction data.
+
+    Args:
+        input_file: Path to transaction CSV
+        output_file: Path for output P&L CSV
+        year: Year to generate P&L for
+        end_month: Last month to include (1-12), default 12 for full year
+        silent: Suppress output
     """
     with open(input_file, 'r', encoding='utf-8') as f:
         content = f.read()
     lines = content.split('\n')
 
-    month_cols = get_month_columns_oct()
+    # Generate month columns
+    month_cols = [f"{MONTHS[m]} {year}" for m in range(end_month)]
     num_months = len(month_cols)
 
     # Data: account_code -> list of monthly amounts
@@ -210,11 +207,15 @@ def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) 
             if not date_parts:
                 continue
 
-            year, month = date_parts
-            month_idx = get_month_index_oct(year, month)
-            if month_idx is None:
+            txn_year, txn_month = date_parts
+
+            # Only include transactions from the target year and within end_month
+            if txn_year != year:
+                continue
+            if txn_month > end_month:
                 continue
 
+            month_idx = txn_month - 1  # Convert to 0-indexed
             amount = parse_amount(amount_str)
             data[current_account_code][month_idx] += amount
 
@@ -222,9 +223,16 @@ def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) 
     output: List[str] = []
     empty_cols = "," * (num_months + 1)
 
-    output.append(f"Profit and Loss by Month{empty_cols}")
+    if end_month == 12:
+        period_desc = f"January 1, {year} - December 31, {year}"
+        title_suffix = f"Full Year {year}"
+    else:
+        period_desc = f"January 1, {year} - {MONTHS[end_month-1]} 30, {year}"
+        title_suffix = f"YTD {year} (Jan-{MONTHS[end_month-1][:3]})"
+
+    output.append(f"Profit and Loss - {title_suffix}{empty_cols}")
     output.append(f"And Company (Spicy Cubes){empty_cols}")
-    output.append(f'"January 1, 2024-October 31, 2025"{empty_cols}')
+    output.append(f'"{period_desc}"{empty_cols}')
     output.append("")
     output.append(f"Distribution account,{','.join(month_cols)},Total")
 
@@ -358,14 +366,8 @@ def generate_pnl_oct(input_file: Path, output_file: Path, silent: bool = False) 
 
 
 def main():
-    print("=" * 80)
-    print("GENERATING P&L REPORTS (JAN 2024 - OCT 2025)")
-    print("=" * 80)
-
     script_dir = Path(__file__).parent
     base_dir = script_dir.parent
-    output_dir = base_dir / "output" / "pnl-thru-oct"
-    output_dir.mkdir(parents=True, exist_ok=True)
 
     # Define steps and their input files
     steps = [
@@ -378,19 +380,46 @@ def main():
         ("step6", base_dir / "output" / "all-txn-2024-2025-final.csv", "After applying exclusions"),
     ]
 
-    print(f"\nOutput directory: {output_dir}\n")
+    # Generate 2024 Full Year P&Ls
+    print("=" * 80)
+    print("GENERATING 2024 FULL YEAR P&L REPORTS")
+    print("=" * 80)
+
+    output_dir_2024 = base_dir / "output" / "pnl-2024"
+    output_dir_2024.mkdir(parents=True, exist_ok=True)
+    print(f"\nOutput directory: {output_dir_2024}\n")
 
     for step_name, input_file, description in steps:
         if not input_file.exists():
             print(f"  SKIPPED: {step_name} - input file not found: {input_file.name}")
             continue
 
-        output_file = output_dir / f"pnl_{step_name}.csv"
+        output_file = output_dir_2024 / f"pnl_{step_name}.csv"
         print(f"{step_name}: {description}")
-        generate_pnl_oct(input_file, output_file)
+        generate_annual_pnl(input_file, output_file, year=2024, end_month=12)
+
+    # Generate 2025 YTD P&Ls (Jan-Nov)
+    print("\n" + "=" * 80)
+    print("GENERATING 2025 YTD P&L REPORTS (JAN-NOV)")
+    print("=" * 80)
+
+    output_dir_2025 = base_dir / "output" / "pnl-2025-ytd"
+    output_dir_2025.mkdir(parents=True, exist_ok=True)
+    print(f"\nOutput directory: {output_dir_2025}\n")
+
+    for step_name, input_file, description in steps:
+        if not input_file.exists():
+            print(f"  SKIPPED: {step_name} - input file not found: {input_file.name}")
+            continue
+
+        output_file = output_dir_2025 / f"pnl_{step_name}.csv"
+        print(f"{step_name}: {description}")
+        generate_annual_pnl(input_file, output_file, year=2025, end_month=11)
 
     print(f"\n{'=' * 80}")
-    print(f"All P&L reports generated in: {output_dir}")
+    print("All annual P&L reports generated!")
+    print(f"  2024 Full Year: {output_dir_2024}")
+    print(f"  2025 YTD (Jan-Nov): {output_dir_2025}")
     print("=" * 80)
 
 
