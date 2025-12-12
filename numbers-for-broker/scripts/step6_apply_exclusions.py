@@ -38,6 +38,15 @@ class Exclusion:
     matched: bool = False
 
 
+# Account codes to exclude entirely (all transactions in these sections are removed)
+EXCLUDED_ACCOUNT_CODES = {
+    "6495",  # Discretionary Spending Expense
+    "7000",  # Interest Income (Other Income)
+    "7010",  # Other Miscellaneous Income (Other Income)
+    "8005",  # Depreciation (Other Expenses)
+}
+
+
 def parse_csv_line(line: str) -> List[str]:
     """Parse a CSV line handling quoted fields with commas."""
     result = []
@@ -247,6 +256,8 @@ def apply_exclusions(lines: List[str], exclusions: List[Exclusion]) -> Tuple[Lis
     current_section_code = ""
     removed_count = 0
     removed_by_category: Dict[str, float] = {}
+    excluded_section_count = 0
+    excluded_section_total = 0.0
 
     for line in lines:
         trimmed = line.strip()
@@ -255,17 +266,33 @@ def apply_exclusions(lines: List[str], exclusions: List[Exclusion]) -> Tuple[Lis
         section_match = re.match(r'^(\d{4})\s+[^,]*,,,,,,,,,', trimmed)
         if section_match:
             current_section_code = section_match.group(1)
+            # Skip section header for excluded accounts
+            if current_section_code in EXCLUDED_ACCOUNT_CODES:
+                continue
             new_lines.append(line)
             continue
 
         # Check for Total line
-        if line.startswith("Total for "):
+        if trimmed.startswith("Total for "):
+            # Skip total lines for excluded sections
+            if current_section_code in EXCLUDED_ACCOUNT_CODES:
+                continue
             new_lines.append(line)
             continue
 
         # Only process transaction lines in P&L sections (4xxx-8xxx)
         if not current_section_code or not current_section_code[0] in "45678":
             new_lines.append(line)
+            continue
+
+        # Skip ALL transactions in excluded account sections
+        if current_section_code in EXCLUDED_ACCOUNT_CODES:
+            if line.startswith(","):
+                parts = parse_csv_line(line)
+                if len(parts) >= 9:
+                    amount = parse_amount(parts[8])
+                    excluded_section_count += 1
+                    excluded_section_total += abs(amount)
             continue
 
         # Parse transaction line
@@ -309,7 +336,9 @@ def apply_exclusions(lines: List[str], exclusions: List[Exclusion]) -> Tuple[Lis
 
         new_lines.append(line)
 
-    print(f"\nRemoved {removed_count} transactions")
+    print(f"\nRemoved {removed_count} transactions from exclusions list")
+    if excluded_section_count > 0:
+        print(f"Removed {excluded_section_count} transactions from excluded account sections (${excluded_section_total:,.2f})")
 
     # Report unmatched exclusions
     unmatched = [e for e in exclusions if not e.matched]

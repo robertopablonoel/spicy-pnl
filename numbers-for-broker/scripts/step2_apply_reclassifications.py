@@ -65,8 +65,29 @@ RECLASSIFICATIONS = [
     # 6100 -> 6120: Zelle, PayPal (affiliate payments)
     ("6100", "6120", lambda line: "Zelle" in line or "PayPal" in line or "PAYPAL" in line),
 
+    # 6100 -> 6120: UPS Store (shipping samples to affiliates)
+    ("6100", "6120", lambda line: "UPS" in line or "THE UPS STORE" in line),
+
+    # 6100 -> 6120: Vintage Paper Company (affiliate materials)
+    ("6100", "6120", lambda line: "Vintage Paper" in line or "VINTAGE PAPER" in line),
+
+    # 6100 -> 6120: Printful (affiliate materials)
+    ("6100", "6120", lambda line: "Printful" in line),
+
+    # 6100 -> 6120: Craigslist (affiliate recruitment)
+    ("6100", "6120", lambda line: "Craigslist" in line or "CRAIGSLIST" in line),
+
     # 6145 -> 6140: CREATORHUNTER.IO, MAKEUGC.AI (software, not creatives)
     ("6145", "6140", lambda line: "CREATORHUNTER" in line or "MAKEUGC" in line),
+
+    # 6150 -> 6120: All Other Adv & Marketing -> Affiliate
+    ("6150", "6120", lambda line: True),
+
+    # 6470 -> 6375: Railway (software, not travel)
+    ("6470", "6375", lambda line: "RAILWAY" in line or "Railway" in line),
+
+    # 6240 -> 6330: LedgerGurus (accounting services)
+    ("6240", "6330", lambda line: "LedgerGurus" in line or "LEDGERGURUS" in line),
 ]
 
 

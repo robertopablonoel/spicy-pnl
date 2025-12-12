@@ -66,29 +66,8 @@ export function PLViewer({ allowDrillDown = true }: PLViewerProps) {
       {/* Expenses Section (with subcategories) */}
       <ExpensesSection allowDrillDown={allowDrillDown} />
 
-      {/* Net Operating Income */}
-      <GrossProfitRow type="netOperatingIncome" />
-
-      {/* Other Income Section */}
-      <PLSection
-        section="otherIncome"
-        title="Other Income"
-        colorClass="bg-blue-500"
-        totalColorClass="bg-blue-50"
-        allowDrillDown={allowDrillDown}
-      />
-
-      {/* Other Expenses Section */}
-      <PLSection
-        section="otherExpenses"
-        title="Other Expenses"
-        colorClass="bg-slate-500"
-        totalColorClass="bg-slate-50"
-        allowDrillDown={allowDrillDown}
-      />
-
-      {/* Net Income */}
-      <GrossProfitRow type="netIncome" />
+      {/* Net Operating Income (shown as Net Income since Other Income/Expenses are excluded) */}
+      <GrossProfitRow type="netOperatingIncome" label="Net Income" />
     </div>
   );
 }

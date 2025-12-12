@@ -7,9 +7,10 @@ import { formatCurrency, formatMonth } from '@/lib/csvParser';
 
 interface GrossProfitRowProps {
   type: 'grossProfit' | 'netOperatingIncome' | 'netIncome';
+  label?: string;
 }
 
-export function GrossProfitRow({ type }: GrossProfitRowProps) {
+export function GrossProfitRow({ type, label: customLabel }: GrossProfitRowProps) {
   const { state } = usePL();
   const { transactions, accounts, months } = state;
 
@@ -72,19 +73,19 @@ export function GrossProfitRow({ type }: GrossProfitRowProps) {
   switch (type) {
     case 'grossProfit':
       data = calculations.grossProfit;
-      label = 'Gross Profit';
+      label = customLabel || 'Gross Profit';
       bgColor = 'bg-blue-50';
       borderColor = 'border-blue-200';
       break;
     case 'netOperatingIncome':
       data = calculations.netOperatingIncome;
-      label = 'Net Operating Income';
+      label = customLabel || 'Net Operating Income';
       bgColor = 'bg-amber-50';
       borderColor = 'border-amber-200';
       break;
     case 'netIncome':
       data = calculations.netIncome;
-      label = 'Net Income';
+      label = customLabel || 'Net Income';
       bgColor = 'bg-green-50';
       borderColor = 'border-green-200';
       break;
